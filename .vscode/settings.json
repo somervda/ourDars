@@ -1,0 +1,31 @@
+{
+    "cSpell.words": [
+        "Datepicker",
+        "Firestore",
+        "Paginator",
+        "Realtime",
+        "Snackbar",
+        "Somerville",
+        "appspot",
+        "codelyzer",
+        "datasource",
+        "devkit",
+        "fbmstarter",
+        "firebaseapp",
+        "firebaseui",
+        "jasminewd",
+        "kvps",
+        "navbutton",
+        "ngsw",
+        "sidenav",
+        "styleext",
+        "submenu",
+        "testuser",
+        "theming",
+        "tslib",
+        "userservice"
+    ],
+    "cSpell.ignoreWords": [
+        "actioned"
+    ]
+}
