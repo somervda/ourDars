@@ -10,7 +10,7 @@ import { ConnectionService } from "ng-connection-service";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit {
-  title = "fbmStarter";
+  title = "ourDars";
   isConnected = true;
 
   constructor(
