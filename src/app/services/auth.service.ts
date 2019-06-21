@@ -26,6 +26,9 @@ export class AuthService {
   user$: Observable<User>;
   loggedIn$: Observable<boolean>;
 
+  currentUser: User;
+  public authStateChanges;
+
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -45,6 +48,17 @@ export class AuthService {
     );
 
     this.loggedIn$ = this.afAuth.authState.pipe(map(user => !!user));
+
+    // Set  up a authentication watched to reload user info when user is authenticated
+    // this covers initial signon and when the user refreshes the browser.
+    this.authStateChanges = this.afAuth.auth.onAuthStateChanged(authuser => {
+      // console.log("onAuthStateChanges authuser", authuser);
+      // Keep a subscription to the user$ observable alive so currentUser is maintained as a property
+      this.user$.subscribe(User => {
+        this.currentUser = User;
+        // console.log("Subscribe User");
+      });
+    });
   }
 
   public updateUserData(result) {
@@ -64,8 +78,9 @@ export class AuthService {
     if (!data.photoURL) {
       data.photoURL = "https://ui-avatars.com/api/?name=" + data.displayName;
     }
+    userRef.set(data, { merge: true });
 
-    return userRef.set(data, { merge: true });
+    return;
   }
 
   async signOut() {
