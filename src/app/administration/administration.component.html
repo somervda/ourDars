@@ -11,16 +11,20 @@
       users</mat-card-content
     >
   </mat-card>
-  <mat-card class="adminMenuCard" routerLink="/">
+  <mat-card class="adminMenuCard" routerLink="/teams">
     <mat-card-title
-      ><mat-icon>create</mat-icon> Manage Application Data</mat-card-title
+      ><mat-icon>people</mat-icon> Manage Teams</mat-card-title
     >
     <mat-card-content
-      >Example of a card used to navigate to specific application data or module
-      administration . Used for managing items that would not be managed by a
-      normal user; archiving data, removing or deleting documents, updating
-      system-wide information, etc. i.e. Manage Products, Manage Customers,
-      Manage Order Codes, Manage Zip Codes
+      >Manage team definitions
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="adminMenuCard" routerLink="/dars">
+    <mat-card-title
+      ><mat-icon>transform</mat-icon> Manage DARs</mat-card-title
+    >
+    <mat-card-content
+      >Perform administration of DARs
     </mat-card-content>
   </mat-card>
 </div>

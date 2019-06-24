@@ -10,6 +10,7 @@ import { UserResolver } from "./services/user-resolver";
 import { AdministrationComponent } from "./administration/administration.component";
 import { isAdminGuard } from "./guards/isAdmin.guard";
 import { isActivatedGuard } from "./guards/isActivated.guard";
+import { TeamsComponent } from './teams/teams.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
     canActivate: [isActivatedGuard],
     runGuardsAndResolvers: "always"
   },
+  { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
   { path: "notfound", component: NotfoundComponent },
   { path: "**", component: NotfoundComponent }
 ];
