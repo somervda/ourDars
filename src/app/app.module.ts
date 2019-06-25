@@ -47,6 +47,7 @@ import { AdministrationComponent } from "./administration/administration.compone
 import { UsersComponent } from "./users/users.component";
 import { UserComponent } from "./user/user.component";
 import { TeamsComponent } from './teams/teams.component';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { TeamsComponent } from './teams/teams.component';
     AdministrationComponent,
     UsersComponent,
     UserComponent,
-    TeamsComponent
+    TeamsComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,

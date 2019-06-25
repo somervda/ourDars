@@ -10,7 +10,9 @@ import { UserResolver } from "./services/user-resolver";
 import { AdministrationComponent } from "./administration/administration.component";
 import { isAdminGuard } from "./guards/isAdmin.guard";
 import { isActivatedGuard } from "./guards/isActivated.guard";
-import { TeamsComponent } from './teams/teams.component';
+import { TeamsComponent } from "./teams/teams.component";
+import { TeamComponent } from "./team/team.component";
+import { TeamResolver } from "./services/team-resolver";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -28,6 +30,12 @@ const routes: Routes = [
     resolve: { user: UserResolver },
     canActivate: [isActivatedGuard],
     runGuardsAndResolvers: "always"
+  },
+  {
+    path: "team/:tid",
+    component: TeamComponent,
+    resolve: { team: TeamResolver },
+    canActivate: [isAdminGuard]
   },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
   { path: "notfound", component: NotfoundComponent },
