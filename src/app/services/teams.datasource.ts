@@ -33,7 +33,7 @@ export class TeamsDataSource implements DataSource<Team> {
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Team[]> {
-    console.log("Connecting team data source");
+    // console.log("Connecting team data source");
     return this.teamsSubject.asObservable();
   }
 

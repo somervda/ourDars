@@ -5,6 +5,7 @@ import { Team } from "../models/team.model";
 import { convertSnaps } from "./db-utils";
 import { first, map } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
+import * as firebase from "firebase";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +15,11 @@ export class TeamService {
 
   findTeamById(id: string): Observable<Team> {
     return this.afs
-      .collection("teams", ref => ref.where("tid", "==", id))
+      .collection("teams", ref =>
+        // use firebase.firestore.FieldPath.documentId() to get a collection of a single document
+        // based on the document id
+        ref.where(firebase.firestore.FieldPath.documentId(), "==", id)
+      )
       .snapshotChanges()
       .pipe(
         map(snaps => {
@@ -31,7 +36,7 @@ export class TeamService {
     sortOrder: OrderByDirection,
     pageSize
   ): Observable<Team[]> {
-    console.log("findTeams", sortField, sortOrder, pageSize);
+    // console.log("findTeams", sortField, sortOrder, pageSize);
     return this.afs
       .collection("teams", ref =>
         ref.orderBy(sortField, sortOrder).limit(pageSize)
@@ -39,7 +44,7 @@ export class TeamService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findTeams", convertSnaps<Team>(snaps))
+          // console.log("findTeams", convertSnaps<Team>(snaps));
           return convertSnaps<Team>(snaps);
         })
       );
@@ -54,7 +59,7 @@ export class TeamService {
         .doc("/teams/" + docId) // Update to firestore collection
         .update(updateObject)
         .then(data => {
-          console.log(fieldName + " updated");
+          // console.log(fieldName + " updated");
         })
         .catch(error =>
           console.error(fieldName + " team update error ", error)
