@@ -12,7 +12,7 @@ import { tap } from "rxjs/operators";
 })
 export class TeamsComponent implements OnInit, AfterViewInit {
   dataSource: TeamsDataSource;
-  displayedColumns = ["name"];
+  displayedColumns = ["name","description"];
 
   @ViewChild(MatSort) sort: MatSort;
 

@@ -32,7 +32,7 @@ const routes: Routes = [
     runGuardsAndResolvers: "always"
   },
   {
-    path: "team/:tid",
+    path: "team/:id",
     component: TeamComponent,
     resolve: { team: TeamResolver },
     canActivate: [isAdminGuard]

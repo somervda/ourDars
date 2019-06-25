@@ -12,9 +12,9 @@ import OrderByDirection = firebase.firestore.OrderByDirection;
 export class TeamService {
   constructor(private afs: AngularFirestore) {}
 
-  findTeamByTid(tid: string): Observable<Team> {
+  findTeamById(id: string): Observable<Team> {
     return this.afs
-      .collection("teams", ref => ref.where("tid", "==", tid))
+      .collection("teams", ref => ref.where("tid", "==", id))
       .snapshotChanges()
       .pipe(
         map(snaps => {
@@ -39,6 +39,7 @@ export class TeamService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
+          console.log("findTeams", convertSnaps<Team>(snaps))
           return convertSnaps<Team>(snaps);
         })
       );
