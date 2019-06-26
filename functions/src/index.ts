@@ -5,7 +5,7 @@ import * as admin from "firebase-admin";
 // // https://firebase.google.com/docs/functions/typescript
 //
 // export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
+//   response.send("Hello from Firebase!");
 // });
 
 exports.usersDateCreated = functions.firestore
