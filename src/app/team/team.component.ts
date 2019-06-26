@@ -13,6 +13,6 @@ export class TeamComponent implements OnInit {
 
   ngOnInit() {
     this.team = this.route.snapshot.data["team"];
-    console.log("this.team", this.team);
+    // console.log("this.team", this.team);
   }
 }

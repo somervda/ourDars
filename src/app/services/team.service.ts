@@ -5,7 +5,6 @@ import { Team } from "../models/team.model";
 import { convertSnaps } from "./db-utils";
 import { first, map } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
-import * as firebase from "firebase";
 
 @Injectable({
   providedIn: "root"
@@ -16,9 +15,10 @@ export class TeamService {
   findTeamById(id: string): Observable<Team> {
     return this.afs
       .collection("teams", ref =>
-        // use firebase.firestore.FieldPath.documentId() to get a collection of a single document
-        // based on the document id
-        ref.where(firebase.firestore.FieldPath.documentId(), "==", id)
+        // use firebase.firestore.FieldPath.documentId() to get a collection containing a single document
+        // based on the document id. So I didn't have to import the firebase library I used the
+        // resolved value of "__name__"
+        ref.where("__name__", "==", id)
       )
       .snapshotChanges()
       .pipe(
