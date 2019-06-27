@@ -1,5 +1,18 @@
 <div class="page-container">
   <h1>Team</h1>
-  <p><b>Name</b>: {{ team.name }}</p>
-  <p><b>Description</b>: {{ team.description }}</p>
+
+  <form class="standard-form">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Team Name" value="{{ team.name }}" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        rows="10"
+        placeholder="Team Description"
+        value="{{ team.description }}"
+      ></textarea>
+    </mat-form-field>
+  </form>
 </div>

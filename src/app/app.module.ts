@@ -27,10 +27,10 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
-  MatDividerModule
+  MatDividerModule,
+  MatInputModule
   // MatDatepickerModule,
   // MatDialogModule,
-  // MatInputModule,
   // MatSelectModule,
   // MatGridListModule
 } from "@angular/material";
@@ -46,8 +46,8 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { AdministrationComponent } from "./administration/administration.component";
 import { UsersComponent } from "./users/users.component";
 import { UserComponent } from "./user/user.component";
-import { TeamsComponent } from './teams/teams.component';
-import { TeamComponent } from './team/team.component';
+import { TeamsComponent } from "./teams/teams.component";
+import { TeamComponent } from "./team/team.component";
 
 @NgModule({
   declarations: [
@@ -82,10 +82,10 @@ import { TeamComponent } from './team/team.component';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatInputModule,
     // MatMenuModule,
     // MatDividerModule,
     // MatTabsModule,
-    // MatInputModule,
     // MatTableModule,
     // MatDialogModule,
     // MatSelectModule,
