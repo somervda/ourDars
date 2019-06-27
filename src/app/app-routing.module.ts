@@ -31,6 +31,12 @@ const routes: Routes = [
     canActivate: [isActivatedGuard],
     runGuardsAndResolvers: "always"
   },
+
+  {
+    path: "team/create",
+    component: TeamComponent,
+    canActivate: [isAdminGuard]
+  },
   {
     path: "team/:id",
     component: TeamComponent,

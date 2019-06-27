@@ -9,10 +9,18 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class TeamComponent implements OnInit {
   team: Team;
+  isCreate = false;
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.team = this.route.snapshot.data["team"];
-    // console.log("this.team", this.team);
+    this.isCreate = this.route.routeConfig.path == "team/create";
+    console.log("team onInit", this.isCreate);
+    if (this.isCreate) {
+      this.team = { name: "", description: "" };
+    } else {
+      this.team = this.route.snapshot.data["team"];
+    }
+    console.log("this.team", this.team);
   }
 }

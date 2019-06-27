@@ -1,6 +1,11 @@
 <div class="page-container">
   <h1>Teams</h1>
 
+  <a mat-list-item routerLink="/team/create">
+    <mat-icon>people</mat-icon>
+    <span>Create New Team</span>
+  </a>
+
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
   </div>
