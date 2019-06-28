@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { Team } from "../models/team.model";
 import { ActivatedRoute } from "@angular/router";
 
@@ -8,6 +8,7 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./team.component.scss"]
 })
 export class TeamComponent implements OnInit {
+  @ViewChild("teamDescription") teamDescription: ElementRef;
   team: Team;
   isCreate = false;
 
@@ -22,5 +23,12 @@ export class TeamComponent implements OnInit {
       this.team = this.route.snapshot.data["team"];
     }
     console.log("this.team", this.team);
+  }
+
+  onDescriptionUpdate() {
+    console.log(
+      "onDescriptionUpdate",
+      this.teamDescription.nativeElement.value
+    );
   }
 }
