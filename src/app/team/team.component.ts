@@ -1,9 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { Team } from "../models/team.model";
 import { ActivatedRoute } from "@angular/router";
-import { TeamService } from '../services/team.service';
-import { NgForm, FormControl, Validators, FormBuilder, FormGroup } from "@angular/forms";
-
+import { TeamService } from "../services/team.service";
+import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-team",
@@ -12,17 +11,18 @@ import { NgForm, FormControl, Validators, FormBuilder, FormGroup } from "@angula
 })
 export class TeamComponent implements OnInit {
   // @ViewChild("teamDescription") teamDescription: ElementRef;
-  @ViewChild(NgForm) frmMain: NgForm;
+  // @ViewChild(NgForm) frmMain: NgForm;
   //name = new FormControl("", [Validators.required]);
   team: Team;
   isCreate = false;
 
-  teamForm :  FormGroup;
+  teamForm: FormGroup;
 
-
-  constructor(private teamService: TeamService,
-     private route: ActivatedRoute,
-     private fb : FormBuilder) {}
+  constructor(
+    private teamService: TeamService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.isCreate = this.route.routeConfig.path == "team/create";
@@ -34,10 +34,13 @@ export class TeamComponent implements OnInit {
     }
 
     // Create form group and initalize with team values
-    this.teamForm = this.fb.group( {
+    this.teamForm = this.fb.group({
       name: [this.team.name, [Validators.required]],
-      description: [this.team.description, [Validators.required, Validators.minLength(10)]]
-    })
+      description: [
+        this.team.description,
+        [Validators.required, Validators.minLength(10)]
+      ]
+    });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     this.name.markAsTouched();
@@ -46,19 +49,23 @@ export class TeamComponent implements OnInit {
 
   // Getters
   get name() {
-    return this.teamForm.get('name');
+    return this.teamForm.get("name");
   }
 
   get description() {
-    return this.teamForm.get('description');
+    return this.teamForm.get("description");
   }
 
   onDescriptionUpdate() {
-    if(this.description.valid)
-      this.teamService.fieldUpdate(this.team.id,"description",this.description.value);
+    if (this.description.valid)
+      this.teamService.fieldUpdate(
+        this.team.id,
+        "description",
+        this.description.value
+      );
   }
   onNameUpdate() {
-    if(this.name.valid)
-      this.teamService.fieldUpdate(this.team.id,"name",this.name.value);
+    if (this.name.valid)
+      this.teamService.fieldUpdate(this.team.id, "name", this.name.value);
   }
 }

@@ -3,37 +3,33 @@
 
   <form class="standard-form" [formGroup]="teamForm">
     <mat-form-field class="full-width">
-      <input 
-      matInput         
-      formControlName="name"
-      (change)="onNameUpdate()" 
-      placeholder="Team Name" 
+      <input
+        matInput
+        formControlName="name"
+        (change)="onNameUpdate()"
+        placeholder="Team Name"
       />
-      <!-- <mat-hint>Name is required1</mat-hint> -->
-      <mat-error >
+      <mat-error>
         Team name is required.
       </mat-error>
     </mat-form-field>
-
 
     <mat-form-field class="full-width">
       <textarea
         matInput
         formControlName="description"
         (change)="onDescriptionUpdate()"
-        matAutosizeMinRows="10"
+        matAutosizeMinRows="7"
         matAutosizeMaxRows="20"
         matTextareaAutosize
         placeholder="Team Description"
       ></textarea>
-      <!-- <mat-hint>Description error</mat-hint> -->
-      <mat-error *ngIf="teamForm.controls.description.hasError('required')">
+      <mat-error *ngIf="teamForm.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
-      <mat-error *ngIf="teamForm.controls.description.hasError('minlength')">
+      <mat-error *ngIf="teamForm.controls['description'].hasError('minlength')">
         Description must be at least 10 characters long.
       </mat-error>
     </mat-form-field>
-
   </form>
 </div>
