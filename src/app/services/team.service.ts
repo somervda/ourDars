@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { Team } from "../models/team.model";
-import { convertSnaps } from "./db-utils";
+import { convertSnaps,dbFieldUpdate } from "./db-utils";
 import { first, map } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
@@ -50,20 +50,10 @@ export class TeamService {
       );
   }
 
-  dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
+  fieldUpdate(docId: string, fieldName: string, newValue: any) {
     if (docId && fieldName) {
       const updateObject = {};
-      console.log("dbFieldUpdate", docId, fieldName, newValue);
-      updateObject[fieldName] = newValue;
-      this.afs
-        .doc("/teams/" + docId) // Update to firestore collection
-        .update(updateObject)
-        .then(data => {
-          // console.log(fieldName + " updated");
-        })
-        .catch(error =>
-          console.error(fieldName + " team update error ", error)
-        );
+      dbFieldUpdate("/teams/" + docId, fieldName,newValue,this.afs)
     }
   }
 }
