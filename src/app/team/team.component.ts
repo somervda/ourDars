@@ -71,7 +71,7 @@ export class TeamComponent implements OnInit {
         //console.log("Document written with ID: ", docRef.id);
         this.team.id = docRef.id;
         this.isCreate = false;
-        this.snackBar.open("New Team created " + this.team.name, "", {
+        this.snackBar.open("Team '" + this.team.name + "' created.", "", {
           duration: 2000
         });
       })
