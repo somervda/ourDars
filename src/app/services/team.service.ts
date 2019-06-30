@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { Team } from "../models/team.model";
-import { convertSnaps,dbFieldUpdate } from "./db-utils";
+import { convertSnaps, dbFieldUpdate } from "./db-utils";
 import { first, map } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
@@ -53,7 +53,21 @@ export class TeamService {
   fieldUpdate(docId: string, fieldName: string, newValue: any) {
     if (docId && fieldName) {
       const updateObject = {};
-      dbFieldUpdate("/teams/" + docId, fieldName,newValue,this.afs)
+      dbFieldUpdate("/teams/" + docId, fieldName, newValue, this.afs);
     }
+  }
+
+  createTeam(team: Team): Promise<DocumentReference> {
+    return this.afs
+      .collection("teams")
+      .add(team);
+      // .then(docRef => {
+      //   console.log("Document written with ID: ", docRef.id);
+      //   return docRef.id;
+      // })
+      // .catch(function(error) {
+      //   console.error("Error adding document: ", error);
+      // });
+    // return "";
   }
 }

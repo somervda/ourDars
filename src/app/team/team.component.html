@@ -31,5 +31,14 @@
         Description must be at least 10 characters long.
       </mat-error>
     </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="isCreate"
+      [disabled]="!teamForm.valid"
+      (click)="createTeam()"
+    >
+      Create
+    </button>
   </form>
 </div>

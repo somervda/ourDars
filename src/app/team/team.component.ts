@@ -10,9 +10,6 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
   styleUrls: ["./team.component.scss"]
 })
 export class TeamComponent implements OnInit {
-  // @ViewChild("teamDescription") teamDescription: ElementRef;
-  // @ViewChild(NgForm) frmMain: NgForm;
-  //name = new FormControl("", [Validators.required]);
   team: Team;
   isCreate = false;
 
@@ -43,8 +40,10 @@ export class TeamComponent implements OnInit {
     });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
-    this.name.markAsTouched();
-    this.description.markAsTouched();
+    if (!this.isCreate) {
+      this.name.markAsTouched();
+      this.description.markAsTouched();
+    }
   }
 
   // Getters
@@ -56,8 +55,25 @@ export class TeamComponent implements OnInit {
     return this.teamForm.get("description");
   }
 
+  createTeam() {
+    this.team.name = this.name.value;
+    this.team.description = this.description.value;
+    console.log("create team", this.team);
+    this.teamService
+      .createTeam(this.team)
+      .then(docRef => {
+        console.log("Document written with ID: ", docRef.id);
+        this.team.id = docRef.id;
+        this.isCreate = false;
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+    // console.log("create team", this.team);
+  }
+
   onDescriptionUpdate() {
-    if (this.description.valid)
+    if (this.description.valid && this.team.id != "")
       this.teamService.fieldUpdate(
         this.team.id,
         "description",
@@ -65,7 +81,7 @@ export class TeamComponent implements OnInit {
       );
   }
   onNameUpdate() {
-    if (this.name.valid)
+    if (this.name.valid && this.team.id != "")
       this.teamService.fieldUpdate(this.team.id, "name", this.name.value);
   }
 }
