@@ -3,6 +3,7 @@ import { Team } from "../models/team.model";
 import { ActivatedRoute } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-team",
@@ -18,7 +19,8 @@ export class TeamComponent implements OnInit {
   constructor(
     private teamService: TeamService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -62,9 +64,12 @@ export class TeamComponent implements OnInit {
     this.teamService
       .createTeam(this.team)
       .then(docRef => {
-        console.log("Document written with ID: ", docRef.id);
+        //console.log("Document written with ID: ", docRef.id);
         this.team.id = docRef.id;
         this.isCreate = false;
+        this.snackBar.open("New Team created " + this.team.name, "", {
+          duration: 2000
+        });
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
