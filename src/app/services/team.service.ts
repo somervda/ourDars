@@ -61,13 +61,9 @@ export class TeamService {
     return this.afs
       .collection("teams")
       .add(team);
-      // .then(docRef => {
-      //   console.log("Document written with ID: ", docRef.id);
-      //   return docRef.id;
-      // })
-      // .catch(function(error) {
-      //   console.error("Error adding document: ", error);
-      // });
-    // return "";
+  }
+
+  deleteTeam(id: string): Promise<void> {
+    return this.afs.collection("teams").doc(id).delete();
   }
 }

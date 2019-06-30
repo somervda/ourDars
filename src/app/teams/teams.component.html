@@ -34,6 +34,16 @@
             ? team.description
             : team.description.substring(0, 99) + "..."
         }}
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef ></th>
+      <td mat-cell class="deleteTeam" *matCellDef="let team">
+        <mat-icon 
+        matTooltip="Delete Team" 
+        [routerLink]="['/team/delete/', team.id]">clear</mat-icon>
       </td>
     </ng-container>
 

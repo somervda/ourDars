@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { Component, OnInit,  NgZone } from "@angular/core";
 import { Team } from "../models/team.model";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
@@ -13,6 +13,7 @@ import { MatSnackBar } from "@angular/material";
 export class TeamComponent implements OnInit {
   team: Team;
   isCreate = false;
+  isDelete = false;
 
   teamForm: FormGroup;
 
@@ -20,10 +21,13 @@ export class TeamComponent implements OnInit {
     private teamService: TeamService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private ngZone: NgZone,
+    private router : Router
   ) {}
 
   ngOnInit() {
+    this.isDelete = this.route.routeConfig.path == "team/delete/:id"
     this.isCreate = this.route.routeConfig.path == "team/create";
     // console.log("team onInit", this.isCreate);
     if (this.isCreate) {
@@ -77,8 +81,25 @@ export class TeamComponent implements OnInit {
     // console.log("create team", this.team);
   }
 
+  deleteTeam() {
+    console.log("delete", this.team.id);
+
+    this.teamService
+      .deleteTeam(this.team.id)
+      .then(() =>{
+        this.snackBar.open("Team '" + this.team.name + "' deleted!", "", {
+          duration: 2000
+        });
+        this.ngZone.run(() => this.router.navigateByUrl("/teams"));
+
+      })
+      .catch(function(error) {
+        console.error("Error deleting team: ", error);
+      });
+  }
+
   onDescriptionUpdate() {
-    if (this.description.valid && this.team.id != "")
+    if (this.description.valid && this.team.id != "" && !this.isDelete)
       this.teamService.fieldUpdate(
         this.team.id,
         "description",
@@ -86,7 +107,7 @@ export class TeamComponent implements OnInit {
       );
   }
   onNameUpdate() {
-    if (this.name.valid && this.team.id != "")
+    if (this.name.valid && this.team.id != ""  && !this.isDelete)
       this.teamService.fieldUpdate(this.team.id, "name", this.name.value);
   }
 }

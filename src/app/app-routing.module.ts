@@ -43,6 +43,12 @@ const routes: Routes = [
     resolve: { team: TeamResolver },
     canActivate: [isAdminGuard]
   },
+  {
+    path: "team/delete/:id",
+    component: TeamComponent,
+    resolve: { team: TeamResolver },
+    canActivate: [isAdminGuard]
+  },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
   { path: "notfound", component: NotfoundComponent },
   { path: "**", component: NotfoundComponent }

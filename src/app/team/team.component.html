@@ -37,8 +37,16 @@
       *ngIf="isCreate"
       [disabled]="!teamForm.valid"
       (click)="createTeam()"
-    >
+    ><mat-icon>add</mat-icon>
       Create
     </button>
+    <button
+    mat-raised-button
+    color="primary"
+    *ngIf="isDelete"
+    (click)="deleteTeam()"
+  ><mat-icon>clear</mat-icon>
+    Delete
+  </button>
   </form>
 </div>
