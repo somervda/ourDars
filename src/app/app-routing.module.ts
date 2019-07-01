@@ -12,6 +12,7 @@ import { isAdminGuard } from "./guards/isAdmin.guard";
 import { isActivatedGuard } from "./guards/isActivated.guard";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
+import { AdminDarsComponent } from './admin-dars/admin-dars.component';
 import { TeamResolver } from "./services/team-resolver";
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
     canActivate: [isAdminGuard]
   },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
+  { path: "adminDars", component: AdminDarsComponent, canActivate: [isAdminGuard] },
   { path: "notfound", component: NotfoundComponent },
   { path: "**", component: NotfoundComponent }
 ];

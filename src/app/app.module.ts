@@ -49,6 +49,7 @@ import { UsersComponent } from "./users/users.component";
 import { UserComponent } from "./user/user.component";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
+import { AdminDarsComponent } from './admin-dars/admin-dars.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { TeamComponent } from "./team/team.component";
     UsersComponent,
     UserComponent,
     TeamsComponent,
-    TeamComponent
+    TeamComponent,
+    AdminDarsComponent
   ],
   imports: [
     BrowserModule,
