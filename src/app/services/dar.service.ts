@@ -34,7 +34,7 @@ export class DarService {
     sortOrder: OrderByDirection,
     pageSize
   ): Observable<Dar[]> {
-    // console.log("findTeams", sortField, sortOrder, pageSize);
+    console.log("findDars", sortField, sortOrder, pageSize);
     return this.afs
       .collection("dars", ref =>
         ref.orderBy(sortField, sortOrder).limit(pageSize)
@@ -42,7 +42,7 @@ export class DarService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          // console.log("findTeams", convertSnaps<Team>(snaps));
+           console.log("findDars", convertSnaps<Dar>(snaps));
           return convertSnaps<Dar>(snaps);
         })
       );

@@ -17,6 +17,7 @@ export class TeamComponent implements OnInit {
 
   team: Team;
   crudAction : Crud ;
+  // Declare an instance of crudCheck enum to use for checking crudAction value
   crudCheck = Crud;
 
   teamForm: FormGroup;
@@ -36,7 +37,8 @@ export class TeamComponent implements OnInit {
       this.crudAction=Crud.Delete;
     if (this.route.routeConfig.path == "team/create")
       this.crudAction=Crud.Create
-    console.log("team onInit", this.crudAction);
+      
+    // console.log("team onInit", this.crudAction);
     if (this.crudAction == Crud.Create) {
       this.team = { name: "", description: "" };
     } else {
