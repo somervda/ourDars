@@ -1,4 +1,4 @@
-export interface Team {
+export interface Dar {
     id?: string;
     title: string;
     description: string;
@@ -42,7 +42,7 @@ export interface Team {
   export enum DarMethod {
       // Vote : Dar users vote on best solution (Political process)
       Vote = 1,
-      // Process : A standard DAR process is used that includes defining criteria and scoring options
+      // Process : A standard DAR process is used that includes defining solutions, criteria and scoring options
       // before solutions are independently evaluated. Solution with the highest score is chosen
       Process = 2,
       // Hybrid : A process of scoring is used but final decision is still based on a vote, highest

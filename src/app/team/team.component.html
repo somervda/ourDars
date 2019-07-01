@@ -8,6 +8,7 @@
         formControlName="name"
         (change)="onNameUpdate()"
         placeholder="Team Name"
+        required
       />
       <mat-error>
         Team name is required.
@@ -23,6 +24,7 @@
         matAutosizeMaxRows="20"
         matTextareaAutosize
         placeholder="Team Description"
+        required
       ></textarea>
       <mat-error *ngIf="teamForm.controls['description'].hasError('required')">
         Description is required.
@@ -34,7 +36,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="isCreate"
+      *ngIf="crudAction == crudCheck.Create"
       [disabled]="!teamForm.valid"
       (click)="createTeam()"
     ><mat-icon>add</mat-icon>
@@ -43,7 +45,7 @@
     <button
     mat-raised-button
     color="primary"
-    *ngIf="isDelete"
+    *ngIf="crudAction == crudCheck.Delete"
     (click)="deleteTeam()"
   ><mat-icon>clear</mat-icon>
     Delete

@@ -4,16 +4,20 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
+import { Crud } from '../models/global.model';
 
 @Component({
   selector: "app-team",
   templateUrl: "./team.component.html",
   styleUrls: ["./team.component.scss"]
 })
+
+
 export class TeamComponent implements OnInit {
+
   team: Team;
-  isCreate = false;
-  isDelete = false;
+  crudAction : Crud ;
+  crudCheck = Crud;
 
   teamForm: FormGroup;
 
@@ -27,10 +31,13 @@ export class TeamComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isDelete = this.route.routeConfig.path == "team/delete/:id"
-    this.isCreate = this.route.routeConfig.path == "team/create";
-    // console.log("team onInit", this.isCreate);
-    if (this.isCreate) {
+    this.crudAction=Crud.Update;
+    if (this.route.routeConfig.path == "team/delete/:id")
+      this.crudAction=Crud.Delete;
+    if (this.route.routeConfig.path == "team/create")
+      this.crudAction=Crud.Create
+    console.log("team onInit", this.crudAction);
+    if (this.crudAction == Crud.Create) {
       this.team = { name: "", description: "" };
     } else {
       this.team = this.route.snapshot.data["team"];
@@ -46,7 +53,7 @@ export class TeamComponent implements OnInit {
     });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
-    if (!this.isCreate) {
+    if (this.crudAction != Crud.Create) {
       this.name.markAsTouched();
       this.description.markAsTouched();
     }
@@ -70,7 +77,7 @@ export class TeamComponent implements OnInit {
       .then(docRef => {
         //console.log("Document written with ID: ", docRef.id);
         this.team.id = docRef.id;
-        this.isCreate = false;
+        this.crudAction = Crud.Update;
         this.snackBar.open("Team '" + this.team.name + "' created.", "", {
           duration: 2000
         });
@@ -99,7 +106,7 @@ export class TeamComponent implements OnInit {
   }
 
   onDescriptionUpdate() {
-    if (this.description.valid && this.team.id != "" && !this.isDelete)
+    if (this.description.valid && this.team.id != "" && this.crudAction != Crud.Delete)
       this.teamService.fieldUpdate(
         this.team.id,
         "description",
@@ -107,7 +114,7 @@ export class TeamComponent implements OnInit {
       );
   }
   onNameUpdate() {
-    if (this.name.valid && this.team.id != ""  && !this.isDelete)
+    if (this.name.valid && this.team.id != ""  && this.crudAction != Crud.Delete)
       this.teamService.fieldUpdate(this.team.id, "name", this.name.value);
   }
 }

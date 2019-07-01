@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DarService } from '../services/dar.service';
 
 @Component({
   selector: 'app-admin-dars',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminDarsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private darService: DarService) { }
 
   ngOnInit() {
   }
