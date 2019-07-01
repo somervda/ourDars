@@ -17,8 +17,8 @@ export class TeamComponent implements OnInit {
 
   team: Team;
   crudAction : Crud ;
-  // Declare an instance of crudCheck enum to use for checking crudAction value
-  crudCheck = Crud;
+  // Declare an instance of crud enum to use for checking crudAction value
+  crud = Crud;
 
   teamForm: FormGroup;
 

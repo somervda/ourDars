@@ -36,7 +36,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="crudAction == crudCheck.Create"
+      *ngIf="crudAction == crud.Create"
       [disabled]="!teamForm.valid"
       (click)="createTeam()"
     ><mat-icon>add</mat-icon>
@@ -45,7 +45,7 @@
     <button
     mat-raised-button
     color="primary"
-    *ngIf="crudAction == crudCheck.Delete"
+    *ngIf="crudAction == crud.Delete"
     (click)="deleteTeam()"
   ><mat-icon>clear</mat-icon>
     Delete
