@@ -21,6 +21,8 @@ export class DarComponent implements OnInit {
   darStatus: { key: number; value: string }[];
   darForm: FormGroup;
 
+  picker = new Date();
+
   constructor(
     private darService: DarService,
     private route: ActivatedRoute,
@@ -52,48 +54,54 @@ export class DarComponent implements OnInit {
       this.dar = this.route.snapshot.data["dar"];
     }
 
-
     // Create form group and initialize with team values
     this.darForm = this.fb.group({
-      title: [this.dar.title, 
-        [Validators.required, Validators.minLength(10)]],
+      title: [
+        this.dar.title,
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(60)
+        ]
+      ],
       description: [
         this.dar.description,
-        [Validators.required, Validators.minLength(50)]],
+        [Validators.required, Validators.minLength(50)]
+      ],
       darStatus: [this.dar.darStatus],
-      darMethod: [this.dar.darMethod]
+      darMethod: [this.dar.darMethod],
+      dateTargeted: [this.dar.dateTargeted]
     });
 
-    console.log("dar",this.dar);
-    console.log("darForm",this.darForm);
+    this.picker = this.dar.dateTargeted.toDate();
+    console.log("picker", this.picker);
+
+    console.log("dar", this.dar);
+    console.log("darForm", this.darForm);
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
       this.title.markAsTouched();
       this.description.markAsTouched();
     }
-
-
-
   }
 
-    // Getters
-    get title() {
-      return this.darForm.get("title");
-    }
-  
-    get description() {
-      return this.darForm.get("description");
-    }
+  // Getters
+  get title() {
+    return this.darForm.get("title");
+  }
+
+  get description() {
+    return this.darForm.get("description");
+  }
 
   createDar() {}
   deleteDar() {}
   onTitleUpdate() {}
   onDescriptionUpdate() {}
 
-
   compareItems(i1, i2) {
-    console.log("compareItems", i1,i2)
-    return i1 && i2 && i1.id===i2.id;
+    console.log("compareItems", i1, i2);
+    return i1 && i2 && i1.id === i2.id;
   }
 }

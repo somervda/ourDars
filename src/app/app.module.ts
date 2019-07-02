@@ -30,8 +30,9 @@ import {
   MatDividerModule,
   MatInputModule,
   MatFormFieldModule,
-  MatSelectModule
-  // MatDatepickerModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule
   // MatDialogModule,
   // MatGridListModule
 } from "@angular/material";
@@ -72,6 +73,7 @@ import { DarComponent } from "./dar/dar.component";
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatNativeDateModule,
     AppRoutingModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -96,7 +98,7 @@ import { DarComponent } from "./dar/dar.component";
     // MatTabsModule,
     // MatTableModule,
     // MatDialogModule,
-    // MatDatepickerModule,
+    MatDatepickerModule,
     // MatMomentDateModule,
     AppRoutingModule,
     NgbCarouselModule,

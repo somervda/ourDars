@@ -1,9 +1,11 @@
+import { Timestamp } from "@firebase/firestore-types";
+
 export interface Dar {
   id?: string;
   title: string;
   description: string;
   dateCreated?: Date;
-  dateTargeted?: Date;
+  dateTargeted?: Timestamp;
   dateClosed?: Date;
   darStatus: DarStatus;
   team?: {

@@ -10,12 +10,15 @@
         placeholder="Title"
         required
       />
-      <mat-hint>Short title for the decision</mat-hint>
+      <!-- <mat-hint>Short title for the decision</mat-hint> -->
       <mat-error *ngIf="darForm.controls['title'].hasError('required')">
         Title is required.
       </mat-error>
       <mat-error *ngIf="darForm.controls['title'].hasError('minlength')">
         Title must be at least 10 characters long.
+      </mat-error>
+      <mat-error *ngIf="darForm.controls['title'].hasError('maxlength')">
+        Title can not be more than 60 characters long.
       </mat-error>
     </mat-form-field>
 
@@ -30,7 +33,7 @@
         placeholder="Description"
         required
       ></textarea>
-      <mat-hint>Detailed description of the decision</mat-hint>
+      <!-- <mat-hint>Detailed description of the decision</mat-hint> -->
       <mat-error *ngIf="darForm.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
@@ -41,22 +44,29 @@
 
     <mat-form-field class="half-width">
       <mat-label>Methodology</mat-label>
-      <mat-select  [(value)]="dar.darMethod" >
+      <mat-select [(value)]="dar.darMethod">
         <mat-option *ngFor="let item of darMethod" [value]="item.key">
           {{ item.value }}
         </mat-option>
       </mat-select>
-      <mat-hint>Methodology to be followed for the decision</mat-hint>
+      <!-- <mat-hint>Methodology to be followed for the decision</mat-hint> -->
     </mat-form-field>
 
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
-      <mat-select  [(value)]="dar.darStatus">
+      <mat-select [(value)]="dar.darStatus">
         <mat-option *ngFor="let item of darStatus" [value]="item.key">
-          {{ item.value  | titlecase}}
+          {{ item.value | titlecase }}
         </mat-option>
       </mat-select>
-      <mat-hint>The status of the decision (DAR)</mat-hint>
+      <!-- <mat-hint>The status of the decision (DAR)</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field class="half-width">
+      <input matInput [matDatepicker]="picker" placeholder="Target Date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-hint>When the decision should be complete</mat-hint>
     </mat-form-field>
 
     <button
