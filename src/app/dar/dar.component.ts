@@ -16,8 +16,9 @@ export class DarComponent implements OnInit {
   dar: Dar;
   crudAction: Crud;
   crud = Crud;
-  object = Object;
-  darMethodAsMap: { key: number; value: string }[];
+  // value = "Vote";
+  darMethod: { key: number; value: string }[];
+  darStatus: { key: number; value: string }[];
   darForm: FormGroup;
 
   constructor(
@@ -30,6 +31,9 @@ export class DarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.darMethod = enumToMap(DarMethod);
+    this.darStatus = enumToMap(DarStatus);
+
     this.crudAction = Crud.Update;
     if (this.route.routeConfig.path == "dar/delete/:id")
       this.crudAction = Crud.Delete;
@@ -48,32 +52,48 @@ export class DarComponent implements OnInit {
       this.dar = this.route.snapshot.data["dar"];
     }
 
+
     // Create form group and initialize with team values
     this.darForm = this.fb.group({
-      title: [this.dar.title, [Validators.required]],
+      title: [this.dar.title, 
+        [Validators.required, Validators.minLength(10)]],
       description: [
         this.dar.description,
-        [Validators.required, Validators.minLength(10)]
-      ],
+        [Validators.required, Validators.minLength(50)]],
       darStatus: [this.dar.darStatus],
       darMethod: [this.dar.darMethod]
     });
 
-    this.darMethodAsMap = enumToMap(DarMethod);
+    console.log("dar",this.dar);
+    console.log("darForm",this.darForm);
 
-    // let map: { key: number; value: string }[] = [];
+    // Mark all fields as touched to trigger validation on initial entry to the fields
+    if (this.crudAction != Crud.Create) {
+      this.title.markAsTouched();
+      this.description.markAsTouched();
+    }
 
-    // for (var n in DarMethod) {
-    //   if (typeof DarMethod[n] === "number") {
-    //     map.push({ key: <any>DarMethod[n], value: n });
-    //   }
-    // }
 
-    // console.log("Map", enumToMap(DarStatus));
+
   }
+
+    // Getters
+    get title() {
+      return this.darForm.get("title");
+    }
+  
+    get description() {
+      return this.darForm.get("description");
+    }
 
   createDar() {}
   deleteDar() {}
   onTitleUpdate() {}
   onDescriptionUpdate() {}
+
+
+  compareItems(i1, i2) {
+    console.log("compareItems", i1,i2)
+    return i1 && i2 && i1.id===i2.id;
+  }
 }
