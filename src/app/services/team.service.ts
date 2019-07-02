@@ -58,12 +58,13 @@ export class TeamService {
   }
 
   createTeam(team: Team): Promise<DocumentReference> {
-    return this.afs
-      .collection("teams")
-      .add(team);
+    return this.afs.collection("teams").add(team);
   }
 
   deleteTeam(id: string): Promise<void> {
-    return this.afs.collection("teams").doc(id).delete();
+    return this.afs
+      .collection("teams")
+      .doc(id)
+      .delete();
   }
 }

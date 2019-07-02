@@ -1,0 +1,67 @@
+<div class="page-container">
+  <h1>Decision (DAR)</h1>
+
+  <form class="standard-form" [formGroup]="darForm">
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        formControlName="title"
+        (change)="onTitleUpdate()"
+        placeholder="Title"
+        required
+      />
+      <mat-error>
+        Title is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        formControlName="description"
+        (change)="onDescriptionUpdate()"
+        matAutosizeMinRows="7"
+        matAutosizeMaxRows="20"
+        matTextareaAutosize
+        placeholder="Description"
+        required
+      ></textarea>
+      <mat-error *ngIf="darForm.controls['description'].hasError('required')">
+        Description is required.
+      </mat-error>
+      <mat-error *ngIf="darForm.controls['description'].hasError('minlength')">
+        Description must be at least 10 characters long.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Methodology</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let item of darMethodAsMap" value="item.key">
+          {{ item.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == crud.Create"
+      [disabled]="!darForm.valid"
+      (click)="createDar()"
+    >
+      <mat-icon>add</mat-icon>
+      Create
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == crud.Delete"
+      (click)="deleteDar()"
+    >
+      <mat-icon>clear</mat-icon>
+      Delete
+    </button>
+  </form>
+</div>

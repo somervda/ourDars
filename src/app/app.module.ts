@@ -29,10 +29,10 @@ import {
   MatProgressSpinnerModule,
   MatDividerModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatSelectModule
   // MatDatepickerModule,
   // MatDialogModule,
-  // MatSelectModule,
   // MatGridListModule
 } from "@angular/material";
 
@@ -49,7 +49,8 @@ import { UsersComponent } from "./users/users.component";
 import { UserComponent } from "./user/user.component";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
-import { AdminDarsComponent } from './admin-dars/admin-dars.component';
+import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
+import { DarComponent } from "./dar/dar.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { AdminDarsComponent } from './admin-dars/admin-dars.component';
     UserComponent,
     TeamsComponent,
     TeamComponent,
-    AdminDarsComponent
+    AdminDarsComponent,
+    DarComponent
   ],
   imports: [
     BrowserModule,
@@ -88,12 +90,12 @@ import { AdminDarsComponent } from './admin-dars/admin-dars.component';
     MatProgressSpinnerModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
     // MatMenuModule,
     // MatDividerModule,
     // MatTabsModule,
     // MatTableModule,
     // MatDialogModule,
-    // MatSelectModule,
     // MatDatepickerModule,
     // MatMomentDateModule,
     AppRoutingModule,

@@ -12,8 +12,10 @@ import { isAdminGuard } from "./guards/isAdmin.guard";
 import { isActivatedGuard } from "./guards/isActivated.guard";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
-import { AdminDarsComponent } from './admin-dars/admin-dars.component';
+import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
 import { TeamResolver } from "./services/team-resolver";
+import { DarComponent } from "./dar/dar.component";
+import { DarResolver } from "./services/dar-resolver";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -51,7 +53,29 @@ const routes: Routes = [
     canActivate: [isAdminGuard]
   },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
-  { path: "adminDars", component: AdminDarsComponent, canActivate: [isAdminGuard] },
+
+  {
+    path: "dar/create",
+    component: DarComponent,
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: "dar/:id",
+    component: DarComponent,
+    resolve: { dar: DarResolver },
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: "dar/delete/:id",
+    component: DarComponent,
+    resolve: { dar: DarResolver },
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: "adminDars",
+    component: AdminDarsComponent,
+    canActivate: [isAdminGuard]
+  },
   { path: "notfound", component: NotfoundComponent },
   { path: "**", component: NotfoundComponent }
 ];
