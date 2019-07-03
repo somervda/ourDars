@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
-import { Crud } from "../models/global.model";
+import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 
 @Component({
@@ -16,12 +16,11 @@ export class DarComponent implements OnInit {
   dar: Dar;
   crudAction: Crud;
   crud = Crud;
-  // value = "Vote";
-  darMethod: { key: number; value: string }[];
-  darStatus: { key: number; value: string }[];
+  darMethod: Kvp[];
+  darStatus: Kvp[];
   darForm: FormGroup;
 
-  picker = new Date();
+  testDate: Date;
 
   constructor(
     private darService: DarService,
@@ -73,8 +72,8 @@ export class DarComponent implements OnInit {
       dateTargeted: [this.dar.dateTargeted]
     });
 
-    this.picker = this.dar.dateTargeted.toDate();
-    console.log("picker", this.picker);
+    this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
+    console.log("myDatepicker", this.testDate);
 
     console.log("dar", this.dar);
     console.log("darForm", this.darForm);
