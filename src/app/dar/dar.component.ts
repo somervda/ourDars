@@ -94,10 +94,17 @@ export class DarComponent implements OnInit {
     return this.darForm.get("description");
   }
 
+  get dateTargeted() {
+    return this.darForm.get("dateTargeted");
+  }
+
   createDar() {}
   deleteDar() {}
   onTitleUpdate() {}
   onDescriptionUpdate() {}
+  onDateTargetedChange() {
+    console.log("dateTargetedChange", this.dateTargeted.value);
+  }
 
   compareItems(i1, i2) {
     console.log("compareItems", i1, i2);
