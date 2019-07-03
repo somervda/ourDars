@@ -67,7 +67,7 @@
         matInput
         [matDatepicker]="myDatepicker"
         [value]="dar.dateTargeted ? dar.dateTargeted.toDate() : ''"
-        (dateChange)="onDateTargetedChange()"
+        (dateChange)="onDateTargetedChange($event)"
       />
       <mat-datepicker-toggle
         matSuffix

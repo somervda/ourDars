@@ -6,6 +6,7 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
+import * as firebase from "firebase";
 
 @Component({
   selector: "app-dar",
@@ -20,7 +21,7 @@ export class DarComponent implements OnInit {
   darStatus: Kvp[];
   darForm: FormGroup;
 
-  testDate: Date;
+  // testDate: Date;
 
   constructor(
     private darService: DarService,
@@ -69,11 +70,11 @@ export class DarComponent implements OnInit {
       ],
       darStatus: [this.dar.darStatus],
       darMethod: [this.dar.darMethod],
-      dateTargeted: [this.dar.dateTargeted]
+      dateTargeted: [""]
     });
 
-    this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
-    console.log("myDatepicker", this.testDate);
+    // this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
+    // console.log("myDatepicker", this.testDate);
 
     console.log("dar", this.dar);
     console.log("darForm", this.darForm);
@@ -102,12 +103,18 @@ export class DarComponent implements OnInit {
   deleteDar() {}
   onTitleUpdate() {}
   onDescriptionUpdate() {}
-  onDateTargetedChange() {
-    console.log("dateTargetedChange", this.dateTargeted.value);
-  }
-
-  compareItems(i1, i2) {
-    console.log("compareItems", i1, i2);
-    return i1 && i2 && i1.id === i2.id;
+  onDateTargetedChange(event) {
+    // console.log("dateTargetedChange", this.dateTargeted.value);
+    // console.log("dateTargetedChange event", event);
+    if (this.dar.id != "" && this.crudAction != Crud.Delete) {
+      this.dar.dateTargeted = firebase.firestore.Timestamp.fromDate(
+        event.value
+      );
+      this.darService.fieldUpdate(
+        this.dar.id,
+        "dateTargeted",
+        this.dar.dateTargeted
+      );
+    }
   }
 }
