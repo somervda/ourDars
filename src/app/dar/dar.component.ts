@@ -104,12 +104,9 @@ export class DarComponent implements OnInit {
   onTitleUpdate() {}
   onDescriptionUpdate() {}
   onDateTargetedChange(event) {
-    // console.log("dateTargetedChange", this.dateTargeted.value);
-    // console.log("dateTargetedChange event", event);
+    this.dar.dateTargeted = firebase.firestore.Timestamp.fromDate(event.value);
     if (this.dar.id != "" && this.crudAction != Crud.Delete) {
-      this.dar.dateTargeted = firebase.firestore.Timestamp.fromDate(
-        event.value
-      );
+
       this.darService.fieldUpdate(
         this.dar.id,
         "dateTargeted",
