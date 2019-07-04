@@ -1,23 +1,20 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { Dar } from '../models/dar.model';
+import { Injectable } from "@angular/core";
+import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
+import { Dar } from "../models/dar.model";
 import { Observable } from "rxjs";
-import { map, first } from 'rxjs/operators';
-import { convertSnaps, dbFieldUpdate } from './db-utils';
+import { map, first } from "rxjs/operators";
+import { convertSnaps, dbFieldUpdate } from "./db-utils";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DarService {
-
   constructor(private afs: AngularFirestore) {}
 
   findDarById(id: string): Observable<Dar> {
     return this.afs
-      .collection("dars", ref =>
-        ref.where("__name__", "==", id)
-      )
+      .collection("dars", ref => ref.where("__name__", "==", id))
       .snapshotChanges()
       .pipe(
         map(snaps => {
@@ -42,9 +39,10 @@ export class DarService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-           console.log("findDars", convertSnaps<Dar>(snaps));
+          console.log("findDars", convertSnaps<Dar>(snaps));
           return convertSnaps<Dar>(snaps);
-        })
+        }),
+        first()
       );
   }
 
@@ -56,12 +54,13 @@ export class DarService {
   }
 
   createDar(dar: Dar): Promise<DocumentReference> {
-    return this.afs
-      .collection("dars")
-      .add(dar);
+    return this.afs.collection("dars").add(dar);
   }
 
   deleteDar(id: string): Promise<void> {
-    return this.afs.collection("dars").doc(id).delete();
+    return this.afs
+      .collection("dars")
+      .doc(id)
+      .delete();
   }
 }

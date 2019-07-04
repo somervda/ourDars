@@ -6,7 +6,7 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
-import * as firebase from "firebase";
+import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-dar",
@@ -104,9 +104,8 @@ export class DarComponent implements OnInit {
   onTitleUpdate() {}
   onDescriptionUpdate() {}
   onDateTargetedChange(event) {
-    this.dar.dateTargeted = firebase.firestore.Timestamp.fromDate(event.value);
+    this.dar.dateTargeted = firestore.Timestamp.fromDate(event.value);
     if (this.dar.id != "" && this.crudAction != Crud.Delete) {
-
       this.darService.fieldUpdate(
         this.dar.id,
         "dateTargeted",

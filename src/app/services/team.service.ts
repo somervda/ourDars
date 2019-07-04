@@ -46,7 +46,8 @@ export class TeamService {
         map(snaps => {
           console.log("findTeams", convertSnaps<Team>(snaps));
           return convertSnaps<Team>(snaps);
-        })
+        }),
+        first()
       );
   }
 

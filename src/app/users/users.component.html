@@ -14,7 +14,7 @@
     matSortDirection="asc"
     matSortDisableClear
   >
-    <ng-container matColumnDef="email" sticky>
+    <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>eMail</th>
       <td mat-cell *matCellDef="let user">
         <a routerLink="/user/{{ user.uid }}">{{ user.email }}</a>
