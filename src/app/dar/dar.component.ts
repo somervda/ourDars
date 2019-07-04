@@ -7,6 +7,7 @@ import { MatSnackBar } from "@angular/material";
 import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
+import { TeamService } from "../services/team.service";
 
 @Component({
   selector: "app-dar",
@@ -16,10 +17,12 @@ import { firestore } from "firebase/app";
 export class DarComponent implements OnInit {
   dar: Dar;
   crudAction: Crud;
-  crud = Crud;
-  darMethod: Kvp[];
-  darStatus: Kvp[];
+  Crud = Crud;
+  DarMethod = DarMethod;
+  darMethods: Kvp[];
+  darStatuses: Kvp[];
   darForm: FormGroup;
+  team$;
 
   // testDate: Date;
 
@@ -29,12 +32,14 @@ export class DarComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private ngZone: NgZone,
-    private router: Router
+    private router: Router,
+    private teamService: TeamService
   ) {}
 
   ngOnInit() {
-    this.darMethod = enumToMap(DarMethod);
-    this.darStatus = enumToMap(DarStatus);
+    this.darMethods = enumToMap(DarMethod);
+    this.darStatuses = enumToMap(DarStatus);
+    this.team$ = this.teamService.findTeams("", "name", "asc", 100);
 
     this.crudAction = Crud.Update;
     if (this.route.routeConfig.path == "dar/delete/:id")
@@ -68,9 +73,14 @@ export class DarComponent implements OnInit {
         this.dar.description,
         [Validators.required, Validators.minLength(50)]
       ],
-      darStatus: [this.dar.darStatus],
-      darMethod: [this.dar.darMethod],
-      dateTargeted: [""]
+      darStatus: [""],
+      darMethod: [""],
+      dateTargeted: [""],
+      team: [""],
+      votingMajority: [
+        this.dar.votingMajority,
+        [Validators.required, Validators.min(0), Validators.max(100)]
+      ]
     });
 
     // this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
@@ -95,14 +105,84 @@ export class DarComponent implements OnInit {
     return this.darForm.get("description");
   }
 
+  get darStatus() {
+    return this.darForm.get("darStatus");
+  }
+
+  get darMethod() {
+    return this.darForm.get("darMethod");
+  }
+
   get dateTargeted() {
     return this.darForm.get("dateTargeted");
   }
 
+  get team() {
+    return this.darForm.get("team");
+  }
+
+  get votingMajority() {
+    return this.darForm.get("votingMajority");
+  }
+
   createDar() {}
   deleteDar() {}
-  onTitleUpdate() {}
-  onDescriptionUpdate() {}
+
+  onTitleUpdate() {
+    if (this.title.valid && this.dar.id != "" && this.crudAction != Crud.Delete)
+      this.darService.fieldUpdate(this.dar.id, "title", this.title.value);
+  }
+
+  onVotingMajorityUpdate() {
+    if (
+      this.votingMajority.valid &&
+      this.dar.id != "" &&
+      this.crudAction != Crud.Delete
+    )
+      this.darService.fieldUpdate(
+        this.dar.id,
+        "votingMajority",
+        parseInt(this.votingMajority.value)
+      );
+  }
+
+  onDescriptionUpdate() {
+    if (
+      this.description.valid &&
+      this.dar.id != "" &&
+      this.crudAction != Crud.Delete
+    )
+      this.darService.fieldUpdate(
+        this.dar.id,
+        "description",
+        this.description.value
+      );
+  }
+
+  onStatusChange(event) {
+    // console.log("onStatusChange", event.value);
+    this.dar.darStatus = event.value;
+    if (this.dar.id != "" && this.crudAction != Crud.Delete) {
+      this.darService.fieldUpdate(this.dar.id, "darStatus", this.dar.darStatus);
+    }
+  }
+
+  onMethodChange(event) {
+    // console.log("onMethodChange", event.value);
+    this.dar.darMethod = event.value;
+    if (this.dar.id != "" && this.crudAction != Crud.Delete) {
+      this.darService.fieldUpdate(this.dar.id, "darMethod", this.dar.darMethod);
+    }
+  }
+
+  onTeamChange(event) {
+    console.log("onTeamChange", event);
+    this.dar.tid = event.value;
+    if (this.dar.id != "" && this.crudAction != Crud.Delete) {
+      this.darService.fieldUpdate(this.dar.id, "tid", this.dar.tid);
+    }
+  }
+
   onDateTargetedChange(event) {
     this.dar.dateTargeted = firestore.Timestamp.fromDate(event.value);
     if (this.dar.id != "" && this.crudAction != Crud.Delete) {

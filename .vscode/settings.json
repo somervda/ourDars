@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Autosize",
         "Datepicker",
         "Firestore",
         "Paginator",
@@ -11,10 +12,12 @@
         "dars",
         "datasource",
         "devkit",
+        "dsid",
         "firebaseapp",
         "firebaseui",
         "jasminewd",
         "kvps",
+        "minlength",
         "navbutton",
         "ngsw",
         "ourDars",
@@ -24,6 +27,7 @@
         "teamservice",
         "testuser",
         "theming",
+        "titlecase",
         "tslib",
         "userservice"
     ],

@@ -10,7 +10,6 @@
         placeholder="Title"
         required
       />
-      <!-- <mat-hint>Short title for the decision</mat-hint> -->
       <mat-error *ngIf="darForm.controls['title'].hasError('required')">
         Title is required.
       </mat-error>
@@ -33,7 +32,6 @@
         placeholder="Description"
         required
       ></textarea>
-      <!-- <mat-hint>Detailed description of the decision</mat-hint> -->
       <mat-error *ngIf="darForm.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
@@ -43,24 +41,62 @@
     </mat-form-field>
 
     <mat-form-field class="half-width">
-      <mat-label>Methodology</mat-label>
-      <mat-select [(value)]="dar.darMethod">
-        <mat-option *ngFor="let item of darMethod" [value]="item.key">
-          {{ item.value }}
-        </mat-option>
-      </mat-select>
-      <!-- <mat-hint>Methodology to be followed for the decision</mat-hint> -->
-    </mat-form-field>
-
-    <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
-      <mat-select [(value)]="dar.darStatus">
-        <mat-option *ngFor="let item of darStatus" [value]="item.key">
+      <mat-select
+        [value]="dar.darStatus"
+        (selectionChange)="onStatusChange($event)"
+      >
+        <mat-option *ngFor="let item of darStatuses" [value]="item.key">
           {{ item.value | titlecase }}
         </mat-option>
       </mat-select>
-      <!-- <mat-hint>The status of the decision (DAR)</mat-hint> -->
     </mat-form-field>
+
+    <mat-form-field class="half-width">
+      <mat-label>Methodology</mat-label>
+      <mat-select
+        [value]="dar.darMethod"
+        (selectionChange)="onMethodChange($event)"
+      >
+        <mat-option *ngFor="let item of darMethods" [value]="item.key">
+          {{ item.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Only show voting options if methodology is vote of hybrid -->
+    <div
+      *ngIf="
+        dar.darMethod == DarMethod.Vote || dar.darMethod == DarMethod.Hybrid
+      "
+    >
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="votingMajority"
+          (change)="onVotingMajorityUpdate()"
+          placeholder="Voting : Majority"
+          required
+        />
+        <mat-error
+          *ngIf="darForm.controls['votingMajority'].hasError('required')"
+        >
+          A voting majority value is required (Enter 0 to represent simple
+          majority wins).
+        </mat-error>
+        <mat-error *ngIf="darForm.controls['votingMajority'].hasError('min')">
+          Voting majority must be zero or greater.
+        </mat-error>
+        <mat-error *ngIf="darForm.controls['votingMajority'].hasError('max')">
+          Voting majority must be less then 100(%).
+        </mat-error>
+        <mat-hint
+          >How voting is scored. Enter 0 to indicated a simple plurality or a
+          value of 1-100% to indicate a super-majority threshold must be
+          passed.</mat-hint
+        >
+      </mat-form-field>
+    </div>
 
     <mat-form-field class="half-width">
       <input
@@ -77,10 +113,25 @@
       <mat-hint>When the decision should be complete</mat-hint>
     </mat-form-field>
 
+    <mat-form-field class="half-width">
+      <mat-label>Team</mat-label>
+      <mat-select
+        (selectionChange)="onTeamChange($event)"
+        [value]="dar.tid ? dar.tid : ''"
+      >
+        <mat-option *ngFor="let team of team$ | async" [value]="team.id">
+          {{ team.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Team associated with this decision</mat-hint>
+    </mat-form-field>
+
+    <br />
+    <br />
     <button
       mat-raised-button
       color="primary"
-      *ngIf="crudAction == crud.Create"
+      *ngIf="crudAction == Crud.Create"
       [disabled]="!darForm.valid"
       (click)="createDar()"
     >
@@ -91,7 +142,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="crudAction == crud.Delete"
+      *ngIf="crudAction == Crud.Delete"
       (click)="deleteDar()"
     >
       <mat-icon>clear</mat-icon>

@@ -8,27 +8,21 @@ export interface Dar {
   dateTargeted?: Timestamp;
   dateClosed?: Date;
   darStatus: DarStatus;
-  team?: {
-    id: string;
-    name: string;
-  };
+  tid?: string;
   eventTrigger?: string;
   location?: string;
   darMethod: DarMethod;
-  // Voting Super-Majority : The percentage of votes that are required to
+  // Voting Majority : The percentage of votes - super majority - that are required to
   // win the vote. i.e. 70  = 70% of votes must the obtained to be the
   // chosen solution. Special value of 0 indicates only a plurality of votes
   // is required (simple majority)
-  votingSuperMajority?: number;
+  votingMajority?: number;
   // Number of votes each voter gets, typically 1
   votesPerVoter?: number;
   risks?: string;
   constraints?: string;
   // Solution present after solution is chosen
-  solution?: {
-    id: string;
-    name: string;
-  };
+  dsid?: string;
 }
 
 // Most common DAR status items that are used to search for
