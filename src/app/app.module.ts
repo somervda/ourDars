@@ -105,8 +105,8 @@ import { DarComponent } from "./dar/dar.component";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     // Allow offline operations - useful when used in combination with PWA functionality
-    AngularFirestoreModule.enablePersistence(),
-    // AngularFirestoreModule,
+    // AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
     })

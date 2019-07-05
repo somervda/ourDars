@@ -39,7 +39,7 @@
         Description must be at least 50 characters long.
       </mat-error>
       <mat-error *ngIf="darForm.controls['description'].hasError('maxlength')">
-        Description must be less than 2000 characters long.
+        Description must be less than 10,000 characters long.
       </mat-error>
     </mat-form-field>
 
@@ -53,6 +53,9 @@
           {{ item.value | titlecase }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="darForm.controls['darStatus'].hasError('required')">
+        A status must be selected.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="half-width">
@@ -65,63 +68,11 @@
           {{ item.value }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="darForm.controls['darMethod'].hasError('required')">
+        A methodology must be selected.
+      </mat-error>
       <mat-hint>How the solution will be decided.</mat-hint>
     </mat-form-field>
-
-    <!-- Only show voting options if methodology is vote of hybrid -->
-    <!-- <div
-      *ngIf="
-        dar.darMethod == DarMethod.Vote || dar.darMethod == DarMethod.Hybrid
-      "
-    >
-      <mat-form-field class="half-width">
-        <input
-          matInput
-          formControlName="votingMajority"
-          (change)="onVotingMajorityUpdate()"
-          placeholder="Voting : Majority"
-          [(value)]="dar.votingMajority"
-          required
-        />
-        <mat-error
-          *ngIf="darForm.controls['votingMajority'].hasError('required')"
-        >
-          A voting majority value is required (Enter 0 to represent simple
-          majority wins).
-        </mat-error>
-        <mat-error *ngIf="darForm.controls['votingMajority'].hasError('min')">
-          Voting majority must be zero or greater.
-        </mat-error>
-        <mat-error *ngIf="darForm.controls['votingMajority'].hasError('max')">
-          Voting majority must be less then 100(%).
-        </mat-error>
-        <mat-hint
-          >1-100% super-majority threshold or 0 for simple plurality.</mat-hint
-        >
-      </mat-form-field>
-
-      <mat-form-field class="half-width">
-        <input
-          matInput
-          formControlName="votesPerVoter"
-          (change)="onVotesPerVoterUpdate()"
-          placeholder="Voting : Votes per Voter"
-          [(value)]="dar.votesPerVoter"
-          required
-        />
-        <mat-error
-          *ngIf="darForm.controls['votesPerVoter'].hasError('required')"
-        >
-          A voting majority value is required 1-3.
-        </mat-error>
-        <mat-error *ngIf="darForm.controls['votesPerVoter'].hasError('min')">
-          Votes per voter must be 1 or greater.
-        </mat-error>
-        <mat-error *ngIf="darForm.controls['votesPerVoter'].hasError('max')">
-          Votes per voter must be less then 3.
-        </mat-error>
-      </mat-form-field>
-    </div> -->
 
     <mat-form-field class="half-width">
       <input
@@ -163,7 +114,7 @@
         placeholder="Risks"
       ></textarea>
       <mat-error *ngIf="darForm.controls['risks'].hasError('maxlength')">
-        Risks must be less than 2000 characters long.
+        Risks must be less than 10000 characters long.
       </mat-error>
       <mat-hint>Risks associated with this decision</mat-hint>
     </mat-form-field>
@@ -179,7 +130,7 @@
         placeholder="Constraints"
       ></textarea>
       <mat-error *ngIf="darForm.controls['constraints'].hasError('maxlength')">
-        Constraints must be less than 2000 characters long.
+        Constraints must be less than 10000 characters long.
       </mat-error>
       <mat-hint>Process, financial, political, architectural, etc</mat-hint>
     </mat-form-field>
@@ -195,7 +146,7 @@
         placeholder="Cause"
       ></textarea>
       <mat-error *ngIf="darForm.controls['cause'].hasError('maxlength')">
-        Cause must be less than 2000 characters long.
+        Cause must be less than 10000 characters long.
       </mat-error>
       <mat-hint>Reason for requiring this decision to be made.</mat-hint>
     </mat-form-field>
