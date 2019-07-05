@@ -71,7 +71,11 @@ export class DarComponent implements OnInit {
       ],
       description: [
         this.dar.description,
-        [Validators.required, Validators.minLength(50)]
+        [
+          Validators.required,
+          Validators.minLength(50),
+          Validators.maxLength(2000)
+        ]
       ],
       darStatus: [""],
       darMethod: [""],
@@ -80,7 +84,13 @@ export class DarComponent implements OnInit {
       votingMajority: [
         this.dar.votingMajority,
         [Validators.required, Validators.min(0), Validators.max(100)]
-      ]
+      ],
+      votesPerVoter: [
+        this.dar.votesPerVoter,
+        [Validators.required, Validators.min(1), Validators.max(3)]
+      ],
+      risks: [this.dar.risks, [Validators.maxLength(2000)]],
+      constraints: [this.dar.constraints, [Validators.maxLength(2000)]]
     });
 
     // this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
@@ -125,8 +135,38 @@ export class DarComponent implements OnInit {
     return this.darForm.get("votingMajority");
   }
 
+  get votesPerVoter() {
+    return this.darForm.get("votesPerVoter");
+  }
+
+  get risks() {
+    return this.darForm.get("risks");
+  }
+
+  get constraints() {
+    return this.darForm.get("constraints");
+  }
+
   createDar() {}
   deleteDar() {}
+
+  onConstraintsUpdate() {
+    if (
+      this.constraints.valid &&
+      this.dar.id != "" &&
+      this.crudAction != Crud.Delete
+    )
+      this.darService.fieldUpdate(
+        this.dar.id,
+        "constraints",
+        this.constraints.value
+      );
+  }
+
+  onRisksUpdate() {
+    if (this.risks.valid && this.dar.id != "" && this.crudAction != Crud.Delete)
+      this.darService.fieldUpdate(this.dar.id, "risks", this.risks.value);
+  }
 
   onTitleUpdate() {
     if (this.title.valid && this.dar.id != "" && this.crudAction != Crud.Delete)
@@ -143,6 +183,19 @@ export class DarComponent implements OnInit {
         this.dar.id,
         "votingMajority",
         parseInt(this.votingMajority.value)
+      );
+  }
+
+  onVotesPerVoterUpdate() {
+    if (
+      this.votesPerVoter.valid &&
+      this.dar.id != "" &&
+      this.crudAction != Crud.Delete
+    )
+      this.darService.fieldUpdate(
+        this.dar.id,
+        "votesPerVoter",
+        parseInt(this.votesPerVoter.value)
       );
   }
 
