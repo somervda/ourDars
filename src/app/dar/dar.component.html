@@ -65,10 +65,11 @@
           {{ item.value }}
         </mat-option>
       </mat-select>
+      <mat-hint>How the solution will be decided.</mat-hint>
     </mat-form-field>
 
     <!-- Only show voting options if methodology is vote of hybrid -->
-    <div
+    <!-- <div
       *ngIf="
         dar.darMethod == DarMethod.Vote || dar.darMethod == DarMethod.Hybrid
       "
@@ -79,6 +80,7 @@
           formControlName="votingMajority"
           (change)="onVotingMajorityUpdate()"
           placeholder="Voting : Majority"
+          [(value)]="dar.votingMajority"
           required
         />
         <mat-error
@@ -94,8 +96,7 @@
           Voting majority must be less then 100(%).
         </mat-error>
         <mat-hint
-          >Voting targets - 0 : simple plurality, 1-100% :
-          super-majority.</mat-hint
+          >1-100% super-majority threshold or 0 for simple plurality.</mat-hint
         >
       </mat-form-field>
 
@@ -105,6 +106,7 @@
           formControlName="votesPerVoter"
           (change)="onVotesPerVoterUpdate()"
           placeholder="Voting : Votes per Voter"
+          [(value)]="dar.votesPerVoter"
           required
         />
         <mat-error
@@ -119,7 +121,7 @@
           Votes per voter must be less then 3.
         </mat-error>
       </mat-form-field>
-    </div>
+    </div> -->
 
     <mat-form-field class="half-width">
       <input
@@ -163,6 +165,7 @@
       <mat-error *ngIf="darForm.controls['risks'].hasError('maxlength')">
         Risks must be less than 2000 characters long.
       </mat-error>
+      <mat-hint>Risks associated with this decision</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="full-width">
@@ -178,6 +181,23 @@
       <mat-error *ngIf="darForm.controls['constraints'].hasError('maxlength')">
         Constraints must be less than 2000 characters long.
       </mat-error>
+      <mat-hint>Process, financial, political, architectural, etc</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        formControlName="cause"
+        (change)="onCauseUpdate()"
+        matAutosizeMinRows="4"
+        matAutosizeMaxRows="20"
+        matTextareaAutosize
+        placeholder="Cause"
+      ></textarea>
+      <mat-error *ngIf="darForm.controls['cause'].hasError('maxlength')">
+        Cause must be less than 2000 characters long.
+      </mat-error>
+      <mat-hint>Reason for requiring this decision to be made.</mat-hint>
     </mat-form-field>
 
     <br />

@@ -9,11 +9,10 @@ export interface Dar {
   dateClosed?: Date;
   darStatus: DarStatus;
   tid?: string;
-  eventTrigger?: string;
-  location?: string;
+  cause?: string;
   darMethod: DarMethod;
   // Voting Majority : The percentage of votes - super majority - that are required to
-  // win the vote. i.e. 70  = 70% of votes must the obtained to be the
+  // win the vote. i.e. 70  = 70% of votes must the reached to be the
   // chosen solution. Special value of 0 indicates only a plurality of votes
   // is required (simple majority)
   votingMajority?: number;

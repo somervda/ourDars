@@ -81,16 +81,17 @@ export class DarComponent implements OnInit {
       darMethod: [""],
       dateTargeted: [""],
       team: [""],
-      votingMajority: [
-        this.dar.votingMajority,
-        [Validators.required, Validators.min(0), Validators.max(100)]
-      ],
-      votesPerVoter: [
-        this.dar.votesPerVoter,
-        [Validators.required, Validators.min(1), Validators.max(3)]
-      ],
+      // votingMajority: [
+      //   this.dar.votingMajority,
+      //   [Validators.required, Validators.min(0), Validators.max(100)]
+      // ],
+      // votesPerVoter: [
+      //   this.dar.votesPerVoter,
+      //   [Validators.required, Validators.min(1), Validators.max(3)]
+      // ],
       risks: [this.dar.risks, [Validators.maxLength(2000)]],
-      constraints: [this.dar.constraints, [Validators.maxLength(2000)]]
+      constraints: [this.dar.constraints, [Validators.maxLength(2000)]],
+      cause: [this.dar.cause, [Validators.maxLength(2000)]]
     });
 
     // this.testDate = new Date(2019, 11, 1, 10, 33, 30, 0);
@@ -131,13 +132,13 @@ export class DarComponent implements OnInit {
     return this.darForm.get("team");
   }
 
-  get votingMajority() {
-    return this.darForm.get("votingMajority");
-  }
+  // get votingMajority() {
+  //   return this.darForm.get("votingMajority");
+  // }
 
-  get votesPerVoter() {
-    return this.darForm.get("votesPerVoter");
-  }
+  // get votesPerVoter() {
+  //   return this.darForm.get("votesPerVoter");
+  // }
 
   get risks() {
     return this.darForm.get("risks");
@@ -147,8 +148,17 @@ export class DarComponent implements OnInit {
     return this.darForm.get("constraints");
   }
 
+  get cause() {
+    return this.darForm.get("cause");
+  }
+
   createDar() {}
   deleteDar() {}
+
+  onCauseUpdate() {
+    if (this.cause.valid && this.dar.id != "" && this.crudAction != Crud.Delete)
+      this.darService.fieldUpdate(this.dar.id, "cause", this.cause.value);
+  }
 
   onConstraintsUpdate() {
     if (
@@ -173,31 +183,31 @@ export class DarComponent implements OnInit {
       this.darService.fieldUpdate(this.dar.id, "title", this.title.value);
   }
 
-  onVotingMajorityUpdate() {
-    if (
-      this.votingMajority.valid &&
-      this.dar.id != "" &&
-      this.crudAction != Crud.Delete
-    )
-      this.darService.fieldUpdate(
-        this.dar.id,
-        "votingMajority",
-        parseInt(this.votingMajority.value)
-      );
-  }
+  // onVotingMajorityUpdate() {
+  //   if (
+  //     this.votingMajority.valid &&
+  //     this.dar.id != "" &&
+  //     this.crudAction != Crud.Delete
+  //   )
+  //     this.darService.fieldUpdate(
+  //       this.dar.id,
+  //       "votingMajority",
+  //       parseInt(this.votingMajority.value)
+  //     );
+  // }
 
-  onVotesPerVoterUpdate() {
-    if (
-      this.votesPerVoter.valid &&
-      this.dar.id != "" &&
-      this.crudAction != Crud.Delete
-    )
-      this.darService.fieldUpdate(
-        this.dar.id,
-        "votesPerVoter",
-        parseInt(this.votesPerVoter.value)
-      );
-  }
+  // onVotesPerVoterUpdate() {
+  //   if (
+  //     this.votesPerVoter.valid &&
+  //     this.dar.id != "" &&
+  //     this.crudAction != Crud.Delete
+  //   )
+  //     this.darService.fieldUpdate(
+  //       this.dar.id,
+  //       "votesPerVoter",
+  //       parseInt(this.votesPerVoter.value)
+  //     );
+  // }
 
   onDescriptionUpdate() {
     if (
@@ -225,6 +235,29 @@ export class DarComponent implements OnInit {
     this.dar.darMethod = event.value;
     if (this.dar.id != "" && this.crudAction != Crud.Delete) {
       this.darService.fieldUpdate(this.dar.id, "darMethod", this.dar.darMethod);
+      if (
+        this.dar.darMethod == DarMethod.Vote ||
+        this.dar.darMethod == DarMethod.Hybrid
+      ) {
+        // set defaults for voting
+        if (!this.dar.votesPerVoter) {
+          this.dar.votesPerVoter = 1;
+          this.darService.fieldUpdate(
+            this.dar.id,
+            "votesPerVoter",
+            this.dar.votesPerVoter
+          );
+        }
+
+        if (!this.dar.votingMajority) {
+          this.dar.votingMajority = 0;
+          this.darService.fieldUpdate(
+            this.dar.id,
+            "votingMajority",
+            this.dar.votingMajority
+          );
+        }
+      }
     }
   }
 
