@@ -85,7 +85,7 @@ export class DarComponent implements OnInit {
       darStatus: [this.dar.darStatus, [Validators.required]],
       darMethod: [this.dar.darMethod, [Validators.required]],
       dateTargeted: [""],
-      team: [""],
+      tid: [this.dar.tid],
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
       cause: [this.dar.cause, [Validators.maxLength(10000)]]
@@ -100,111 +100,44 @@ export class DarComponent implements OnInit {
   }
 
   // Getters
-  get title() {
-    return this.darForm.get("title");
-  }
-
-  get description() {
-    return this.darForm.get("description");
-  }
-
-  get darStatus() {
-    return this.darForm.get("darStatus");
-  }
-
-  get darMethod() {
-    return this.darForm.get("darMethod");
-  }
-
   get dateTargeted() {
     return this.darForm.get("dateTargeted");
-  }
-
-  get team() {
-    return this.darForm.get("team");
-  }
-
-  get risks() {
-    return this.darForm.get("risks");
-  }
-
-  get constraints() {
-    return this.darForm.get("constraints");
-  }
-
-  get cause() {
-    return this.darForm.get("cause");
   }
 
   // Updaters
 
   createDar() {}
-  deleteDar() {}
+  deleteDar() {
+    console.log("delete", this.dar.id);
+
+    this.darService
+      .deleteDar(this.dar.id)
+      .then(() => {
+        this.snackBar.open("DAR '" + this.dar.title + "' deleted!", "", {
+          duration: 2000
+        });
+        this.ngZone.run(() => this.router.navigateByUrl("/adminDars"));
+      })
+      .catch(function(error) {
+        console.error("Error deleting dar: ", error);
+      });
+  }
+
+  onFieldUpdate(fieldName: string) {
+    if (
+      this.darForm.get(fieldName).valid &&
+      this.dar.id != "" &&
+      this.crudAction != Crud.Delete
+    )
+      this.darService.fieldUpdate(
+        this.dar.id,
+        fieldName,
+        this.darForm.get(fieldName).value
+      );
+  }
 
   checkUpdateReady(field: AbstractControl): boolean {
     return field.valid && this.dar.id != "" && this.crudAction != Crud.Delete;
-  }
-
-  onCauseUpdate() {
-    if (this.checkUpdateReady(this.cause))
-      this.darService.fieldUpdate(this.dar.id, "cause", this.cause.value);
-  }
-
-  onConstraintsUpdate() {
-    if (this.checkUpdateReady(this.constraints))
-      this.darService.fieldUpdate(
-        this.dar.id,
-        "constraints",
-        this.constraints.value
-      );
-  }
-
-  onRisksUpdate() {
-    if (this.checkUpdateReady(this.risks))
-      this.darService.fieldUpdate(this.dar.id, "risks", this.risks.value);
-  }
-
-  onTitleUpdate() {
-    if (this.checkUpdateReady(this.title))
-      this.darService.fieldUpdate(this.dar.id, "title", this.title.value);
-  }
-
-  onDescriptionUpdate() {
-    if (this.checkUpdateReady(this.description))
-      this.darService.fieldUpdate(
-        this.dar.id,
-        "description",
-        this.description.value
-      );
-  }
-
-  onStatusChange(event) {
-    console.log(
-      "onStatusChange",
-      event.value,
-      this.dar.darStatus,
-      this.darStatus.value
-    );
-    this.dar.darStatus = event.value;
-    if (this.checkUpdateReady(this.darStatus)) {
-      this.darService.fieldUpdate(this.dar.id, "darStatus", this.dar.darStatus);
-    }
-  }
-
-  onMethodChange(event) {
-    // console.log("onMethodChange", event.value);
-    this.dar.darMethod = event.value;
-    if (this.checkUpdateReady(this.darMethod)) {
-      this.darService.fieldUpdate(this.dar.id, "darMethod", this.dar.darMethod);
-    }
-  }
-
-  onTeamChange(event) {
-    console.log("onTeamChange", event);
-    this.dar.tid = event.value;
-    if (this.checkUpdateReady(this.team)) {
-      this.darService.fieldUpdate(this.dar.id, "tid", this.dar.tid);
-    }
   }
 
   onDateTargetedChange(event) {

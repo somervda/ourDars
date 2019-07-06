@@ -6,7 +6,7 @@
       <input
         matInput
         formControlName="title"
-        (change)="onTitleUpdate()"
+        (change)="onFieldUpdate('title')"
         placeholder="Title"
         required
       />
@@ -25,7 +25,7 @@
       <textarea
         matInput
         formControlName="description"
-        (change)="onDescriptionUpdate()"
+        (change)="onFieldUpdate('description')"
         matAutosizeMinRows="7"
         matAutosizeMaxRows="20"
         matTextareaAutosize
@@ -47,7 +47,7 @@
       <mat-label>Status</mat-label>
       <mat-select
         formControlName="darStatus"
-        (selectionChange)="onStatusChange($event)"
+        (selectionChange)="onFieldUpdate('darStatus')"
       >
         <mat-option *ngFor="let item of darStatuses" [value]="item.key">
           {{ item.value | titlecase }}
@@ -62,7 +62,7 @@
       <mat-label>Methodology</mat-label>
       <mat-select
         formControlName="darMethod"
-        (selectionChange)="onMethodChange($event)"
+        (selectionChange)="onFieldUpdate('darMethod')"
       >
         <mat-option *ngFor="let item of darMethods" [value]="item.key">
           {{ item.value }}
@@ -93,9 +93,11 @@
     <mat-form-field class="half-width">
       <mat-label>Team</mat-label>
       <mat-select
-        (selectionChange)="onTeamChange($event)"
-        [value]="dar.tid ? dar.tid : ''"
+        (selectionChange)="onFieldUpdate('tid')"
+        formControlName="tid"
+        [value]="dar.tid ? dar.tid : 'NA'"
       >
+        <mat-option value="">No Team</mat-option>
         <mat-option *ngFor="let team of team$ | async" [value]="team.id">
           {{ team.name }}
         </mat-option>
@@ -107,7 +109,7 @@
       <textarea
         matInput
         formControlName="risks"
-        (change)="onRisksUpdate()"
+        (change)="onFieldUpdate('risks')"
         matAutosizeMinRows="4"
         matAutosizeMaxRows="20"
         matTextareaAutosize
@@ -123,7 +125,7 @@
       <textarea
         matInput
         formControlName="constraints"
-        (change)="onConstraintsUpdate()"
+        (change)="onFieldUpdate('constraints')"
         matAutosizeMinRows="4"
         matAutosizeMaxRows="20"
         matTextareaAutosize
@@ -139,7 +141,7 @@
       <textarea
         matInput
         formControlName="cause"
-        (change)="onCauseUpdate()"
+        (change)="onFieldUpdate('cause')"
         matAutosizeMinRows="4"
         matAutosizeMaxRows="20"
         matTextareaAutosize
