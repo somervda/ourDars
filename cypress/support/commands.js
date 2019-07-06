@@ -51,7 +51,7 @@ Cypress.Commands.add("verifyMyProfileComponent", () => {
   cy.get("h1").contains("User Profile");
 });
 
-Cypress.Commands.add("verifyAdminComponent", () => {
+Cypress.Commands.add("verifyAdminUserComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuAdministration").click();
   cy.get("h1").contains("Administration");
@@ -60,6 +60,28 @@ Cypress.Commands.add("verifyAdminComponent", () => {
   cy.contains(Cypress.env("nonAdminUser").toLowerCase()).click();
   cy.url().should("include", "user/");
   cy.get("h1").contains("User Profile");
+});
+
+Cypress.Commands.add("verifyAdminTeamComponent", () => {
+  cy.get("#mainMenu").click();
+  cy.get("#mainMenuAdministration").click();
+  cy.get("h1").contains("Administration");
+  cy.get('[routerlink="/teams"]').click();
+  cy.get("h1").contains("Teams");
+  cy.contains("e2eTeam").click();
+  cy.url().should("include", "team/");
+  cy.get("h1").contains("Team");
+});
+
+Cypress.Commands.add("verifyAdminDarComponent", () => {
+  cy.get("#mainMenu").click();
+  cy.get("#mainMenuAdministration").click();
+  cy.get("h1").contains("Administration");
+  cy.get('[routerlink="/adminDars"]').click();
+  cy.get("h1").contains("DAR Administration");
+  cy.contains("e2eTestDAR").click();
+  cy.url().should("include", "dar/");
+  cy.get("h1").contains("Decision (DAR)");
 });
 
 Cypress.Commands.add("verifyLogout", () => {

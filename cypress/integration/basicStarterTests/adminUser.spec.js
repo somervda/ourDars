@@ -25,8 +25,16 @@ context("Admin user login", () => {
     cy.verifyMyProfileComponent();
   });
 
-  it("Navigate to Admin", () => {
-    cy.verifyAdminComponent();
+  it("Check admin user lists is working", () => {
+    cy.verifyAdminUserComponent();
+  });
+
+  it("Check admin team lists is working", () => {
+    cy.verifyAdminTeamComponent();
+  });
+
+  it("Check admin DAR lists is working", () => {
+    cy.verifyAdminDarComponent();
   });
 
   it("Logout", () => {

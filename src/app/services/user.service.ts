@@ -39,7 +39,7 @@ export class UserService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findUsers", snaps);
+          // console.log("findUsers", snaps);
           return convertSnaps<User>(snaps);
         }),
         take(2)
