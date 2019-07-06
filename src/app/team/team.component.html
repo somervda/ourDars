@@ -6,7 +6,7 @@
       <input
         matInput
         formControlName="name"
-        (change)="onNameUpdate()"
+        (change)="onFieldUpdate('name')"
         placeholder="Team Name"
         required
       />
@@ -19,7 +19,7 @@
       <textarea
         matInput
         formControlName="description"
-        (change)="onDescriptionUpdate()"
+        (change)="onFieldUpdate('description')"
         matAutosizeMinRows="7"
         matAutosizeMaxRows="20"
         matTextareaAutosize
@@ -36,7 +36,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="crudAction == crud.Create"
+      *ngIf="crudAction == Crud.Create"
       [disabled]="!teamForm.valid"
       (click)="createTeam()"
     ><mat-icon>add</mat-icon>
@@ -45,7 +45,7 @@
     <button
     mat-raised-button
     color="primary"
-    *ngIf="crudAction == crud.Delete"
+    *ngIf="crudAction == Crud.Delete"
     (click)="deleteTeam()"
   ><mat-icon>clear</mat-icon>
     Delete

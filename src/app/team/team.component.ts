@@ -5,6 +5,7 @@ import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { Crud } from '../models/global.model';
+import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-team",
@@ -18,7 +19,7 @@ export class TeamComponent implements OnInit {
   team: Team;
   crudAction : Crud ;
   // Declare an instance of crud enum to use for checking crudAction value
-  crud = Crud;
+  Crud = Crud;
 
   teamForm: FormGroup;
 
@@ -54,25 +55,18 @@ export class TeamComponent implements OnInit {
       ]
     });
 
-    // Mark all fields as touched to trigger validation on initial entry to the fields
-    if (this.crudAction != Crud.Create) {
-      this.name.markAsTouched();
-      this.description.markAsTouched();
+   // Mark all fields as touched to trigger validation on initial entry to the fields
+   if (this.crudAction != Crud.Create) {
+    for (const field in this.teamForm.controls) {
+      this.teamForm.get(field).markAsTouched();
     }
   }
-
-  // Getters
-  get name() {
-    return this.teamForm.get("name");
-  }
-
-  get description() {
-    return this.teamForm.get("description");
   }
 
   createTeam() {
-    this.team.name = this.name.value;
-    this.team.description = this.description.value;
+    for (const field in this.teamForm.controls) {
+      this.team[field] = this.teamForm.get(field).value;
+    }
     console.log("create team", this.team);
     this.teamService
       .createTeam(this.team)
@@ -107,16 +101,21 @@ export class TeamComponent implements OnInit {
       });
   }
 
-  onDescriptionUpdate() {
-    if (this.description.valid && this.team.id != "" && this.crudAction != Crud.Delete)
+  onFieldUpdate(fieldName: string, toType ?: string) {
+    if (
+      this.teamForm.get(fieldName).valid &&
+      this.team.id != "" &&
+      this.crudAction != Crud.Delete
+    ){
+      let newValue = this.teamForm.get(fieldName).value;
+      // Do any type conversions before storing value
+      if (toType && toType == "Timestamp")
+        newValue = firestore.Timestamp.fromDate(this.teamForm.get(fieldName).value);
       this.teamService.fieldUpdate(
         this.team.id,
-        "description",
-        this.description.value
+        fieldName,
+        newValue
       );
-  }
-  onNameUpdate() {
-    if (this.name.valid && this.team.id != ""  && this.crudAction != Crud.Delete)
-      this.teamService.fieldUpdate(this.team.id, "name", this.name.value);
+    }
   }
 }

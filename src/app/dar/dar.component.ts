@@ -95,12 +95,12 @@ export class DarComponent implements OnInit {
      "this.dar.dateTargeted.toDate()", this.dar.dateTargeted.toDate(),
      ' this.darForm.get("dateTargeted").value', this.darForm.get("dateTargeted").value )
 
-    // Mark all fields as touched to trigger validation on initial entry to the fields
+   // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
       for (const field in this.darForm.controls) {
         this.darForm.get(field).markAsTouched();
       }
-    }
+    } 
   }
 
   // Updaters
