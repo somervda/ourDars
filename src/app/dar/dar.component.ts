@@ -84,12 +84,16 @@ export class DarComponent implements OnInit {
       ],
       darStatus: [this.dar.darStatus, [Validators.required]],
       darMethod: [this.dar.darMethod, [Validators.required]],
-      dateTargeted: [""],
-      tid: [this.dar.tid],
+      dateTargeted: [this.dar.dateTargeted ? this.dar.dateTargeted.toDate() : ''],
+      tid: [this.dar.tid ? this.dar.tid : 'NA'],
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
       cause: [this.dar.cause, [Validators.maxLength(10000)]]
     });
+
+    console.log("dateTargeted",this.dar.dateTargeted ,
+     "this.dar.dateTargeted.toDate()", this.dar.dateTargeted.toDate(),
+     ' this.darForm.get("dateTargeted").value', this.darForm.get("dateTargeted").value )
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
@@ -97,11 +101,6 @@ export class DarComponent implements OnInit {
         this.darForm.get(field).markAsTouched();
       }
     }
-  }
-
-  // Getters
-  get dateTargeted() {
-    return this.darForm.get("dateTargeted");
   }
 
   // Updaters
@@ -123,31 +122,22 @@ export class DarComponent implements OnInit {
       });
   }
 
-  onFieldUpdate(fieldName: string) {
+  onFieldUpdate(fieldName: string, toType ?: string) {
     if (
       this.darForm.get(fieldName).valid &&
       this.dar.id != "" &&
       this.crudAction != Crud.Delete
-    )
+    ){
+      let newValue = this.darForm.get(fieldName).value;
+      // Do any type conversions before storing value
+      if (toType && toType == "Timestamp")
+        newValue = firestore.Timestamp.fromDate(this.darForm.get(fieldName).value);
       this.darService.fieldUpdate(
         this.dar.id,
         fieldName,
-        this.darForm.get(fieldName).value
-      );
-  }
-
-  checkUpdateReady(field: AbstractControl): boolean {
-    return field.valid && this.dar.id != "" && this.crudAction != Crud.Delete;
-  }
-
-  onDateTargetedChange(event) {
-    this.dar.dateTargeted = firestore.Timestamp.fromDate(event.value);
-    if (this.checkUpdateReady(this.dateTargeted)) {
-      this.darService.fieldUpdate(
-        this.dar.id,
-        "dateTargeted",
-        this.dar.dateTargeted
+        newValue
       );
     }
   }
+
 }

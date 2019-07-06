@@ -78,9 +78,9 @@
       <input
         matInput
         placeholder="Target Date"
+        formControlName="dateTargeted"
         [matDatepicker]="myDatepicker"
-        [value]="dar.dateTargeted ? dar.dateTargeted.toDate() : ''"
-        (dateChange)="onDateTargetedChange($event)"
+        (dateChange)="onFieldUpdate('dateTargeted','Timestamp')"
       />
       <mat-datepicker-toggle
         matSuffix
@@ -95,9 +95,8 @@
       <mat-select
         (selectionChange)="onFieldUpdate('tid')"
         formControlName="tid"
-        [value]="dar.tid ? dar.tid : 'NA'"
       >
-        <mat-option value="">No Team</mat-option>
+        <mat-option value="NA">N/A</mat-option>
         <mat-option *ngFor="let team of team$ | async" [value]="team.id">
           {{ team.name }}
         </mat-option>
