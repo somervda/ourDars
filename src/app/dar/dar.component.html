@@ -46,7 +46,7 @@
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
       <mat-select
-        [value]="dar.darStatus"
+        formControlName="darStatus"
         (selectionChange)="onStatusChange($event)"
       >
         <mat-option *ngFor="let item of darStatuses" [value]="item.key">
@@ -61,7 +61,7 @@
     <mat-form-field class="half-width">
       <mat-label>Methodology</mat-label>
       <mat-select
-        [value]="dar.darMethod"
+        formControlName="darMethod"
         (selectionChange)="onMethodChange($event)"
       >
         <mat-option *ngFor="let item of darMethods" [value]="item.key">

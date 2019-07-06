@@ -2,7 +2,12 @@ import { Component, OnInit, NgZone } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
-import { Validators, FormBuilder, FormGroup, AbstractControl } from "@angular/forms";
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  AbstractControl
+} from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
@@ -77,8 +82,8 @@ export class DarComponent implements OnInit {
           Validators.maxLength(10000)
         ]
       ],
-      darStatus: ["",[Validators.required]],
-      darMethod: ["",[Validators.required]],
+      darStatus: [this.dar.darStatus, [Validators.required]],
+      darMethod: [this.dar.darMethod, [Validators.required]],
       dateTargeted: [""],
       team: [""],
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
@@ -136,7 +141,7 @@ export class DarComponent implements OnInit {
   createDar() {}
   deleteDar() {}
 
-  checkUpdateReady(field : AbstractControl ) : boolean {
+  checkUpdateReady(field: AbstractControl): boolean {
     return field.valid && this.dar.id != "" && this.crudAction != Crud.Delete;
   }
 
@@ -174,7 +179,12 @@ export class DarComponent implements OnInit {
   }
 
   onStatusChange(event) {
-    // console.log("onStatusChange", event.value);
+    console.log(
+      "onStatusChange",
+      event.value,
+      this.dar.darStatus,
+      this.darStatus.value
+    );
     this.dar.darStatus = event.value;
     if (this.checkUpdateReady(this.darStatus)) {
       this.darService.fieldUpdate(this.dar.id, "darStatus", this.dar.darStatus);
@@ -186,9 +196,8 @@ export class DarComponent implements OnInit {
     this.dar.darMethod = event.value;
     if (this.checkUpdateReady(this.darMethod)) {
       this.darService.fieldUpdate(this.dar.id, "darMethod", this.dar.darMethod);
-      }
     }
-  
+  }
 
   onTeamChange(event) {
     console.log("onTeamChange", event);
