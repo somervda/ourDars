@@ -105,8 +105,8 @@ export class DarComponent implements OnInit {
 
   // Updaters
 
-  createDar() {}
-  deleteDar() {
+  onCreate() {}
+  onDelete() {
     console.log("delete", this.dar.id);
 
     this.darService

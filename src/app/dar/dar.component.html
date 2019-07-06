@@ -159,7 +159,8 @@
       color="primary"
       *ngIf="crudAction == Crud.Create"
       [disabled]="!darForm.valid"
-      (click)="createDar()"
+      (click)="onCreate()"
+      id="btnCreate"
     >
       <mat-icon>add</mat-icon>
       Create
@@ -169,7 +170,8 @@
       mat-raised-button
       color="primary"
       *ngIf="crudAction == Crud.Delete"
-      (click)="deleteDar()"
+      (click)="onDelete()"
+      id="btnDelete"
     >
       <mat-icon>clear</mat-icon>
       Delete

@@ -63,7 +63,7 @@ export class TeamComponent implements OnInit {
   }
   }
 
-  createTeam() {
+  onCreate() {
     for (const field in this.teamForm.controls) {
       this.team[field] = this.teamForm.get(field).value;
     }
@@ -84,7 +84,7 @@ export class TeamComponent implements OnInit {
     // console.log("create team", this.team);
   }
 
-  deleteTeam() {
+  onDelete() {
     console.log("delete", this.team.id);
 
     this.teamService
