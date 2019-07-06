@@ -3,7 +3,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { User } from "../models/user.model";
 import { convertSnaps } from "./db-utils";
-import { first, map } from "rxjs/operators";
+import { first, map, take } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
@@ -39,9 +39,10 @@ export class UserService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
+          console.log("findUsers", snaps);
           return convertSnaps<User>(snaps);
         }),
-        first()
+        take(2)
       );
   }
 
