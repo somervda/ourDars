@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress open",
-    "quickdeploy": "ng build --prod && firebase deploy --only hosting",
+    "fastserve": "ng serve --source-map=false",
+    "fastdeploy": "ng build --prod --source-map=false && firebase deploy --only hosting",
     "deploy": "ng build --prod && firebase deploy --only hosting && firebase deploy --only firestore:rules && firebase deploy --only functions"
   },
   "private": true,
