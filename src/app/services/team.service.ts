@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { Team } from "../models/team.model";
-import { convertSnaps, dbFieldUpdate } from "./db-utils";
+import { convertSnaps, dbFieldUpdate, convertSnap } from "./db-utils";
 import { first, map } from "rxjs/operators";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
@@ -27,6 +27,18 @@ export class TeamService {
           return teams.length == 1 ? teams[0] : undefined;
         }),
         first()
+      );
+  }
+
+  getById(id: string): Observable<Team> {
+    // this.afs.doc("/checklists/" + this.id).get();
+    return this.afs
+      .doc("/teams/" + id)
+      .get()
+      .pipe(
+        map(snap => {
+          return convertSnap<Team>(snap);
+        })
       );
   }
 

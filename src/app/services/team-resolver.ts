@@ -19,6 +19,6 @@ export class TeamResolver implements Resolve<Team> {
     state: RouterStateSnapshot
   ): Observable<Team> {
     const id = route.paramMap.get("id");
-    return this.teamservice.findTeamById(id);
+    return this.teamservice.getById(id);
   }
 }

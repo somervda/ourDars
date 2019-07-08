@@ -1,4 +1,5 @@
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from "@angular/fire/firestore";
+// Convert snaps converts an array of snaps into an array of items of type T
 export function convertSnaps<T>(snaps) {
   return <T[]>snaps.map(snap => {
     return {
@@ -8,6 +9,15 @@ export function convertSnaps<T>(snaps) {
   });
 }
 
+// Convert snap converts a single documentsnapshot into a single item of type T
+export function convertSnap<T>(snap) {
+  console.log("snap", snap);
+  return <T>{
+    id: snap.id,
+    ...snap.data()
+  };
+}
+
 export function dbFieldUpdate(
   docPath: string,
   fieldName: string,
@@ -15,7 +25,7 @@ export function dbFieldUpdate(
   db: AngularFirestore
 ) {
   if (docPath && fieldName) {
-    console.log("dbFieldUpdate: ", docPath ,fieldName, newValue );
+    console.log("dbFieldUpdate: ", docPath, fieldName, newValue);
     let updateObject = {};
     updateObject[fieldName] = newValue;
     // console.log(updateObject);
@@ -24,6 +34,8 @@ export function dbFieldUpdate(
       .then(data => {
         // console.log(fieldName + " updated");
       })
-      .catch(error => console.log(docPath + ":" + fieldName + " update error ", error));
+      .catch(error =>
+        console.log(docPath + ":" + fieldName + " update error ", error)
+      );
   }
 }
