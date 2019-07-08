@@ -12,29 +12,10 @@ import OrderByDirection = firebase.firestore.OrderByDirection;
 export class TeamService {
   constructor(private afs: AngularFirestore) {}
 
-  findTeamById(id: string): Observable<Team> {
-    return this.afs
-      .collection("teams", ref =>
-        // use firebase.firestore.FieldPath.documentId() to get a collection containing a single document
-        // based on the document id. So I didn't have to import the firebase library I used the
-        // resolved value of "__name__"
-        ref.where("__name__", "==", id)
-      )
-      .snapshotChanges()
-      .pipe(
-        map(snaps => {
-          const teams = convertSnaps<Team>(snaps);
-          return teams.length == 1 ? teams[0] : undefined;
-        }),
-        first()
-      );
-  }
-
-  getById(id: string): Observable<Team> {
-    // this.afs.doc("/checklists/" + this.id).get();
+  findById(id: string): Observable<Team> {
     return this.afs
       .doc("/teams/" + id)
-      .get()
+      .snapshotChanges()
       .pipe(
         map(snap => {
           return convertSnap<Team>(snap);

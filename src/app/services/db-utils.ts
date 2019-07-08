@@ -14,7 +14,7 @@ export function convertSnap<T>(snap) {
   console.log("snap", snap);
   return <T>{
     id: snap.id,
-    ...snap.data()
+    ...snap.payload.data()
   };
 }
 

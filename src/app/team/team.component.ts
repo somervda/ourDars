@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { Team } from "../models/team.model";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, Route } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
@@ -20,7 +20,7 @@ export class TeamComponent implements OnInit {
   Crud = Crud;
 
   teamForm: FormGroup;
-  team$: Observable<Team>;
+  teamSubscription;
 
   constructor(
     private teamService: TeamService,
@@ -42,15 +42,18 @@ export class TeamComponent implements OnInit {
     if (this.crudAction == Crud.Create) {
       this.team = { name: "", description: "" };
     } else {
-      console.log(
-        "this.route.snapshot.data['team']",
-        this.route.snapshot.data["team"]
-      );
-      this.team = this.route.snapshot.data["team"];
+      this.team = { name: "", description: "" };
+      this.route.paramMap.subscribe(p => {
+      this.teamSubscription = this.teamService.findById(p.get("id")).subscribe(team =>
+        { 
+          this.team = team;
+          console.log("subscribed team",this.team);
+          this.teamForm.patchValue(this.team) 
+        });
+      });
+
     }
 
-    this.team$ = this.teamService.getById(this.team.id);
-    this.team$.subscribe(team => console.log("subscribed team", team));
 
     // Create form group and initalize with team values
     this.teamForm = this.fb.group({
