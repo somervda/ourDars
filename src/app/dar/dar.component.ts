@@ -65,14 +65,17 @@ export class DarComponent implements OnInit,OnDestroy {
     } else {
       this.dar = this.route.snapshot.data["dar"];
 
-
-            // Subscribe to dar to keep getting realtime updates
-            this.darSubscription = this.darService.findById(this.dar.id).subscribe(dar =>
-              { 
-                this.dar = dar; 
-                console.log("subscribed dar",this.dar);
-                this.darForm.patchValue(this.dar) 
-              });
+      // Subscribe to dar to keep getting realtime updates
+      this.darSubscription = this.darService.findById(this.dar.id).subscribe(dar =>
+        { 
+          this.dar = dar; 
+          console.log("subscribed dar",this.dar);
+          this.darForm.patchValue(this.dar) 
+          // Also need to patch the dateTargeted individually to apply 
+          // the toDate() transformation
+          this.darForm.controls["dateTargeted"].patchValue(this.dar.dateTargeted.toDate());
+         
+        });
     }
 
     // Create form group and initialize with team values
