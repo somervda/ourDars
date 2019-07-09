@@ -13,7 +13,7 @@ export function convertSnaps<T>(snaps) {
 export function convertSnap<T>(snap) {
   console.log("snap", snap);
   return <T>{
-    id: snap.id,
+    id: snap.payload.id,
     ...snap.payload.data()
   };
 }

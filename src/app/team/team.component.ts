@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 import { Team } from "../models/team.model";
 import { ActivatedRoute, Router, Route } from "@angular/router";
 import { TeamService } from "../services/team.service";
@@ -6,21 +6,21 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { Crud } from "../models/global.model";
 import { firestore } from "firebase/app";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
   selector: "app-team",
   templateUrl: "./team.component.html",
   styleUrls: ["./team.component.scss"]
 })
-export class TeamComponent implements OnInit {
+export class TeamComponent implements OnInit,OnDestroy {
   team: Team;
   crudAction: Crud;
   // Declare an instance of crud enum to use for checking crudAction value
   Crud = Crud;
 
   teamForm: FormGroup;
-  teamSubscription;
+  teamSubscription : Subscription;
 
   constructor(
     private teamService: TeamService,
@@ -42,16 +42,14 @@ export class TeamComponent implements OnInit {
     if (this.crudAction == Crud.Create) {
       this.team = { name: "", description: "" };
     } else {
-      this.team = { name: "", description: "" };
-      this.route.paramMap.subscribe(p => {
-      this.teamSubscription = this.teamService.findById(p.get("id")).subscribe(team =>
+      this.team = this.route.snapshot.data["team"];
+      console.log("team onInit", this.team)
+      this.teamSubscription = this.teamService.findById(this.team.id).subscribe(team =>
         { 
-          this.team = team;
+          this.team = team; 
           console.log("subscribed team",this.team);
           this.teamForm.patchValue(this.team) 
         });
-      });
-
     }
 
 
@@ -123,5 +121,9 @@ export class TeamComponent implements OnInit {
         );
       this.teamService.fieldUpdate(this.team.id, fieldName, newValue);
     }
+  }
+
+  ngOnDestroy() {
+    if (this.teamSubscription ) this.teamSubscription.unsubscribe();
   }
 }
