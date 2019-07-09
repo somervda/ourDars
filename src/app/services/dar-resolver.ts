@@ -7,6 +7,7 @@ import {
 import { DarService } from "./dar.service";
 import { Dar } from "../models/dar.model";
 import { Observable } from "rxjs";
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root"
@@ -19,6 +20,6 @@ export class DarResolver implements Resolve<Dar> {
     state: RouterStateSnapshot
   ): Observable<Dar> {
     const id = route.paramMap.get("id");
-    return this.darservice.findDarById(id);
+    return this.darservice.findById(id).pipe(first());
   }
 }

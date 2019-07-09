@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
@@ -13,13 +13,14 @@ import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-dar",
   templateUrl: "./dar.component.html",
   styleUrls: ["./dar.component.scss"]
 })
-export class DarComponent implements OnInit {
+export class DarComponent implements OnInit,OnDestroy {
   dar: Dar;
   crudAction: Crud;
   Crud = Crud;
@@ -28,6 +29,7 @@ export class DarComponent implements OnInit {
   darStatuses: Kvp[];
   darForm: FormGroup;
   team$;
+  darSubscription: Subscription;
 
   // testDate: Date;
 
@@ -62,6 +64,15 @@ export class DarComponent implements OnInit {
       };
     } else {
       this.dar = this.route.snapshot.data["dar"];
+
+
+            // Subscribe to dar to keep getting realtime updates
+            this.darSubscription = this.darService.findById(this.dar.id).subscribe(dar =>
+              { 
+                this.dar = dar; 
+                console.log("subscribed dar",this.dar);
+                this.darForm.patchValue(this.dar) 
+              });
     }
 
     // Create form group and initialize with team values
@@ -138,6 +149,10 @@ export class DarComponent implements OnInit {
         newValue
       );
     }
+  }
+
+  ngOnDestroy() {
+    if (this.darSubscription ) this.darSubscription.unsubscribe();
   }
 
 }

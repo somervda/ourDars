@@ -3,7 +3,7 @@ import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Dar } from "../models/dar.model";
 import { Observable } from "rxjs";
 import { map, first } from "rxjs/operators";
-import { convertSnaps, dbFieldUpdate } from "./db-utils";
+import { convertSnaps, dbFieldUpdate, convertSnap } from "./db-utils";
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
@@ -12,16 +12,14 @@ import OrderByDirection = firebase.firestore.OrderByDirection;
 export class DarService {
   constructor(private afs: AngularFirestore) {}
 
-  findDarById(id: string): Observable<Dar> {
+  findById(id: string): Observable<Dar> {
     return this.afs
-      .collection("dars", ref => ref.where("__name__", "==", id))
+      .doc("/dars/" + id)
       .snapshotChanges()
       .pipe(
-        map(snaps => {
-          const dars = convertSnaps<Dar>(snaps);
-          return dars.length == 1 ? dars[0] : undefined;
-        }),
-        first()
+        map(snap => {
+          return convertSnap<Dar>(snap);
+        })
       );
   }
 
