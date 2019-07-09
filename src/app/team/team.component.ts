@@ -43,7 +43,7 @@ export class TeamComponent implements OnInit,OnDestroy {
       this.team = { name: "", description: "" };
     } else {
       this.team = this.route.snapshot.data["team"];
-      console.log("team onInit", this.team)
+      // Subscribe to team to keep getting live updates
       this.teamSubscription = this.teamService.findById(this.team.id).subscribe(team =>
         { 
           this.team = team; 
@@ -55,10 +55,10 @@ export class TeamComponent implements OnInit,OnDestroy {
 
     // Create form group and initalize with team values
     this.teamForm = this.fb.group({
-      name: [this.team.name, [Validators.required]],
+      name: [this.team.name, [Validators.required,  Validators.minLength(3),Validators.maxLength(30)]],
       description: [
         this.team.description,
-        [Validators.required, Validators.minLength(10)]
+        [Validators.required, Validators.minLength(20), Validators.maxLength(500)]
       ]
     });
 

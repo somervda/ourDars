@@ -10,8 +10,14 @@
         placeholder="Team Name"
         required
       />
-      <mat-error>
+      <mat-error *ngIf="teamForm.controls['name'].hasError('required')">
         Team name is required.
+      </mat-error>
+      <mat-error *ngIf="teamForm.controls['name'].hasError('minlength')">
+        Team name must be at least 3 characters long.
+      </mat-error>
+      <mat-error *ngIf="teamForm.controls['name'].hasError('maxlength')">
+        Team name must be no more than 30 characters long.
       </mat-error>
     </mat-form-field>
 
@@ -30,7 +36,10 @@
         Description is required.
       </mat-error>
       <mat-error *ngIf="teamForm.controls['description'].hasError('minlength')">
-        Description must be at least 10 characters long.
+        Description must be at least 20 characters long.
+      </mat-error>
+      <mat-error *ngIf="teamForm.controls['description'].hasError('maxlength')">
+        Description must be no more than 500 characters long.
       </mat-error>
     </mat-form-field>
     <button
