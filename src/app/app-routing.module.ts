@@ -43,6 +43,7 @@ const routes: Routes = [
   {
     path: "team/:id",
     component: TeamComponent,
+    resolve: { team: TeamResolver },
     canActivate: [isAdminGuard]
   },
   {
