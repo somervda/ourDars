@@ -16,6 +16,7 @@ import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
 import { TeamResolver } from "./services/team-resolver";
 import { DarComponent } from "./dar/dar.component";
 import { DarResolver } from "./services/dar-resolver";
+import { DarfolderComponent } from "./darfolder/darfolder.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -53,6 +54,23 @@ const routes: Routes = [
     canActivate: [isAdminGuard]
   },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
+  {
+    path: "darfolder/create",
+    component: DarfolderComponent,
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: "darfolder/:id",
+    component: DarfolderComponent,
+    resolve: { dar: DarResolver },
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: "darfolder/delete/:id",
+    component: DarfolderComponent,
+    resolve: { dar: DarResolver },
+    canActivate: [isAdminGuard]
+  },
 
   {
     path: "dar/create",

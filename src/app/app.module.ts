@@ -32,7 +32,8 @@ import {
   MatFormFieldModule,
   MatSelectModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatTabsModule
   // MatDialogModule,
   // MatGridListModule
 } from "@angular/material";
@@ -52,6 +53,7 @@ import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
 import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
 import { DarComponent } from "./dar/dar.component";
+import { DarfolderComponent } from "./darfolder/darfolder.component";
 
 @NgModule({
   declarations: [
@@ -66,7 +68,8 @@ import { DarComponent } from "./dar/dar.component";
     TeamsComponent,
     TeamComponent,
     AdminDarsComponent,
-    DarComponent
+    DarComponent,
+    DarfolderComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,7 @@ import { DarComponent } from "./dar/dar.component";
     MatSelectModule,
     // MatMenuModule,
     // MatDividerModule,
-    // MatTabsModule,
+    MatTabsModule,
     // MatTableModule,
     // MatDialogModule,
     MatDatepickerModule,
