@@ -1,15 +1,7 @@
 <div class="page-container">
-  <h1>Decision (DAR)</h1>
-
   <form class="standard-form" [formGroup]="darForm">
     <mat-form-field class="full-width">
-      <input
-        matInput
-        formControlName="title"
-        (change)="onFieldUpdate('title')"
-        placeholder="Title"
-        required
-      />
+      <input matInput formControlName="title" (change)="onFieldUpdate('title')" placeholder="Title" required />
       <mat-error *ngIf="darForm.controls['title'].hasError('required')">
         Title is required.
       </mat-error>
@@ -22,16 +14,8 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <textarea
-        matInput
-        formControlName="description"
-        (change)="onFieldUpdate('description')"
-        matAutosizeMinRows="7"
-        matAutosizeMaxRows="20"
-        matTextareaAutosize
-        placeholder="Description"
-        required
-      ></textarea>
+      <textarea matInput formControlName="description" (change)="onFieldUpdate('description')" matAutosizeMinRows="7"
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Description" required></textarea>
       <mat-error *ngIf="darForm.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
@@ -45,10 +29,7 @@
 
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
-      <mat-select
-        formControlName="darStatus"
-        (selectionChange)="onFieldUpdate('darStatus')"
-      >
+      <mat-select formControlName="darStatus" (selectionChange)="onFieldUpdate('darStatus')">
         <mat-option *ngFor="let item of darStatuses" [value]="item.key">
           {{ item.value | titlecase }}
         </mat-option>
@@ -60,10 +41,7 @@
 
     <mat-form-field class="half-width">
       <mat-label>Methodology</mat-label>
-      <mat-select
-        formControlName="darMethod"
-        (selectionChange)="onFieldUpdate('darMethod')"
-      >
+      <mat-select formControlName="darMethod" (selectionChange)="onFieldUpdate('darMethod')">
         <mat-option *ngFor="let item of darMethods" [value]="item.key">
           {{ item.value }}
         </mat-option>
@@ -75,27 +53,16 @@
     </mat-form-field>
 
     <mat-form-field class="half-width">
-      <input
-        matInput
-        placeholder="Target Date"
-        formControlName="dateTargeted"
-        [matDatepicker]="myDatepicker"
-        (dateChange)="onFieldUpdate('dateTargeted','Timestamp')"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="myDatepicker"
-      ></mat-datepicker-toggle>
+      <input matInput placeholder="Target Date" formControlName="dateTargeted" [matDatepicker]="myDatepicker"
+        (dateChange)="onFieldUpdate('dateTargeted','Timestamp')" />
+      <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #myDatepicker></mat-datepicker>
       <mat-hint>When the decision should be complete</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="half-width">
       <mat-label>Team</mat-label>
-      <mat-select
-        (selectionChange)="onFieldUpdate('tid')"
-        formControlName="tid"
-      >
+      <mat-select (selectionChange)="onFieldUpdate('tid')" formControlName="tid">
         <mat-option value="NA">N/A</mat-option>
         <mat-option *ngFor="let team of team$ | async" [value]="team.id">
           {{ team.name }}
@@ -105,15 +72,8 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <textarea
-        matInput
-        formControlName="risks"
-        (change)="onFieldUpdate('risks')"
-        matAutosizeMinRows="4"
-        matAutosizeMaxRows="20"
-        matTextareaAutosize
-        placeholder="Risks"
-      ></textarea>
+      <textarea matInput formControlName="risks" (change)="onFieldUpdate('risks')" matAutosizeMinRows="4"
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Risks"></textarea>
       <mat-error *ngIf="darForm.controls['risks'].hasError('maxlength')">
         Risks must be less than 10000 characters long.
       </mat-error>
@@ -121,15 +81,8 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <textarea
-        matInput
-        formControlName="constraints"
-        (change)="onFieldUpdate('constraints')"
-        matAutosizeMinRows="4"
-        matAutosizeMaxRows="20"
-        matTextareaAutosize
-        placeholder="Constraints"
-      ></textarea>
+      <textarea matInput formControlName="constraints" (change)="onFieldUpdate('constraints')" matAutosizeMinRows="4"
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Constraints"></textarea>
       <mat-error *ngIf="darForm.controls['constraints'].hasError('maxlength')">
         Constraints must be less than 10000 characters long.
       </mat-error>
@@ -137,15 +90,8 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <textarea
-        matInput
-        formControlName="cause"
-        (change)="onFieldUpdate('cause')"
-        matAutosizeMinRows="4"
-        matAutosizeMaxRows="20"
-        matTextareaAutosize
-        placeholder="Cause"
-      ></textarea>
+      <textarea matInput formControlName="cause" (change)="onFieldUpdate('cause')" matAutosizeMinRows="4"
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Cause"></textarea>
       <mat-error *ngIf="darForm.controls['cause'].hasError('maxlength')">
         Cause must be less than 10000 characters long.
       </mat-error>
@@ -154,25 +100,13 @@
 
     <br />
     <br />
-    <button
-      mat-raised-button
-      color="primary"
-      *ngIf="crudAction == Crud.Create"
-      [disabled]="!darForm.valid"
-      (click)="onCreate()"
-      id="btnCreate"
-    >
+    <button mat-raised-button color="primary" *ngIf="crudAction == Crud.Create" [disabled]="!darForm.valid"
+      (click)="onCreate()" id="btnCreate">
       <mat-icon>add</mat-icon>
       Create
     </button>
 
-    <button
-      mat-raised-button
-      color="primary"
-      *ngIf="crudAction == Crud.Delete"
-      (click)="onDelete()"
-      id="btnDelete"
-    >
+    <button mat-raised-button color="primary" *ngIf="crudAction == Crud.Delete" (click)="onDelete()" id="btnDelete">
       <mat-icon>clear</mat-icon>
       Delete
     </button>

@@ -1,21 +1,41 @@
 <div class="page-container">
   <mat-tab-group>
-    <mat-tab label="Header">
+    <mat-tab label="DAR">
+      <ng-template matTabLabel>
+        <div matTooltip="Basic information (Header)">
+          <mat-icon>description</mat-icon> DAR
+        </div>
+      </ng-template>
       <ng-template matTabContent>
         <app-dar></app-dar>
       </ng-template>
     </mat-tab>
     <mat-tab label="Users">
+      <ng-template matTabLabel>
+        <div matTooltip="DAR Participants.">
+          <mat-icon>people</mat-icon> Users
+        </div>
+      </ng-template>
       <ng-template matTabContent>
         The Second Content
       </ng-template>
     </mat-tab>
     <mat-tab label="Criteria">
+      <ng-template matTabLabel>
+        <div matTooltip="Selection Criteria.">
+          <mat-icon>check_circle</mat-icon> Criteria
+        </div>
+      </ng-template>
       <ng-template matTabContent>
         Criteria
       </ng-template>
     </mat-tab>
     <mat-tab label="Solutions">
+      <ng-template matTabLabel>
+        <div matTooltip="Possible solutions.">
+          <mat-icon>list_alt</mat-icon> Solutions
+        </div>
+      </ng-template>
       <ng-template matTabContent>
         The third Content
       </ng-template>

@@ -13,14 +13,14 @@ import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-dar",
   templateUrl: "./dar.component.html",
   styleUrls: ["./dar.component.scss"]
 })
-export class DarComponent implements OnInit,OnDestroy {
+export class DarComponent implements OnInit, OnDestroy {
   dar: Dar;
   crudAction: Crud;
   Crud = Crud;
@@ -66,15 +66,17 @@ export class DarComponent implements OnInit,OnDestroy {
       this.dar = this.route.snapshot.data["dar"];
 
       // Subscribe to dar to keep getting realtime updates
-      this.darSubscription = this.darService.findById(this.dar.id).subscribe(dar =>
-        { 
-          this.dar = dar; 
-          console.log("subscribed dar",this.dar);
-          this.darForm.patchValue(this.dar) 
-          // Also need to patch the dateTargeted individually to apply 
+      this.darSubscription = this.darService
+        .findById(this.dar.id)
+        .subscribe(dar => {
+          this.dar = dar;
+          console.log("subscribed dar", this.dar);
+          this.darForm.patchValue(this.dar);
+          // Also need to patch the dateTargeted individually to apply
           // the toDate() transformation
-          this.darForm.controls["dateTargeted"].patchValue(this.dar.dateTargeted.toDate());
-         
+          this.darForm.controls["dateTargeted"].patchValue(
+            this.dar.dateTargeted.toDate()
+          );
         });
     }
 
@@ -98,23 +100,30 @@ export class DarComponent implements OnInit,OnDestroy {
       ],
       darStatus: [this.dar.darStatus, [Validators.required]],
       darMethod: [this.dar.darMethod, [Validators.required]],
-      dateTargeted: [this.dar.dateTargeted ? this.dar.dateTargeted.toDate() : ''],
-      tid: [this.dar.tid ? this.dar.tid : 'NA'],
+      dateTargeted: [
+        this.dar.dateTargeted ? this.dar.dateTargeted.toDate() : ""
+      ],
+      tid: [this.dar.tid ? this.dar.tid : "NA"],
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
       cause: [this.dar.cause, [Validators.maxLength(10000)]]
     });
 
-    console.log("dateTargeted",this.dar.dateTargeted ,
-     "this.dar.dateTargeted.toDate()", this.dar.dateTargeted.toDate(),
-     ' this.darForm.get("dateTargeted").value', this.darForm.get("dateTargeted").value )
+    console.log(
+      "dateTargeted",
+      this.dar.dateTargeted,
+      "this.dar.dateTargeted.toDate()",
+      this.dar.dateTargeted.toDate(),
+      ' this.darForm.get("dateTargeted").value',
+      this.darForm.get("dateTargeted").value
+    );
 
-   // Mark all fields as touched to trigger validation on initial entry to the fields
+    // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
       for (const field in this.darForm.controls) {
         this.darForm.get(field).markAsTouched();
       }
-    } 
+    }
   }
 
   // Updaters
@@ -136,26 +145,26 @@ export class DarComponent implements OnInit,OnDestroy {
       });
   }
 
-  onFieldUpdate(fieldName: string, toType ?: string) {
+  onFieldUpdate(fieldName: string, toType?: string) {
     if (
       this.darForm.get(fieldName).valid &&
       this.dar.id != "" &&
       this.crudAction != Crud.Delete
-    ){
+    ) {
       let newValue = this.darForm.get(fieldName).value;
       // Do any type conversions before storing value
       if (toType && toType == "Timestamp")
-        newValue = firestore.Timestamp.fromDate(this.darForm.get(fieldName).value);
-      this.darService.fieldUpdate(
-        this.dar.id,
-        fieldName,
-        newValue
-      );
+        newValue = firestore.Timestamp.fromDate(
+          this.darForm.get(fieldName).value
+        );
+      this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
   }
 
   ngOnDestroy() {
-    if (this.darSubscription ) this.darSubscription.unsubscribe();
+    if (this.darSubscription) {
+      this.darSubscription.unsubscribe();
+      console.log("Unsubscribe DAR");
+    }
   }
-
 }
