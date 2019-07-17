@@ -24,17 +24,14 @@ export class DarsolutionService {
       );
   }
 
-  findDarsolutions(
+  findAllDarsolutions(
     did : string,
-    filter = "",
-    sortField,
-    sortOrder: OrderByDirection,
     pageSize
   ): Observable<Darsolution[]> {
-    // console.log("findDarsolutions", sortField, sortOrder, pageSize);
+    console.log("findDarsolutions", did,  pageSize);
     return this.afs
     .collection("dars").doc(did).collection("darSolutions", ref =>
-      ref.orderBy(sortField, sortOrder).limit(pageSize)
+      ref.limit(pageSize)
   )
       .snapshotChanges()
       .pipe(
