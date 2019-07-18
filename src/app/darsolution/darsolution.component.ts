@@ -1,6 +1,6 @@
 import { DarsolutionService } from './../services/darsolution.service';
 import { DarService } from './../services/dar.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Darsolution } from '../models/darsolution.model';
 import { firestore } from "firebase/app";
@@ -12,7 +12,8 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './darsolution.component.html',
   styleUrls: ['./darsolution.component.scss']
 })
-export class DarsolutionComponent implements OnInit, OnDestroy {
+
+export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() did: string;
   @Input() dsid: string;
   @Input() crudAction: Crud;
@@ -30,6 +31,7 @@ export class DarsolutionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log("darsolution onInit");
     if (!this.darsolution)
       this.darsolution = { name: "", description: "",evalutionNotes: "" };
     if (!this.crudAction)
@@ -39,6 +41,7 @@ export class DarsolutionComponent implements OnInit, OnDestroy {
       // load darsolution from firestore
       this.darsolution$ = this.darsolutionService.findById(this.did,this.dsid)
       .subscribe(ds => {
+        console.log("darsolution subscription",ds);
         this.darsolution = ds;
       });
     }
@@ -55,9 +58,22 @@ export class DarsolutionComponent implements OnInit, OnDestroy {
       [ Validators.maxLength(1000)]
     ]
   });
-  for (const field in this.form.controls) {
-    this.form.get(field).markAsTouched();
+  // for (const field in this.form.controls) {
+  //   this.form.get(field).markAsTouched();
+  // }
   }
+
+  ngOnChanges() {
+    console.log("ngOnChanges did:",this.did," dsid:",this.dsid);
+
+    if (this.darsolution$) this.darsolution$.unsubscribe();
+
+    this.darsolution$ = this.darsolutionService.findById(this.did,this.dsid)
+    .subscribe(ds => {
+      console.log("darsolution subscription",ds);
+      this.darsolution = ds;
+      this.form.patchValue(this.darsolution);
+    });
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {

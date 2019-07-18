@@ -1,5 +1,5 @@
 <div class="page-container">
-<!-- <div class="table-container"> -->
+<div class="table-container">
   <!-- <mat-card> -->
   <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
 
@@ -28,7 +28,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 <!-- </mat-card> -->
-  <!-- </div> -->
+  </div>
   <br>
 
   <app-darsolution [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction"></app-darsolution>

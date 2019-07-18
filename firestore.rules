@@ -54,11 +54,10 @@ service cloud.firestore {
         }
     // Darsolutions document rules
     // 
-        match /dars/{dar}/darSolutions/{darsolution} {
+        match /dars/{dar}/darSolutions/{darSolution} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
-
 
     // general rule - only logged on users can access any firestore document
     // match /{document=**} {

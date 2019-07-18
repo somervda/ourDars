@@ -41,6 +41,7 @@ export class DarsolutionsComponent implements OnInit , OnDestroy{
   selectSolution(dsid : string) {
     this.crudAction = Crud.Update;
     this.dsid = dsid;
+    console.log("selectSolution"," crudAction:",this.crudAction," did:",this.dar.id," dsid:",this.dsid);
 
   }
 

@@ -1,8 +1,7 @@
 
 <!-- <h4>Solution Details</h4> -->
 <mat-card>
-did: {{did}} , dsid: {{dsid}}
-<form class="standard-form" [formGroup]="form">
+<form class="standard-form" [formGroup]="form" *ngIf="dsid || crudAction == Crud.Create">
     <mat-form-field class="full-width">
       <input
         matInput
@@ -43,27 +42,29 @@ did: {{did}} , dsid: {{dsid}}
         Description must be no more than 1000 characters long.
       </mat-error>
     </mat-form-field>
-    <button
-      mat-raised-button
-      *ngIf="crudAction == Crud.Create"
-      color="primary"
-      [disabled]="!form.valid"
-      (click)="onCreate()"
-      id="btnCreate"
-    ><mat-icon>add</mat-icon>
-      Create
-    </button>
-
-    <button
-    mat-raised-button
-    color="primary"
-    *ngIf="crudAction == Crud.Delete"
-    (click)="onDelete()"
-    id="btnDelete"
-  ><mat-icon>clear</mat-icon>
-    Delete
-  </button>
-
+ 
   </form>
+
+  <button
+  mat-raised-button
+  *ngIf="crudAction == Crud.Create"
+  color="primary"
+  [disabled]="!form.valid"
+  (click)="onCreate()"
+  id="btnCreate"
+><mat-icon>add</mat-icon>
+  Create
+</button>
+
+<button
+mat-raised-button
+color="primary"
+*ngIf="crudAction == Crud.Delete"
+(click)="onDelete()"
+id="btnDelete"
+><mat-icon>clear</mat-icon>
+Delete
+</button>
+
 
 </mat-card>
