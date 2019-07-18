@@ -1,3 +1,69 @@
-<p>
-  darsolution works!
-</p>
+
+<!-- <h4>Solution Details</h4> -->
+<mat-card>
+did: {{did}} , dsid: {{dsid}}
+<form class="standard-form" [formGroup]="form">
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        formControlName="name"
+        (change)="onFieldUpdate('name')"
+        placeholder="Solution Name"
+        required
+      />
+      <mat-error *ngIf="form.controls['name'].hasError('required')">
+        Team name is required.
+      </mat-error>
+      <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+        Team name must be at least 10 characters long.
+      </mat-error>
+      <mat-error *ngIf="form.controls['name'].hasError('maxlength')">
+        Team name must be no more than 40 characters long.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        formControlName="description"
+        (change)="onFieldUpdate('description')"
+        matAutosizeMinRows="7"
+        matAutosizeMaxRows="20"
+        matTextareaAutosize
+        placeholder="Solution Description"
+        required
+      ></textarea>
+      <mat-error *ngIf="form.controls['description'].hasError('required')">
+        Description is required.
+      </mat-error>
+      <mat-error *ngIf="form.controls['description'].hasError('minlength')">
+        Description must be at least 20 characters long.
+      </mat-error>
+      <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+        Description must be no more than 1000 characters long.
+      </mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      *ngIf="crudAction == Crud.Create"
+      color="primary"
+      [disabled]="!form.valid"
+      (click)="onCreate()"
+      id="btnCreate"
+    ><mat-icon>add</mat-icon>
+      Create
+    </button>
+
+    <button
+    mat-raised-button
+    color="primary"
+    *ngIf="crudAction == Crud.Delete"
+    (click)="onDelete()"
+    id="btnDelete"
+  ><mat-icon>clear</mat-icon>
+    Delete
+  </button>
+
+  </form>
+
+</mat-card>

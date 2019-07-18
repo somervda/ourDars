@@ -1,4 +1,11 @@
 table {
     width: 100%;
-    max-height: 75px;
+  }
+
+  .table-container {
+    position: relative;
+    max-height: 200px;
+    overflow: auto;
+    border: 1px;
+    border-style: solid;
   }

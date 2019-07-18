@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Dar } from '../models/dar.model';
 import { Darsolution } from '../models/darsolution.model';
+import { Crud } from '../models/global.model';
 
 @Component({
   selector: 'app-darsolutions',
@@ -17,7 +18,10 @@ export class DarsolutionsComponent implements OnInit , OnDestroy{
   dar : Dar;
   darsolutions$ : Subscription;
   darsolutions : Observable<Darsolution[]>;
-  displayedColumns: string[] = ['name','description'];
+  displayedColumns: string[] = ['name','id'];
+  dsid : string;
+  crudAction = Crud.Update;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +39,15 @@ export class DarsolutionsComponent implements OnInit , OnDestroy{
   }
 
   selectSolution(dsid : string) {
-    console.log("selectSolution",dsid);
+    this.crudAction = Crud.Update;
+    this.dsid = dsid;
+
+  }
+
+  selectDeleteSolution(dsid : string) {
+    this.crudAction = Crud.Delete;
+    this.dsid = dsid;
+
   }
 
   ngOnDestroy() {
