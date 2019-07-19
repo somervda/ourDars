@@ -1,6 +1,6 @@
 <div class="page-container">
 <div class="table-container">
-  <!-- <mat-card> -->
+
   <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -24,12 +24,13 @@
 
 
    
-    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-<!-- </mat-card> -->
+
   </div>
-  <br>
+  <button style="width: 100%;margin-top: 5px;" mat-button (click)="onCreateNew()"><mat-icon>add</mat-icon>New Solution</button>
+
 
   <app-darsolution [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction"></app-darsolution>
 </div>

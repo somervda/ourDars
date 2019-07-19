@@ -1,7 +1,7 @@
 
 <!-- <h4>Solution Details</h4> -->
-<mat-card>
-<form class="standard-form" [formGroup]="form" *ngIf="dsid || crudAction == Crud.Create">
+<mat-card class="container-card" *ngIf="dsid || crudAction == Crud.Create">
+<form class="standard-form" [formGroup]="form">
     <mat-form-field class="full-width">
       <input
         matInput

@@ -65,15 +65,21 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges() {
     console.log("ngOnChanges did:",this.did," dsid:",this.dsid);
+    if (this.dsid) {
+      if (this.darsolution$) this.darsolution$.unsubscribe();
 
-    if (this.darsolution$) this.darsolution$.unsubscribe();
+      this.darsolution$ = this.darsolutionService.findById(this.did,this.dsid)
+      .subscribe(ds => {
+        console.log("darsolution subscription",ds);
+        this.darsolution = ds;
+        this.form.patchValue(this.darsolution);
+      });
+    }
+    else {
+    this.darsolution = { name: "", description: "",evalutionNotes: "" };
+    this.form.patchValue(this.darsolution);
+    }
 
-    this.darsolution$ = this.darsolutionService.findById(this.did,this.dsid)
-    .subscribe(ds => {
-      console.log("darsolution subscription",ds);
-      this.darsolution = ds;
-      this.form.patchValue(this.darsolution);
-    });
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {

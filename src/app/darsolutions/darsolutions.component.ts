@@ -51,6 +51,11 @@ export class DarsolutionsComponent implements OnInit , OnDestroy{
 
   }
 
+  onCreateNew() {
+    this.crudAction = Crud.Create;
+    this.dsid = undefined;
+  }
+
   ngOnDestroy() {
     console.log("unsubscribe darsolutions",this.darsolutions$);
     if (this.darsolutions$) this.darsolutions$.unsubscribe();
