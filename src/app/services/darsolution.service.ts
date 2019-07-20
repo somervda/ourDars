@@ -15,10 +15,10 @@ export class DarsolutionService {
 
   findById(did: string,dsid : string): Observable<Darsolution> {
     // console.log("darsoluionservice findById"," did:",did," dsid:",dsid);
-    const finder = "/dars/" + did + "/darSolutions/" + dsid;
-    console.log("darsoluionservice findById",finder);
+    const docLocation = "/dars/" + did + "/darSolutions/" + dsid;
+    console.log("darsoluionservice findById",docLocation);
     return this.afs
-      .doc(finder)
+      .doc(docLocation)
       .snapshotChanges()
       .pipe(
         map(snap => {
@@ -46,19 +46,22 @@ export class DarsolutionService {
   }
 
   fieldUpdate(did: string ,dsid: string, fieldName: string, newValue: any) {
+    console.log("darsolution field update",did,dsid);
     if (did && dsid && fieldName) {
+      const docLocation = "/dars/" + did + "/darSolutions/" + dsid;
       const updateObject = {};
-      dbFieldUpdate("/dars/" + did + "/darsolutions/" + dsid, fieldName, newValue, this.afs);
+      dbFieldUpdate(docLocation, fieldName, newValue, this.afs);
     }
   }
 
   createDarsolution(did: string, darsolution: Darsolution): Promise<DocumentReference> {
-    return this.afs.collection("/dars/" + did + "/darsolutions/").add(darsolution);
+    console.log("createDarsolution",did,darsolution);
+    return this.afs.collection("/dars/" + did + "/darSolutions/").add(darsolution);
   }
 
   deleteDarsolution(did:string, dsid: string): Promise<void> {
     return this.afs
-      .collection("/dars/" + did + "/darsolutions/")
+      .collection("/dars/" + did + "/darSolutions/")
       .doc(dsid)
       .delete();
   }

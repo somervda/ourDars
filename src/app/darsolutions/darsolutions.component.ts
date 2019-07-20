@@ -52,8 +52,15 @@ export class DarsolutionsComponent implements OnInit , OnDestroy{
   }
 
   onCreateNew() {
+    console.log("oncreatenew");
+    // Toggle action to for an onChange event in the darSolution component
     this.crudAction = Crud.Create;
     this.dsid = undefined;
+  }
+
+  getCurrentDate() : number {
+    const now = new Date();
+    return now.getUTCMilliseconds();
   }
 
   ngOnDestroy() {
