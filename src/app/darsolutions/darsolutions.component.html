@@ -1,35 +1,36 @@
 <div class="page-container">
-<div class="table-container">
+  <div class="table-container">
 
-  <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
+    <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
 
-    <!--- Note that these columns can be defined in any order.
+      <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-  
-
-    <ng-container matColumnDef="name" >
-      <th mat-header-cell *matHeaderCellDef>Name (Click to edit)</th>
-      <td mat-cell *matCellDef="let element" style="width: 100%">
-        <button  mat-button (click)="selectSolution(element.id)" style="width: 100%;text-align: left;"> {{element.name}} </button> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef ></th>
-      <td mat-cell class="deleteRow" *matCellDef="let element">
-        <mat-icon 
-        matTooltip="Delete Solution" 
-        (click)="selectDeleteSolution(element.id)">clear</mat-icon>
-      </td>
-    </ng-container>
 
 
-   
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name (Click to edit)</th>
+        <td mat-cell *matCellDef="let element" style="width: 100%">
+          <button mat-button (click)="selectSolution(element.id)" style="width: 100%;text-align: left;">
+            {{element.name}} </button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell class="deleteRow" *matCellDef="let element">
+          <mat-icon matTooltip="Delete Solution" (click)="selectDeleteSolution(element.id)">clear</mat-icon>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
   </div>
-  <button style="width: 100%;margin-top: 5px;" mat-button (click)="onCreateNew()"><mat-icon>add</mat-icon>New Solution</button>
+  <button style="margin-top: 5px;" mat-raised-button (click)="onCreateNew()">
+    <mat-icon>add</mat-icon>New Solution
+  </button>
 
 
   <app-darsolution [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction"></app-darsolution>
