@@ -1,15 +1,8 @@
-
 <!-- <h4>Solution Details</h4> -->
-<mat-card class="container-card" *ngIf="dsid || crudAction == Crud.Create">
-<form class="standard-form" [formGroup]="form">
+<mat-card class="container-card" *ngIf="_dsid || _crudAction == Crud.Create">
+  <form class="standard-form" [formGroup]="form">
     <mat-form-field class="full-width">
-      <input
-        matInput
-        formControlName="name"
-        (change)="onFieldUpdate('name')"
-        placeholder="Solution Name"
-        required
-      />
+      <input matInput formControlName="name" (change)="onFieldUpdate('name')" placeholder="Solution Name" required />
       <mat-error *ngIf="form.controls['name'].hasError('required')">
         Team name is required.
       </mat-error>
@@ -22,16 +15,8 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <textarea
-        matInput
-        formControlName="description"
-        (change)="onFieldUpdate('description')"
-        matAutosizeMinRows="7"
-        matAutosizeMaxRows="20"
-        matTextareaAutosize
-        placeholder="Solution Description"
-        required
-      ></textarea>
+      <textarea matInput formControlName="description" (change)="onFieldUpdate('description')" matAutosizeMinRows="7"
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Solution Description" required></textarea>
       <mat-error *ngIf="form.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
@@ -42,29 +27,19 @@
         Description must be no more than 1000 characters long.
       </mat-error>
     </mat-form-field>
- 
+
   </form>
 
-  <button
-  mat-raised-button
-  *ngIf="crudAction == Crud.Create"
-  color="primary"
-  [disabled]="!form.valid"
-  (click)="onCreate()"
-  id="btnCreate"
-><mat-icon>add</mat-icon>
-  Create
-</button>
+  <button mat-raised-button *ngIf="_crudAction == Crud.Create" color="primary" [disabled]="!form.valid"
+    (click)="onCreate()" id="btnCreate">
+    <mat-icon>add</mat-icon>
+    Create
+  </button>
 
-<button
-mat-raised-button
-color="primary"
-*ngIf="crudAction == Crud.Delete"
-(click)="onDelete()"
-id="btnDelete"
-><mat-icon>clear</mat-icon>
-Delete
-</button>
+  <button mat-raised-button color="primary" *ngIf="_crudAction == Crud.Delete" (click)="onDelete()" id="btnDelete">
+    <mat-icon>clear</mat-icon>
+    Delete
+  </button>
 
 
 </mat-card>

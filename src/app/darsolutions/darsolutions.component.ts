@@ -43,6 +43,7 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
   }
 
   selectSolution(dsid: string) {
+    this.forCD++;
     this.crudAction = Crud.Update;
     this.dsid = dsid;
     console.log(
@@ -57,6 +58,7 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
   }
 
   selectDeleteSolution(dsid: string) {
+    this.forCD++;
     this.crudAction = Crud.Delete;
     this.dsid = dsid;
   }
