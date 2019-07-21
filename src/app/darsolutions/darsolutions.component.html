@@ -1,10 +1,16 @@
 <div class="page-container">
   <div class="table-container">
-
+<div *ngIf="(darsolutions | async)?.length ==0">No Solutions defined. Press "New Solution" to create solutions for this decision.</div>
     <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
 
       <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
+      <ng-container matColumnDef="evaluate">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" >
+
+        <button mat-button ><i matTooltip="Perform evaluation of this solution" class="material-icons">visibility</i></button> </td>
+    </ng-container>
 
 
       <ng-container matColumnDef="name">
@@ -14,7 +20,7 @@
             {{element.name}} </button> </td>
       </ng-container>
 
-      <ng-container matColumnDef="id">
+      <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell class="deleteRow" *matCellDef="let element">
           <mat-icon matTooltip="Delete Solution" (click)="selectDeleteSolution(element.id)">clear</mat-icon>

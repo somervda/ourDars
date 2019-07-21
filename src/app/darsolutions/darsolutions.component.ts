@@ -18,7 +18,7 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
   dar: Dar;
   darsolutions$: Subscription;
   darsolutions: Observable<Darsolution[]>;
-  displayedColumns: string[] = ["name", "id"];
+  displayedColumns: string[] = ["evaluate","name", "delete"];
   dsid: string;
   crudAction = Crud.Update;
   forCD = 0;
@@ -39,22 +39,12 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
       this.dar.id,
       100
     );
-    console.log("darsolutions$", this.darsolutions$);
   }
 
   selectSolution(dsid: string) {
     this.forCD++;
     this.crudAction = Crud.Update;
     this.dsid = dsid;
-    console.log(
-      "selectSolution",
-      " crudAction:",
-      this.crudAction,
-      " did:",
-      this.dar.id,
-      " dsid:",
-      this.dsid
-    );
   }
 
   selectDeleteSolution(dsid: string) {
@@ -67,11 +57,9 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
     this.forCD++;
     // Toggle action to for an onChange event in the darSolution component
     this.crudAction = Crud.Create;
-    console.log("oncreatenew", this.crudAction, this.dsid, this.forCD);
   }
 
   ngOnDestroy() {
-    console.log("unsubscribe darsolutions", this.darsolutions$);
     if (this.darsolutions$) this.darsolutions$.unsubscribe();
   }
 }

@@ -19,6 +19,8 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() did: string;
   @Input() dsid: string;
   @Input() crudAction: Crud;
+  // Update dummy value with new value each time component is 
+  // updated from parent component to force OnChange to fire.
   @Input() dummyValue: number;
   _did: string;
   _dsid: string;
@@ -36,46 +38,14 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    console.log("darsolution onInit");
+    // console.log("darsolution onInit");
     this.resetLocalValues();
-    if (!this.darsolution)
-      this.darsolution = { name: "", description: "", evaluationNotes: "" };
-
-    // Create form group and initialize with  values
-    this.form = this.fb.group({
-      name: [
-        this.darsolution.name,
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(40)
-        ]
-      ],
-      description: [
-        this.darsolution.description,
-        [
-          Validators.required,
-          Validators.minLength(20),
-          Validators.maxLength(1000)
-        ]
-      ],
-      evaluationNotes: [
-        this.darsolution.evaluationNotes,
-        [Validators.maxLength(1000)]
-      ]
-    });
   }
 
   ngOnChanges() {
-    console.log(
-      "ngOnChanges did:",
-      this.did,
-      " dsid:",
-      this.dsid,
-      " crudAction:",
-      this.crudAction
-    );
     this.resetLocalValues();
+    this.createForm();
+
 
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
       if (this.darsolution$) this.darsolution$.unsubscribe();
@@ -83,12 +53,18 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
       this.darsolution$ = this.darsolutionService
         .findById(this._did, this._dsid)
         .subscribe(ds => {
-          console.log("darsolution subscription", ds);
           this.darsolution = ds;
           this.form.patchValue(this.darsolution);
         });
     }
     if (this.form) this.form.patchValue(this.darsolution);
+    if (this._crudAction == Crud.Update) {
+      // Check for validation errors all the time
+      for (const field in this.form.controls) {
+        this.form.get(field).markAsTouched();
+      }
+    }
+
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {
@@ -111,7 +87,7 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onCreate() {
-    console.log("onCreate");
+
     for (const field in this.form.controls) {
       this.darsolution[field] = this.form.get(field).value;
     }
@@ -135,7 +111,6 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onDelete() {
-    console.log("onDelete");
     const name = this.darsolution.name;
     this.darsolutionService
       .deleteDarsolution(this._did, this._dsid)
@@ -158,7 +133,33 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
     this._crudAction = this.crudAction;
     this.darsolution = { name: "", description: "", evaluationNotes: "" };
 
-    console.log("copyInputValues", this._did, this._dsid, this._crudAction);
+  }
+
+  createForm() {
+    
+    // Create form group and initialize with  values
+    this.form = this.fb.group({
+      name: [
+        this.darsolution.name,
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(40)
+        ]
+      ],
+      description: [
+        this.darsolution.description,
+        [
+          Validators.required,
+          Validators.minLength(20),
+          Validators.maxLength(1000)
+        ]
+      ],
+      evaluationNotes: [
+        this.darsolution.evaluationNotes,
+        [Validators.maxLength(1000)]
+      ]
+    });
   }
 
   ngOnDestroy() {

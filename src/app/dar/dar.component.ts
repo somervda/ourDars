@@ -70,7 +70,7 @@ export class DarComponent implements OnInit, OnDestroy {
         .findById(this.dar.id)
         .subscribe(dar => {
           this.dar = dar;
-          console.log("subscribed dar", this.dar);
+          // console.log("subscribed dar", this.dar);
           this.darForm.patchValue(this.dar);
           // Also need to patch the dateTargeted individually to apply
           // the toDate() transformation
@@ -109,14 +109,14 @@ export class DarComponent implements OnInit, OnDestroy {
       cause: [this.dar.cause, [Validators.maxLength(10000)]]
     });
 
-    console.log(
-      "dateTargeted",
-      this.dar.dateTargeted,
-      "this.dar.dateTargeted.toDate()",
-      this.dar.dateTargeted.toDate(),
-      ' this.darForm.get("dateTargeted").value',
-      this.darForm.get("dateTargeted").value
-    );
+    // console.log(
+    //   "dateTargeted",
+    //   this.dar.dateTargeted,
+    //   "this.dar.dateTargeted.toDate()",
+    //   this.dar.dateTargeted.toDate(),
+    //   ' this.darForm.get("dateTargeted").value',
+    //   this.darForm.get("dateTargeted").value
+    // );
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
@@ -130,7 +130,7 @@ export class DarComponent implements OnInit, OnDestroy {
 
   onCreate() {}
   onDelete() {
-    console.log("delete", this.dar.id);
+    // console.log("delete", this.dar.id);
 
     this.darService
       .deleteDar(this.dar.id)
@@ -164,7 +164,7 @@ export class DarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.darSubscription) {
       this.darSubscription.unsubscribe();
-      console.log("Unsubscribe DAR");
+      // console.log("Unsubscribe DAR");
     }
   }
 }

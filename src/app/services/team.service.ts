@@ -37,7 +37,7 @@ export class TeamService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findTeams", convertSnaps<Team>(snaps));
+          // console.log("findTeams", convertSnaps<Team>(snaps));
           return convertSnaps<Team>(snaps);
         }),
         first()
