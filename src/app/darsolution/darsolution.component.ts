@@ -37,20 +37,9 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log("darsolution onInit");
-    this.copyInputValues();
+    this.resetLocalValues();
     if (!this.darsolution)
-      this.darsolution = { name: "", description: "", evalutionNotes: "" };
-    //if (!this.crudAction) this.crudAction = Crud.Create;
-
-    // if (this.crudAction == Crud.Update || this.crudAction == Crud.Delete)
-    // {
-    //   // load darsolution from firestore
-    //   this.darsolution$ = this.darsolutionService.findById(this.did,this.dsid)
-    //   .subscribe(ds => {
-    //     console.log("darsolution subscription",ds);
-    //     this.darsolution = ds;
-    //   });
-    // }
+      this.darsolution = { name: "", description: "", evaluationNotes: "" };
 
     // Create form group and initialize with  values
     this.form = this.fb.group({
@@ -70,14 +59,11 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
           Validators.maxLength(1000)
         ]
       ],
-      evalutionNotes: [
-        this.darsolution.evalutionNotes,
+      evaluationNotes: [
+        this.darsolution.evaluationNotes,
         [Validators.maxLength(1000)]
       ]
     });
-    // for (const field in this.form.controls) {
-    //   this.form.get(field).markAsTouched();
-    // }
   }
 
   ngOnChanges() {
@@ -89,7 +75,8 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
       " crudAction:",
       this.crudAction
     );
-    this.copyInputValues();
+    this.resetLocalValues();
+
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
       if (this.darsolution$) this.darsolution$.unsubscribe();
 
@@ -100,10 +87,8 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
           this.darsolution = ds;
           this.form.patchValue(this.darsolution);
         });
-    } else {
-      this.darsolution = { name: "", description: "", evalutionNotes: "" };
-      this.form.patchValue(this.darsolution);
     }
+    if (this.form) this.form.patchValue(this.darsolution);
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {
@@ -167,10 +152,12 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  copyInputValues() {
+  resetLocalValues() {
     this._did = this.did;
     this._dsid = this.dsid;
     this._crudAction = this.crudAction;
+    this.darsolution = { name: "", description: "", evaluationNotes: "" };
+
     console.log("copyInputValues", this._did, this._dsid, this._crudAction);
   }
 
