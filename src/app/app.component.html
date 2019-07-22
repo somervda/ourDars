@@ -13,7 +13,20 @@
 
       <!-- Logged in and activated options -->
       <span *ngIf="(auth.loggedIn$ | async) && (auth.user$ | async)?.isActivated">
-        <!-- User functions , if we have too many then add a navigation page  -->
+
+
+        <!-- User functions  -->
+        <a mat-list-item routerLink="myDars">
+          <mat-icon>transform</mat-icon>
+          <span id="mainMenuMyMyDars">My DARs</span>
+        </a>
+
+        <a mat-list-item routerLink="myEvaluations">
+          <mat-icon>visibility</mat-icon>
+          <span id="mainMenuMyEvaluations">My Evaluations</span>
+        </a>
+
+
         <a mat-list-item [routerLink]="['user/', (auth.user$ | async)?.uid || '']">
           <mat-icon>person</mat-icon>
           <span id="mainMenuMyProfile">My Profile</span>

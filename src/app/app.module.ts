@@ -56,6 +56,7 @@ import { DarComponent } from "./dar/dar.component";
 import { DarfolderComponent } from "./darfolder/darfolder.component";
 import { DarsolutionComponent } from './darsolution/darsolution.component';
 import { DarsolutionsComponent } from './darsolutions/darsolutions.component';
+import { DarevaluationComponent } from './darevaluation/darevaluation.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { DarsolutionsComponent } from './darsolutions/darsolutions.component';
     DarComponent,
     DarfolderComponent,
     DarsolutionComponent,
-    DarsolutionsComponent
+    DarsolutionsComponent,
+    DarevaluationComponent
   ],
   imports: [
     BrowserModule,
