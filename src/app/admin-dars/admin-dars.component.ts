@@ -46,4 +46,6 @@ export class AdminDarsComponent implements OnInit, AfterViewInit {
       100
     );
   }
+
+  
 }

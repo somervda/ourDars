@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
@@ -14,6 +14,7 @@ import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
 import { Subscription } from "rxjs";
+import { disableDebugTools } from '@angular/platform-browser';
 
 @Component({
   selector: "app-dar",
@@ -21,8 +22,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["./dar.component.scss"]
 })
 export class DarComponent implements OnInit, OnDestroy {
-  dar: Dar;
-  crudAction: Crud;
+  // dar: Dar;
+  @Input() crudAction: Crud;
+  @Input() dar: Dar;
   Crud = Crud;
   DarMethod = DarMethod;
   darMethods: Kvp[];
@@ -48,13 +50,14 @@ export class DarComponent implements OnInit, OnDestroy {
     this.darStatuses = enumToMap(DarStatus);
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
 
-    this.crudAction = Crud.Update;
-    if (this.route.routeConfig.path == "dar/delete/:id")
-      this.crudAction = Crud.Delete;
-    if (this.route.routeConfig.path == "dar/create")
-      this.crudAction = Crud.Create;
 
-    // console.log("team onInit", this.crudAction);
+    // this.crudAction = Crud.Update;
+    // if (this.route.routeConfig.path == "dar/delete/:id")
+    //   this.crudAction = Crud.Delete;
+    // if (this.route.routeConfig.path == "dar/create")
+    //   this.crudAction = Crud.Create;
+
+    console.log("dar onInit", this.crudAction);
     if (this.crudAction == Crud.Create) {
       this.dar = {
         title: "",
@@ -108,15 +111,6 @@ export class DarComponent implements OnInit, OnDestroy {
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
       cause: [this.dar.cause, [Validators.maxLength(10000)]]
     });
-
-    // console.log(
-    //   "dateTargeted",
-    //   this.dar.dateTargeted,
-    //   "this.dar.dateTargeted.toDate()",
-    //   this.dar.dateTargeted.toDate(),
-    //   ' this.darForm.get("dateTargeted").value',
-    //   this.darForm.get("dateTargeted").value
-    // );
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
