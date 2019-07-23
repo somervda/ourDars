@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy, Input} from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
@@ -76,9 +76,9 @@ export class DarComponent implements OnInit, OnDestroy {
           this.form.patchValue(this.dar);
           // Also need to patch the dateTargeted individually to apply
           // the toDate() transformation
-          this.form.controls["dateTargeted"].patchValue(
-            this.dar.dateTargeted.toDate()
-          );
+          if (this.dar.dateTargeted) {
+            this.form.controls["dateTargeted"].patchValue(this.dar.dateTargeted.toDate());
+          }
         });
     }
 
@@ -124,14 +124,10 @@ export class DarComponent implements OnInit, OnDestroy {
   onCreate() {
     console.log("onCreated begin");
     for (const field in this.form.controls) {
-      this.dar[field] = this.form.get(field).value;
-    }
-    // Covert date
-    if (this.form.get("dateTargeted").value != "") {
-      console.log("Tracing dates");
-      this.dar["dateTargeted"] = firestore.Timestamp.fromDate(
-        this.form.get("dateTargeted").value
-      );
+      if (field=="dateTargeted" && this.form.get("dateTargeted").value != "")
+        this.dar["dateTargeted"] = firestore.Timestamp.fromDate(this.form.get("dateTargeted").value)
+      else
+      if (field!="dateTargeted") this.dar[field] = this.form.get(field).value;
     }
     console.log("onCreated", this.dar);
 
@@ -141,9 +137,9 @@ export class DarComponent implements OnInit, OnDestroy {
         this.snackBar.open("DAR '" + this.dar.title + "' created.", "", {
           duration: 2000
         });
-        // Flip into update mode
-        this.dar.id = docRef.id;
-        this.crudAction = Crud.Update;
+        this.ngZone.run(() => this.router.navigateByUrl("/darfolder/" + docRef.id));
+
+
       })
       .catch(function(error) {
         console.error("Error creating DAR: ", error);
@@ -159,6 +155,7 @@ export class DarComponent implements OnInit, OnDestroy {
         this.snackBar.open("DAR '" + this.dar.title + "' deleted!", "", {
           duration: 2000
         });
+        // Only administrators can delete DARs
         this.ngZone.run(() => this.router.navigateByUrl("/adminDars"));
       })
       .catch(function(error) {

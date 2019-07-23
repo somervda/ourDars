@@ -9,10 +9,10 @@
         </div>
       </ng-template>
       <ng-template matTabContent>
-        <app-dar [dar]="dar" [crudAction]="crudAction"></app-dar>
+        <app-dar [dar]="dar" [crudAction]="crudAction" ></app-dar>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Users" [disabled]="crudAction == Crud.Create">
+    <mat-tab label="Users" [disabled]="crudAction != Crud.Update">
       <ng-template matTabLabel>
         <div matTooltip="DAR Participants.">
           <mat-icon>people</mat-icon> Users
@@ -22,7 +22,7 @@
         The Second Content
       </ng-template>
     </mat-tab>
-    <mat-tab label="Criteria" [disabled]="crudAction == Crud.Create">
+    <mat-tab label="Criteria" [disabled]="crudAction != Crud.Update">
       <ng-template matTabLabel>
         <div matTooltip="Selection Criteria.">
           <mat-icon>check_circle</mat-icon> Criteria
@@ -32,7 +32,7 @@
         Criteria
       </ng-template>
     </mat-tab>
-    <mat-tab label="Solutions" [disabled]="crudAction == Crud.Create">
+    <mat-tab label="Solutions" [disabled]="crudAction != Crud.Update">
       <ng-template matTabLabel>
         <div matTooltip="Possible solutions.">
           <mat-icon>list_alt</mat-icon> Solutions
