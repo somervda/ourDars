@@ -14,7 +14,7 @@ import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
 import { Subscription } from "rxjs";
-import { disableDebugTools } from '@angular/platform-browser';
+import { disableDebugTools } from "@angular/platform-browser";
 
 @Component({
   selector: "app-dar",
@@ -29,7 +29,7 @@ export class DarComponent implements OnInit, OnDestroy {
   DarMethod = DarMethod;
   darMethods: Kvp[];
   darStatuses: Kvp[];
-  darForm: FormGroup;
+  form: FormGroup;
   team$;
   darSubscription: Subscription;
 
@@ -49,7 +49,6 @@ export class DarComponent implements OnInit, OnDestroy {
     this.darMethods = enumToMap(DarMethod);
     this.darStatuses = enumToMap(DarStatus);
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
-
 
     // this.crudAction = Crud.Update;
     // if (this.route.routeConfig.path == "dar/delete/:id")
@@ -74,17 +73,17 @@ export class DarComponent implements OnInit, OnDestroy {
         .subscribe(dar => {
           this.dar = dar;
           // console.log("subscribed dar", this.dar);
-          this.darForm.patchValue(this.dar);
+          this.form.patchValue(this.dar);
           // Also need to patch the dateTargeted individually to apply
           // the toDate() transformation
-          this.darForm.controls["dateTargeted"].patchValue(
+          this.form.controls["dateTargeted"].patchValue(
             this.dar.dateTargeted.toDate()
           );
         });
     }
 
     // Create form group and initialize with team values
-    this.darForm = this.fb.group({
+    this.form = this.fb.group({
       title: [
         this.dar.title,
         [
@@ -114,15 +113,43 @@ export class DarComponent implements OnInit, OnDestroy {
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
     if (this.crudAction != Crud.Create) {
-      for (const field in this.darForm.controls) {
-        this.darForm.get(field).markAsTouched();
+      for (const field in this.form.controls) {
+        this.form.get(field).markAsTouched();
       }
     }
   }
 
   // Updaters
 
-  onCreate() {}
+  onCreate() {
+    console.log("onCreated begin");
+    for (const field in this.form.controls) {
+      this.dar[field] = this.form.get(field).value;
+    }
+    // Covert date
+    if (this.form.get("dateTargeted").value != "") {
+      console.log("Tracing dates");
+      this.dar["dateTargeted"] = firestore.Timestamp.fromDate(
+        this.form.get("dateTargeted").value
+      );
+    }
+    console.log("onCreated", this.dar);
+
+    this.darService
+      .createDar(this.dar)
+      .then(docRef => {
+        this.snackBar.open("DAR '" + this.dar.title + "' created.", "", {
+          duration: 2000
+        });
+        // Flip into update mode
+        this.dar.id = docRef.id;
+        this.crudAction = Crud.Update;
+      })
+      .catch(function(error) {
+        console.error("Error creating DAR: ", error);
+      });
+  }
+
   onDelete() {
     // console.log("delete", this.dar.id);
 
@@ -141,16 +168,14 @@ export class DarComponent implements OnInit, OnDestroy {
 
   onFieldUpdate(fieldName: string, toType?: string) {
     if (
-      this.darForm.get(fieldName).valid &&
+      this.form.get(fieldName).valid &&
       this.dar.id != "" &&
       this.crudAction != Crud.Delete
     ) {
-      let newValue = this.darForm.get(fieldName).value;
+      let newValue = this.form.get(fieldName).value;
       // Do any type conversions before storing value
       if (toType && toType == "Timestamp")
-        newValue = firestore.Timestamp.fromDate(
-          this.darForm.get(fieldName).value
-        );
+        newValue = firestore.Timestamp.fromDate(this.form.get(fieldName).value);
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
   }
