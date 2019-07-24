@@ -50,12 +50,6 @@ export class DarComponent implements OnInit, OnDestroy {
     this.darStatuses = enumToMap(DarStatus);
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
 
-    // this.crudAction = Crud.Update;
-    // if (this.route.routeConfig.path == "dar/delete/:id")
-    //   this.crudAction = Crud.Delete;
-    // if (this.route.routeConfig.path == "dar/create")
-    //   this.crudAction = Crud.Create;
-
     console.log("dar onInit", this.crudAction);
     if (this.crudAction == Crud.Create) {
       this.dar = {
