@@ -52,9 +52,17 @@ service cloud.firestore {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
-    // Darsolutions document rules
+        
+    // darsolutions document rules
     // 
         match /dars/{dar}/darSolutions/{darSolution} {
+          allow read:  if isAuthenticated();
+          allow write:  if isAdmin() ;
+        }
+        
+    // darCriteria document rules
+    // 
+        match /dars/{dar}/darCriteria/{darCriteria} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }

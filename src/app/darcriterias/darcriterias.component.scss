@@ -1,0 +1,32 @@
+.tableSizeMaximizer {
+  max-height: 1000px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-cell,
+th.mat-header-cell {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+td.mat-cell {
+  vertical-align: text-top;
+}
+
+.deleteRow {
+  padding-top: 8px;
+}
+
+.standard-form {
+  min-width: 300px;
+  width: 100%;
+}
+
+
+.container-card {
+  margin-top: 8px;
+}

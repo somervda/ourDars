@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { Darcriteria } from '../models/darcriteria.model';
-import { map } from 'rxjs/operators';
-import { convertSnap, convertSnaps, dbFieldUpdate } from './db-utils';
+import { Injectable } from "@angular/core";
+import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
+import { Observable } from "rxjs";
+import { Darcriteria } from "../models/darcriteria.model";
+import { map } from "rxjs/operators";
+import { convertSnap, convertSnaps, dbFieldUpdate } from "./db-utils";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DarcriteriaService {
-
-
   constructor(private afs: AngularFirestore) {}
 
-  findById(did: string,dcid : string): Observable<Darcriteria> {
+  findById(did: string, dcid: string): Observable<Darcriteria> {
     // console.log("darcriteriaservice findById"," did:",did," dsid:",dsid);
     const docLocation = "/dars/" + did + "/Darcriterias/" + dcid;
     // console.log("darcriteriaservice findById",docLocation);
@@ -27,25 +25,22 @@ export class DarcriteriaService {
       );
   }
 
-  findAllDarcriterias(
-    did : string,
-    pageSize
-  ): Observable<Darcriteria[]> {
+  findAllDarcriteria(did: string, pageSize): Observable<Darcriteria[]> {
     // console.log("findDarcriteria", did,  pageSize);
     return this.afs
-    .collection("dars").doc(did).collection("darCriteria", ref =>
-      ref.limit(pageSize)
-  )
+      .collection("dars")
+      .doc(did)
+      .collection("darCriteria", ref => ref.limit(pageSize))
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          // console.log("findDarcriteria", convertSnaps<Darcriteria>(snaps));
+          console.log("findDarcriteria", convertSnaps<Darcriteria>(snaps));
           return convertSnaps<Darcriteria>(snaps);
         })
       );
   }
 
-  fieldUpdate(did: string ,dcid: string, fieldName: string, newValue: any) {
+  fieldUpdate(did: string, dcid: string, fieldName: string, newValue: any) {
     // console.log("Darcriteria field update",did,dsid);
     if (did && dcid && fieldName) {
       const docLocation = "/dars/" + did + "/darCriteria/" + dcid;
@@ -54,12 +49,17 @@ export class DarcriteriaService {
     }
   }
 
-  createDarcriteria(did: string, darcriteria: Darcriteria): Promise<DocumentReference> {
+  createDarcriteria(
+    did: string,
+    darcriteria: Darcriteria
+  ): Promise<DocumentReference> {
     // console.log("createDarcriteria",did,Darcriteria);
-    return this.afs.collection("/dars/" + did + "/darCriteria/").add(darcriteria);
+    return this.afs
+      .collection("/dars/" + did + "/darCriteria/")
+      .add(darcriteria);
   }
 
-  deleteDarcriteria(did:string, dcid: string): Promise<void> {
+  deleteDarcriteria(did: string, dcid: string): Promise<void> {
     return this.afs
       .collection("/dars/" + did + "/darCriteria/")
       .doc(dcid)

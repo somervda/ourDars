@@ -1,3 +1,46 @@
-<p>
-  darcriterias works!
-</p>
+<div class="page-container">
+  <div class="table-container">
+    <div *ngIf="(darcriteria | async)?.length ==0">No criteria defined. Press "New Criteria" to create criteria for
+      this decision.</div>
+    <table mat-table [dataSource]="darcriteria | async" class="mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 20px">Name (Click to edit)</th>
+        <td mat-cell *matCellDef="let element" style="width: 100%">
+          <button mat-button (click)="selectCriteria(element.id)" style="width: 100%;text-align: left;">
+            {{element.name}} </button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="weighting">
+        <th mat-header-cell *matHeaderCellDef>Weighting</th>
+        <td mat-cell *matCellDef="let element">
+          {{CriteriaWeighting[element.weighting]}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell class="deleteRow" *matCellDef="let element">
+          <mat-icon matTooltip="Delete Criteria" (click)="selectDeleteCriteria(element.id)">clear</mat-icon>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+  <button style="margin-top: 5px;" mat-raised-button (click)="onCreateNew()">
+    <mat-icon>add</mat-icon>New Criteria
+  </button>
+
+
+  <!-- <app-darsolution [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction" [dummyValue]="forCD"></app-darsolution> -->
+</div>

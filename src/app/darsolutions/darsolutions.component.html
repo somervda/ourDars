@@ -7,7 +7,7 @@
       <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
       <ng-container matColumnDef="evaluate">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef>Evaluate</th>
         <td mat-cell *matCellDef="let element">
           <button mat-button [routerLink]="['/darevaluation/' + element.id]"><i
               matTooltip="Perform evaluation of this solution" class="material-icons">visibility</i></button> </td>
@@ -15,7 +15,7 @@
 
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name (Click to edit)</th>
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;">Name (Click to edit)</th>
         <td mat-cell *matCellDef="let element" style="width: 100%">
           <button mat-button (click)="selectSolution(element.id)" style="width: 100%;text-align: left;">
             {{element.name}} </button> </td>
@@ -30,7 +30,7 @@
 
 
 
-      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 

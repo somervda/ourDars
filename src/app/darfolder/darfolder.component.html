@@ -9,7 +9,7 @@
         </div>
       </ng-template>
       <ng-template matTabContent>
-        <app-dar [dar]="dar" [crudAction]="crudAction" ></app-dar>
+        <app-dar [dar]="dar" [crudAction]="crudAction"></app-dar>
       </ng-template>
     </mat-tab>
     <mat-tab label="Users" [disabled]="crudAction != Crud.Update">
@@ -29,7 +29,7 @@
         </div>
       </ng-template>
       <ng-template matTabContent>
-        <app-darcriterias ></app-darcriterias>
+        <app-darcriterias [dar]="dar"></app-darcriterias>
       </ng-template>
     </mat-tab>
     <mat-tab label="Solutions" [disabled]="crudAction != Crud.Update">
