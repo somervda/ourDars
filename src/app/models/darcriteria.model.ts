@@ -8,5 +8,5 @@ export interface Darcriteria {
 export enum CriteriaWeighting {
   Critical = 0,
   Important = 1,
-  NiceToHave = 2
+  Desirable = 2
 }

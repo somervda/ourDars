@@ -4,11 +4,6 @@
       this decision.</div>
     <table mat-table [dataSource]="darcriteria | async" class="mat-elevation-z8">
 
-      <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-
-
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef style="padding-left: 20px">Name (Click to edit)</th>
         <td mat-cell *matCellDef="let element" style="width: 100%">
@@ -25,8 +20,9 @@
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell class="deleteRow" *matCellDef="let element">
-          <mat-icon matTooltip="Delete Criteria" (click)="selectDeleteCriteria(element.id)">clear</mat-icon>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="deleteIcon" matTooltip="Delete Criteria" (click)="selectDeleteCriteria(element.id)">clear
+          </mat-icon>
         </td>
       </ng-container>
 
@@ -42,5 +38,5 @@
   </button>
 
 
-  <!-- <app-darsolution [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction" [dummyValue]="forCD"></app-darsolution> -->
+  <app-darcriteria [did]="dar.id" [dsid]="dsid" [crudAction]="crudAction" [dummyValue]="forCD"></app-darcriteria>
 </div>

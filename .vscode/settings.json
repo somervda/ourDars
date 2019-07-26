@@ -15,6 +15,7 @@
         "appspot",
         "codelyzer",
         "darcriterias",
+        "darcriteriaservice",
         "dars",
         "darservice",
         "darsolutionservice",

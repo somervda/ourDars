@@ -1,3 +1,58 @@
-<p>
-  darcriteria works!
-</p>
+<mat-card class="container-card" *ngIf="_dsid || _crudAction == Crud.Create">
+  <form class="standard-form" [formGroup]="form">
+    <mat-form-field class="full-width">
+      <input matInput formControlName="name" (change)="onFieldUpdate('name')" placeholder="Criteria Name" required />
+      <mat-error *ngIf="form.controls['name'].hasError('required')">
+        Criteria name is required.
+      </mat-error>
+      <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+        Criteria name must be at least 10 characters long.
+      </mat-error>
+      <mat-error *ngIf="form.controls['name'].hasError('maxlength')">
+        Criteria name must be no more than 40 characters long.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea matInput formControlName="description" (change)="onFieldUpdate('description')" matAutosizeMinRows="4"
+        matAutosizeMaxRows="10" matTextareaAutosize placeholder="Criteria Description" required></textarea>
+      <mat-error *ngIf="form.controls['description'].hasError('required')">
+        Description is required.
+      </mat-error>
+      <mat-error *ngIf="form.controls['description'].hasError('minlength')">
+        Description must be at least 20 characters long.
+      </mat-error>
+      <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+        Description must be no more than 1000 characters long.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="half-width">
+      <mat-label>Weighting</mat-label>
+      <mat-select formControlName="weighting" (selectionChange)="onFieldUpdate('weighting')">
+        <mat-option *ngFor="let item of criteriaWeightings" [value]="item.key">
+          {{ item.value }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls['weighting'].hasError('required')">
+        A criteria weighting must be selected.
+      </mat-error>
+      <mat-hint>Basis for how the criteria will be weighted.</mat-hint>
+    </mat-form-field>
+
+
+  </form>
+
+  <button mat-raised-button *ngIf="_crudAction == Crud.Create" color="primary" [disabled]="!form.valid"
+    (click)="onCreate()" id="btnCreate">
+    <mat-icon>add</mat-icon>
+    Create
+  </button>
+
+  <button mat-raised-button color="primary" *ngIf="_crudAction == Crud.Delete" (click)="onDelete()" id="btnDelete">
+    <mat-icon>clear</mat-icon>
+    Delete
+  </button>
+
+
+</mat-card>

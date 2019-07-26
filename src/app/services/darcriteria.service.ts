@@ -13,7 +13,7 @@ export class DarcriteriaService {
 
   findById(did: string, dcid: string): Observable<Darcriteria> {
     // console.log("darcriteriaservice findById"," did:",did," dsid:",dsid);
-    const docLocation = "/dars/" + did + "/Darcriterias/" + dcid;
+    const docLocation = "/dars/" + did + "/darCriteria/" + dcid;
     // console.log("darcriteriaservice findById",docLocation);
     return this.afs
       .doc(docLocation)

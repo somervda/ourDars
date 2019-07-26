@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, NgZone } from "@angular/core";
 import { Dar } from "../models/dar.model";
-import { Subscription, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { Crud } from "../models/global.model";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -41,13 +41,13 @@ export class DarcriteriasComponent implements OnInit {
     //console.log(this.CriteriaWeighting[2]);
   }
 
-  selectSolution(dsid: string) {
+  selectCriteria(dsid: string) {
     this.forCD++;
     this.crudAction = Crud.Update;
     this.dsid = dsid;
   }
 
-  selectDeleteSolution(dsid: string) {
+  selectDeleteCriteria(dsid: string) {
     this.forCD++;
     this.crudAction = Crud.Delete;
     this.dsid = dsid;

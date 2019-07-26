@@ -1,7 +1,6 @@
-import { Subscription, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { DarsolutionService } from "./../services/darsolution.service";
-import { DarService } from "./../services/dar.service";
-import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, NgZone, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
@@ -14,11 +13,10 @@ import { Crud } from "../models/global.model";
   templateUrl: "./darsolutions.component.html",
   styleUrls: ["./darsolutions.component.scss"]
 })
-export class DarsolutionsComponent implements OnInit, OnDestroy {
+export class DarsolutionsComponent implements OnInit {
   @Input() dar: Dar;
-  darsolutions$: Subscription;
   darsolutions: Observable<Darsolution[]>;
-  displayedColumns: string[] = ["evaluate","name", "delete"];
+  displayedColumns: string[] = ["evaluate", "name", "delete"];
   dsid: string;
   crudAction = Crud.Update;
   forCD = 0;
@@ -56,9 +54,5 @@ export class DarsolutionsComponent implements OnInit, OnDestroy {
     this.forCD++;
     // Toggle action to for an onChange event in the darSolution component
     this.crudAction = Crud.Create;
-  }
-
-  ngOnDestroy() {
-    if (this.darsolutions$) this.darsolutions$.unsubscribe();
   }
 }
