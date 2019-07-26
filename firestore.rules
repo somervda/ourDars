@@ -67,6 +67,13 @@ service cloud.firestore {
           allow write:  if isAdmin() ;
         }
 
+    // darUsers document rules
+    // 
+        match /dars/{dar}/darUsers/{darUser} {
+          allow read:  if isAuthenticated();
+          allow write:  if isAdmin() ;
+        }
+
     // general rule - only logged on users can access any firestore document
     // match /{document=**} {
     //   allow read, write: if request.auth.uid != null;
