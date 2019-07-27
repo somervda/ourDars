@@ -16,13 +16,13 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
   // Note: Treat @Input as read only, I ran into problems with change detection
   // when I updated the values in the component.
   @Input() did: string;
-  @Input() dsid: string;
+  @Input() dcid: string;
   @Input() crudAction: Crud;
   // Update dummy value with new value each time component is
   // updated from parent component to force OnChange to fire.
   @Input() dummyValue: number;
   _did: string;
-  _dsid: string;
+  _dcid: string;
   _crudAction: Crud;
   Crud = Crud;
   form: FormGroup;
@@ -50,7 +50,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
       if (this.darcriteria$) this.darcriteria$.unsubscribe();
 
       this.darcriteria$ = this.darcriteriaService
-        .findById(this._did, this._dsid)
+        .findById(this._did, this._dcid)
         .subscribe(dc => {
           this.darcriteria = dc;
           this.form.patchValue(this.darcriteria);
@@ -74,7 +74,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
       let newValue = this.form.get(fieldName).value;
       this.darcriteriaService.fieldUpdate(
         this._did,
-        this._dsid,
+        this._dcid,
         fieldName,
         newValue
       );
@@ -96,7 +96,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
           }
         );
         // Reset detail form
-        this._dsid = undefined;
+        this._dcid = undefined;
         this._crudAction = undefined;
       })
       .catch(function(error) {
@@ -107,13 +107,13 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
   onDelete() {
     const name = this.darcriteria.name;
     this.darcriteriaService
-      .deleteDarcriteria(this._did, this._dsid)
+      .deleteDarcriteria(this._did, this._dcid)
       .then(() => {
         this.snackBar.open("Criteria '" + name + "' deleted!", "", {
           duration: 2000
         });
         // Reset detail form
-        this._dsid = undefined;
+        this._dcid = undefined;
         this._crudAction = undefined;
       })
       .catch(function(error) {
@@ -123,7 +123,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
 
   resetLocalValues() {
     this._did = this.did;
-    this._dsid = this.dsid;
+    this._dcid = this.dcid;
     this._crudAction = this.crudAction;
     this.darcriteria = {
       name: "",

@@ -18,7 +18,7 @@ export class DarcriteriasComponent implements OnInit {
   //darcriteria$: Subscription;
   darcriteria: Observable<Darcriteria[]>;
   displayedColumns: string[] = ["name", "weighting", "delete"];
-  dsid: string;
+  dcid: string;
   crudAction = Crud.Update;
   CriteriaWeighting = CriteriaWeighting;
   forCD = 0;
@@ -41,16 +41,16 @@ export class DarcriteriasComponent implements OnInit {
     //console.log(this.CriteriaWeighting[2]);
   }
 
-  selectCriteria(dsid: string) {
+  selectCriteria(dcid: string) {
     this.forCD++;
     this.crudAction = Crud.Update;
-    this.dsid = dsid;
+    this.dcid = dcid;
   }
 
-  selectDeleteCriteria(dsid: string) {
+  selectDeleteCriteria(dcid: string) {
     this.forCD++;
     this.crudAction = Crud.Delete;
-    this.dsid = dsid;
+    this.dcid = dcid;
   }
 
   onCreateNew() {

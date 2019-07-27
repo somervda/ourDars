@@ -1,16 +1,12 @@
 export interface Daruser {
-    id?: string;
-    displayName?: string;
-    email?: string;
-    solutionVote?: string;
-    comments?: string;
-    isEvaluator?: boolean;
-    isViewer?: boolean;
-    isOwner?: boolean;
-    isStakeHolder?: boolean;
-    isVoter?: boolean;
-
-  }
-  
-
-  
+  id?: string;
+  email: string;
+  displayName?: string;
+  solutionVote?: string;
+  comments?: string;
+  isEvaluator?: boolean;
+  isReader?: boolean;
+  isOwner?: boolean;
+  isStakeholder?: boolean;
+  isVoter?: boolean;
+}

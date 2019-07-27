@@ -1,4 +1,4 @@
-<mat-card class="container-card" *ngIf="_dsid || _crudAction == Crud.Create">
+<mat-card class="container-card" *ngIf="_dcid || _crudAction == Crud.Create">
   <form class="standard-form" [formGroup]="form">
     <mat-form-field class="full-width">
       <input matInput formControlName="name" (change)="onFieldUpdate('name')" placeholder="Criteria Name" required />

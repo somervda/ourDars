@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { Daruser } from '../models/daruser.model';
-import { map } from 'rxjs/operators';
-import { convertSnap, convertSnaps, dbFieldUpdate } from './db-utils';
+import { Injectable } from "@angular/core";
+import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
+import { Observable } from "rxjs";
+import { Daruser } from "../models/daruser.model";
+import { map } from "rxjs/operators";
+import { convertSnap, convertSnaps, dbFieldUpdate } from "./db-utils";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class DaruserService  {
+export class DaruserService {
   constructor(private afs: AngularFirestore) {}
 
   findById(did: string, duid: string): Observable<Daruser> {
@@ -25,8 +25,8 @@ export class DaruserService  {
       );
   }
 
-  findAllDaruser(did: string, pageSize): Observable<Daruser[]> {
-    // console.log("findDaruser", did,  pageSize);
+  findAllDarusers(did: string, pageSize): Observable<Daruser[]> {
+    console.log("findDaruser", did, pageSize);
     return this.afs
       .collection("dars")
       .doc(did)
@@ -49,11 +49,7 @@ export class DaruserService  {
     }
   }
 
-  createDaruser(
-    did: string,
-    duid: string,
-    Daruser: Daruser
-  ): Promise<void> {
+  createDaruser(did: string, duid: string, Daruser: Daruser): Promise<void> {
     // console.log("createDaruser",did,Daruser);
     return this.afs
       .collection("/dars/" + did + "/darUsers/")

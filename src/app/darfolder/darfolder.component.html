@@ -19,7 +19,7 @@
         </div>
       </ng-template>
       <ng-template matTabContent>
-        The Second Content
+        <app-darusers [dar]="dar"></app-darusers>
       </ng-template>
     </mat-tab>
     <mat-tab label="Criteria" [disabled]="crudAction != Crud.Update">
