@@ -1,23 +1,24 @@
 <mat-card class="container-card" *ngIf="_duid || _crudAction == Crud.Create">
   <form class="standard-form" [formGroup]="form">
-    <div *ngIf=" _crudAction != Crud.Create">     
-        <mat-card-title>
-      {{daruser.email}} <span *ngIf="daruser.displayName"> ({{daruser.displayName}})</span>
+    <div *ngIf="_crudAction != Crud.Create">
+      <mat-card-title>
+        {{ daruser.email }}
+        <span *ngIf="daruser.displayName"> ({{ daruser.displayName }})</span>
       </mat-card-title>
     </div>
-    <div *ngIf=" _crudAction == Crud.Create">     
-        <mat-form-field class="full-width">
-            <mat-label>User</mat-label>
-            <mat-select #createuser>
-              <mat-option *ngFor="let user of users | async" [value]="user.id">
-                {{ user.email }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+    <div *ngIf="_crudAction == Crud.Create">
+      <mat-form-field class="full-width">
+        <mat-label>User</mat-label>
+        <mat-select [(value)]="selectedUser">
+          <mat-option *ngFor="let user of users | async" [value]="user.id">
+            {{ user.email }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <p>
-      <b>Roles:&nbsp; </b> 
+      <b>Roles:&nbsp; </b>
       <mat-checkbox formControlName="isOwner" (change)="onFieldUpdate('isOwner')">Owner
       </mat-checkbox>
       <mat-checkbox formControlName="isStakeholder" (change)="onFieldUpdate('isStakeholder')">Stakeholder
@@ -29,20 +30,17 @@
       <mat-checkbox formControlName="isVoter" (change)="onFieldUpdate('isVoter')">Voter
       </mat-checkbox>
     </p>
-
   </form>
 
-  <button mat-raised-button *ngIf="_crudAction == Crud.Create" color="primary" 
-    (click)="onCreate(createuser.selected.value)" id="btnCreate" >
+  <button mat-raised-button *ngIf="_crudAction == Crud.Create" color="primary" (click)="onCreate()" id="btnCreate"
+    [disabled]="!selectedUser">
     <mat-icon>add</mat-icon>
     Create
   </button>
- 
+  {{selectEmail}}
 
   <button mat-raised-button color="primary" *ngIf="_crudAction == Crud.Delete" (click)="onDelete()" id="btnDelete">
     <mat-icon>clear</mat-icon>
     Delete
   </button>
-
-
 </mat-card>

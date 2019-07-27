@@ -5,8 +5,8 @@ import { Daruser } from "../models/daruser.model";
 import { Subscription, Observable } from "rxjs";
 import { DaruserService } from "../services/daruser.service";
 import { MatSnackBar } from "@angular/material";
-import { User } from '../models/user.model';
-import { UserService } from '../services/user.service';
+import { User } from "../models/user.model";
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: "app-daruser",
@@ -29,12 +29,14 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
   daruser: Daruser;
   daruser$: Subscription;
-  users: Observable<User[]> ;
+  users: Observable<User[]>;
+  selectedUser: string;
+  selectEmail: string;
 
   constructor(
     private fb: FormBuilder,
     private daruserService: DaruserService,
-    private snackBar: MatSnackBar ,
+    private snackBar: MatSnackBar,
     private userService: UserService
   ) {}
 
@@ -85,24 +87,23 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCreate(value) {
-    console.log("onCreate",value)
-    // for (const field in this.form.controls) {
-    //   this.daruser[field] = this.form.get(field).value;
-    // }
-    // this.daruserService
-    //   .createDaruser(this._did, this._duid, this.daruser)
-    //   .then(docRef => {
-    //     this.snackBar.open("User '" + this.daruser.email + "' created.", "", {
-    //       duration: 2000
-    //     });
-    //     // Reset detail form
-    //     this._duid = undefined;
-    //     this._crudAction = undefined;
-    //   })
-    //   .catch(function(error) {
-    //     console.error("Error creating user: ", error);
-    //   });
+  onCreate() {
+    for (const field in this.form.controls) {
+      this.daruser[field] = this.form.get(field).value;
+    }
+    this.daruserService
+      .createDaruser(this._did, this.selectedUser, this.daruser)
+      .then(docRef => {
+        this.snackBar.open("User '" + this.selectedUser + "' created.", "", {
+          duration: 2000
+        });
+        // Reset detail form
+        this._duid = undefined;
+        this._crudAction = undefined;
+      })
+      .catch(function(error) {
+        console.error("Error creating user: ", error);
+      });
   }
 
   onDelete() {
