@@ -46,6 +46,21 @@ export class UserService {
       );
   }
 
+  findAllUsers(
+    pageSize
+  ): Observable<User[]> {
+    return this.afs
+      .collection("users", ref =>
+        ref.limit(pageSize)
+      )
+      .snapshotChanges()
+      .pipe(
+        map(snaps => {
+          return convertSnaps<User>(snaps);
+        })
+      );
+  }
+
   dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
     if (docId && fieldName) {
       const updateObject = {};

@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy, OnChanges, Input } from "@angular/core";
 import { Crud } from "../models/global.model";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Daruser } from "../models/daruser.model";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { DaruserService } from "../services/daruser.service";
 import { MatSnackBar } from "@angular/material";
+import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: "app-daruser",
@@ -27,11 +29,13 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
   daruser: Daruser;
   daruser$: Subscription;
+  users: Observable<User[]> ;
 
   constructor(
     private fb: FormBuilder,
     private daruserService: DaruserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar ,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -42,6 +46,8 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     this.resetLocalValues();
     this.createForm();
+    if (this._crudAction == Crud.Create)
+      this.users = this.userService.findAllUsers(25);
 
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
       if (this.daruser$) this.daruser$.unsubscribe();
@@ -79,23 +85,24 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCreate() {
-    for (const field in this.form.controls) {
-      this.daruser[field] = this.form.get(field).value;
-    }
-    this.daruserService
-      .createDaruser(this._did, this._duid, this.daruser)
-      .then(docRef => {
-        this.snackBar.open("User '" + this.daruser.email + "' created.", "", {
-          duration: 2000
-        });
-        // Reset detail form
-        this._duid = undefined;
-        this._crudAction = undefined;
-      })
-      .catch(function(error) {
-        console.error("Error creating user: ", error);
-      });
+  onCreate(value) {
+    console.log("onCreate",value)
+    // for (const field in this.form.controls) {
+    //   this.daruser[field] = this.form.get(field).value;
+    // }
+    // this.daruserService
+    //   .createDaruser(this._did, this._duid, this.daruser)
+    //   .then(docRef => {
+    //     this.snackBar.open("User '" + this.daruser.email + "' created.", "", {
+    //       duration: 2000
+    //     });
+    //     // Reset detail form
+    //     this._duid = undefined;
+    //     this._crudAction = undefined;
+    //   })
+    //   .catch(function(error) {
+    //     console.error("Error creating user: ", error);
+    //   });
   }
 
   onDelete() {
