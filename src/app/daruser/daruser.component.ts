@@ -7,6 +7,7 @@ import { DaruserService } from "../services/daruser.service";
 import { MatSnackBar } from "@angular/material";
 import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-daruser",
@@ -29,9 +30,18 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
   daruser: Daruser;
   daruser$: Subscription;
-  users: Observable<User[]>;
+
   selectedUser: string;
   selectEmail: string;
+  // users subscription and results
+  users$: Subscription;
+  users: User[];
+  // darusers subscription and results
+  darusers$: Subscription;
+  darusers: Daruser[];
+  // Array of users that can be user to select a new user on a create
+  // is the list of users minus users already assigned to the dar
+  createUserOptions: UserOption[];
 
   constructor(
     private fb: FormBuilder,
@@ -48,8 +58,20 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     this.resetLocalValues();
     this.createForm();
-    if (this._crudAction == Crud.Create)
-      this.users = this.userService.findAllUsers(25);
+    this.darusers = [];
+    this.users = [];
+    if (this._crudAction == Crud.Create) {
+      this.users$ = this.userService.findAllUsers(25).subscribe(users => {
+        this.users = users;
+        this.rebuildCreateUserOptions();
+      });
+      this.darusers$ = this.daruserService
+        .findAllDarusers(this._did, 100)
+        .subscribe(darusers => {
+          this.darusers = darusers;
+          this.rebuildCreateUserOptions();
+        });
+    }
 
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
       if (this.daruser$) this.daruser$.unsubscribe();
@@ -91,12 +113,24 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     for (const field in this.form.controls) {
       this.daruser[field] = this.form.get(field).value;
     }
+    // get user's email and displayName from the createUserOptions array
+    const newDarUserOption = this.createUserOptions.find(
+      userOption => userOption.uid == this.selectedUser
+    );
+    console.log("onCreate", newDarUserOption);
+    this.daruser.email = newDarUserOption.email;
+    this.daruser.displayName = newDarUserOption.displayName;
+
     this.daruserService
       .createDaruser(this._did, this.selectedUser, this.daruser)
       .then(docRef => {
-        this.snackBar.open("User '" + this.selectedUser + "' created.", "", {
-          duration: 2000
-        });
+        this.snackBar.open(
+          "User '" + newDarUserOption.email + "' created.",
+          "",
+          {
+            duration: 2000
+          }
+        );
         // Reset detail form
         this._duid = undefined;
         this._crudAction = undefined;
@@ -132,6 +166,23 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
+  rebuildCreateUserOptions() {
+    // Reset array
+    this.createUserOptions = [];
+    this.users.forEach(user => {
+      // Check the user is not already a daruser
+      if (!this.darusers.some(u => u.id === user.uid)) {
+        // Add the user as a createUserOption
+        this.createUserOptions.push({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName
+        });
+      }
+    });
+    console.log("rebuildCreateUserOptions", this.createUserOptions);
+  }
+
   createForm() {
     // Create form group and initialize with  values
     this.form = this.fb.group({
@@ -152,6 +203,15 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    // Clean up any subscriptions
     if (this.daruser$) this.daruser$.unsubscribe();
+    if (this.users$) this.users$.unsubscribe();
+    if (this.darusers$) this.darusers$.unsubscribe();
   }
+}
+
+interface UserOption {
+  uid: string;
+  email: string;
+  displayName: string;
 }

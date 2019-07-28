@@ -8,10 +8,10 @@
     </div>
     <div *ngIf="_crudAction == Crud.Create">
       <mat-form-field class="full-width">
-        <mat-label>User</mat-label>
+        <mat-label>Choose new user</mat-label>
         <mat-select [(value)]="selectedUser">
-          <mat-option *ngFor="let user of users | async" [value]="user.id">
-            {{ user.email }}
+          <mat-option *ngFor="let user of createUserOptions" [value]="user.uid">
+            {{ user.email }}<span *ngIf="user.displayName"> ({{ user.displayName }})</span>
           </mat-option>
         </mat-select>
       </mat-form-field>
