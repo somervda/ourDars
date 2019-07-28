@@ -15,6 +15,17 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <mat-label>Filter by Team</mat-label>
+        <mat-select (selectionChange)="onTeamChange($event)" >
+          <mat-option value="NA">All</mat-option>
+          <mat-option *ngFor="let team of team$ | async" [value]="team.id">
+            {{ team.name }}
+          </mat-option>
+        </mat-select>
+        <mat-hint>Filter available users by team</mat-hint>
+      </mat-form-field>
     </div>
 
     <p>

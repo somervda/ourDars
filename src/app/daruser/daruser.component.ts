@@ -8,6 +8,7 @@ import { MatSnackBar } from "@angular/material";
 import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
 import { map } from "rxjs/operators";
+import { TeamService } from '../services/team.service';
 
 @Component({
   selector: "app-daruser",
@@ -33,6 +34,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
 
   selectedUser: string;
   selectEmail: string;
+  team$;
   // users subscription and results
   users$: Subscription;
   users: User[];
@@ -47,7 +49,8 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     private fb: FormBuilder,
     private daruserService: DaruserService,
     private snackBar: MatSnackBar,
-    private userService: UserService
+    private userService: UserService,
+    private teamService : TeamService
   ) {}
 
   ngOnInit() {
@@ -60,8 +63,11 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     this.createForm();
     this.darusers = [];
     this.users = [];
+    this.team$ = this.teamService.findTeams("", "name", "asc", 100);
     if (this._crudAction == Crud.Create) {
-      this.users$ = this.userService.findAllUsers(25).subscribe(users => {
+      // When in create mode build a list of users who are notalready assigned 
+      // to the DAR
+      this.users$ = this.userService.findAllUsers(undefined, 100).subscribe(users => {
         this.users = users;
         this.rebuildCreateUserOptions();
       });
@@ -155,6 +161,17 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
       .catch(function(error) {
         console.error("Error deleting user: ", error);
       });
+  }
+
+  onTeamChange(event) {
+    // Update the createUserOptions - only select users in the matching team
+    console.log("onTeamChange",event);
+    if (this.users$) this.users$.unsubscribe();
+    this.users$ = this.userService.findAllUsers(event.value,100).subscribe(users => {
+      this.users = users;
+      this.rebuildCreateUserOptions();
+    });
+
   }
 
   resetLocalValues() {

@@ -47,15 +47,23 @@ export class UserService {
   }
 
   findAllUsers(
-    pageSize
+    tid: string,
+    pageSize : number
   ): Observable<User[]> {
+    console.log("findAllUsers",tid,pageSize);
     return this.afs
-      .collection("users", ref =>
-        ref.limit(pageSize)
+      .collection("users", ref => {
+        let retVal = ref as any;
+        if (tid  && tid != '')
+          retVal = retVal.where("team.tid", "==", tid);
+        retVal = retVal.limit(pageSize);
+        return retVal;
+        }
       )
       .snapshotChanges()
       .pipe(
         map(snaps => {
+          console.log("findAllUsers snaps",snaps);
           return convertSnaps<User>(snaps);
         })
       );
