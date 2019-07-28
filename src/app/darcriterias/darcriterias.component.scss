@@ -6,6 +6,8 @@ table {
   position: relative;
   max-height: 300px;
   overflow: auto;
+  border-style: outset;
+  border-width: 2px;
 }
 
 td.mat-cell,
