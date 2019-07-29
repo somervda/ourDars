@@ -11,7 +11,8 @@
 .half-width {
   width: 50%;
   padding-right: 8px;
-  min-width: 350px;
+  max-width: 350px;
+  min-width: 250px;
 }
 
 mat-form-field {
