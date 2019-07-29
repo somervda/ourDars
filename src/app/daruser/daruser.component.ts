@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  Input,
+  ViewChild
+} from "@angular/core";
 import { Crud } from "../models/global.model";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Daruser } from "../models/daruser.model";
@@ -8,7 +15,7 @@ import { MatSnackBar } from "@angular/material";
 import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
 import { map } from "rxjs/operators";
-import { TeamService } from '../services/team.service';
+import { TeamService } from "../services/team.service";
 
 @Component({
   selector: "app-daruser",
@@ -44,13 +51,14 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   // Array of users that can be user to select a new user on a create
   // is the list of users minus users already assigned to the dar
   createUserOptions: UserOption[];
+  @ViewChild("userSelect") userSelect;
 
   constructor(
     private fb: FormBuilder,
     private daruserService: DaruserService,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private teamService : TeamService
+    private teamService: TeamService
   ) {}
 
   ngOnInit() {
@@ -65,12 +73,14 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     this.users = [];
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
     if (this._crudAction == Crud.Create) {
-      // When in create mode build a list of users who are notalready assigned 
+      // When in create mode build a list of users who are notalready assigned
       // to the DAR
-      this.users$ = this.userService.findAllUsers(undefined, 100).subscribe(users => {
-        this.users = users;
-        this.rebuildCreateUserOptions();
-      });
+      this.users$ = this.userService
+        .findAllUsers(undefined, 100)
+        .subscribe(users => {
+          this.users = users;
+          this.rebuildCreateUserOptions();
+        });
       this.darusers$ = this.daruserService
         .findAllDarusers(this._did, 100)
         .subscribe(darusers => {
@@ -163,15 +173,20 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  onTeamChange(event) {
+  onFindTeamChange(event) {
     // Update the createUserOptions - only select users in the matching team
-    console.log("onTeamChange",event);
+    console.log("onFindTeamChange", event);
     if (this.users$) this.users$.unsubscribe();
-    this.users$ = this.userService.findAllUsers(event.value,100).subscribe(users => {
-      this.users = users;
-      this.rebuildCreateUserOptions();
-    });
+    this.users$ = this.userService
+      .findAllUsers(event.value, 100)
+      .subscribe(users => {
+        this.users = users;
+        this.rebuildCreateUserOptions();
+      });
+  }
 
+  onFindEmailChange(event) {
+    console.log("onFindEmailChange", event.srcElement.value);
   }
 
   resetLocalValues() {
@@ -198,6 +213,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
     console.log("rebuildCreateUserOptions", this.createUserOptions);
+    //this.userSelect.open();
   }
 
   createForm() {
