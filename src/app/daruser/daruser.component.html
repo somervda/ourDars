@@ -7,25 +7,22 @@
       </mat-card-title>
     </div>
     <div *ngIf="_crudAction == Crud.Create">
-
+      <mat-card >
       <mat-form-field class="half-width">
-        <mat-label>Filter by Team</mat-label>
-        <mat-select (selectionChange)="onFindTeamChange($event);userSelect.open()">
+        <mat-label>Filter user selection by Team</mat-label>
+        <mat-select (selectionChange)="onFilterChange()" #tidFilter>
           <mat-option value="">No Filter</mat-option>
           <mat-option *ngFor="let team of team$ | async" [value]="team.id">
             {{ team.name }}
           </mat-option>
         </mat-select>
-        <mat-hint>Filter available new users by team</mat-hint>
       </mat-form-field>
 
       <mat-form-field class="half-width">
-        <mat-label>Filter by eMail</mat-label>
-        <input matInput (change)="onFindEmailChange($event);userSelect.open()" />
-        <mat-hint>Filter available new users by email text</mat-hint>
+        <mat-label>Filter user selection by eMail</mat-label>
+        <input matInput (change)="onFilterChange()" #emailFilter />
       </mat-form-field>
 
-      <br />
       <mat-form-field class="full-width">
         <mat-label>Choose new user</mat-label>
         <mat-select [(value)]="selectedUser" #userSelect>
@@ -34,11 +31,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+    </mat-card>
 
     </div>
 
-    <p>
+    <p class="roles">
       <b>Roles:&nbsp; </b>
       <mat-checkbox formControlName="isOwner" (change)="onFieldUpdate('isOwner')">Owner
       </mat-checkbox>

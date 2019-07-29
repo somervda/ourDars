@@ -46,16 +46,22 @@ export class UserService {
       );
   }
 
-  findAllUsers(
+  findMatchingUsers(
     tid: string,
+    email: string,
     pageSize : number
   ): Observable<User[]> {
-    console.log("findAllUsers",tid,pageSize);
+    // console.log("findMatchingUsers",tid,email,pageSize);
     return this.afs
       .collection("users", ref => {
         let retVal = ref as any;
+        // Note a compound index on users (team.tid Ascending email Ascending) is required
+        // to support this query
         if (tid  && tid != '')
           retVal = retVal.where("team.tid", "==", tid);
+        if (email  && email != '')
+          retVal = retVal.where("email", ">=", email);
+          retVal = retVal.where("email", "<=", email + "z");
         retVal = retVal.limit(pageSize);
         return retVal;
         }
@@ -63,7 +69,7 @@ export class UserService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findAllUsers snaps",snaps);
+          // console.log("findMatchingUsers snaps",snaps);
           return convertSnaps<User>(snaps);
         })
       );

@@ -51,7 +51,11 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   // Array of users that can be user to select a new user on a create
   // is the list of users minus users already assigned to the dar
   createUserOptions: UserOption[];
-  @ViewChild("userSelect") userSelect;
+  // tidFinder = "";
+  @ViewChild("emailFilter") emailFilter ;
+  @ViewChild("tidFilter") tidFilter;
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -76,7 +80,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
       // When in create mode build a list of users who are notalready assigned
       // to the DAR
       this.users$ = this.userService
-        .findAllUsers(undefined, 100)
+        .findMatchingUsers(undefined,undefined, 100)
         .subscribe(users => {
           this.users = users;
           this.rebuildCreateUserOptions();
@@ -97,7 +101,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe(du => {
           this.daruser = du;
           this.form.patchValue(this.daruser);
-          console.log("ngOnChanges daruser", this.daruser);
+          // console.log("ngOnChanges daruser", this.daruser);
         });
     }
     if (this.form) this.form.patchValue(this.daruser);
@@ -133,7 +137,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     const newDarUserOption = this.createUserOptions.find(
       userOption => userOption.uid == this.selectedUser
     );
-    console.log("onCreate", newDarUserOption);
+    // console.log("onCreate", newDarUserOption);
     this.daruser.email = newDarUserOption.email;
     this.daruser.displayName = newDarUserOption.displayName;
 
@@ -173,21 +177,19 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  onFindTeamChange(event) {
+  onFilterChange() {
     // Update the createUserOptions - only select users in the matching team
-    console.log("onFindTeamChange", event);
+    // console.log("onFindTeamChange", this.tidFilter);
     if (this.users$) this.users$.unsubscribe();
     this.users$ = this.userService
-      .findAllUsers(event.value, 100)
+      .findMatchingUsers(this.tidFilter.value,this.emailFilter.nativeElement.value, 100)
       .subscribe(users => {
         this.users = users;
         this.rebuildCreateUserOptions();
       });
   }
 
-  onFindEmailChange(event) {
-    console.log("onFindEmailChange", event.srcElement.value);
-  }
+
 
   resetLocalValues() {
     this._did = this.did;
@@ -212,7 +214,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
     });
-    console.log("rebuildCreateUserOptions", this.createUserOptions);
+    // console.log("rebuildCreateUserOptions", this.createUserOptions);
     //this.userSelect.open();
   }
 
