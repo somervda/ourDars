@@ -5,15 +5,8 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <table
-    mat-table
-    class="mat-elevation-z8 tableSizeMaximizer"
-    [dataSource]="dataSource"
-    matSort
-    matSortActive="email"
-    matSortDirection="asc"
-    matSortDisableClear
-  >
+  <table mat-table class="mat-elevation-z8 tableSizeMaximizer" [dataSource]="dataSource" matSort matSortActive="email"
+    matSortDirection="asc" matSortDisableClear>
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>eMail</th>
       <td mat-cell *matCellDef="let user">
@@ -26,17 +19,29 @@
       <td mat-cell *matCellDef="let user">{{ user.displayName }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Team</th>
+      <td mat-cell *matCellDef="let user">{{ user?.team?.name }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="isActivated">
-      <th mat-header-cell *matHeaderCellDef>Activated?</th>
+      <th mat-header-cell *matHeaderCellDef>Activated</th>
       <td mat-cell *matCellDef="let user">
         {{ user.isActivated ? "Yes" : "No" }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="isAdmin">
-      <th mat-header-cell *matHeaderCellDef>Admin?</th>
+      <th mat-header-cell *matHeaderCellDef>Admin</th>
       <td mat-cell *matCellDef="let user">{{ user.isAdmin ? "Yes" : "No" }}</td>
     </ng-container>
+
+    <ng-container matColumnDef="isDarCreator">
+      <th mat-header-cell *matHeaderCellDef>Creator</th>
+      <td mat-cell *matCellDef="let user">{{ user.isDarCreator ? "Yes" : "No" }}</td>
+    </ng-container>
+
+
 
     <ng-container matColumnDef="dateCreated">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>

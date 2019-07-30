@@ -6,6 +6,8 @@ import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { User } from "../models/user.model";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Subscription } from "rxjs";
+import { TeamService } from "../services/team.service";
+import { Team } from "../models/team.model";
 
 @Component({
   selector: "app-user",
@@ -18,13 +20,17 @@ export class UserComponent implements OnInit, OnDestroy {
   updatableProfile: boolean = false;
   userInitSub: Subscription;
   navigationSubscription: Subscription;
+  teams: Team[];
+  teams$: Subscription;
+  selectedTid: string;
 
   constructor(
     private route: ActivatedRoute,
     private afAuth: AngularFireAuth,
     private userservice: UserService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private teamService: TeamService
   ) {}
 
   ngOnInit() {
@@ -36,6 +42,11 @@ export class UserComponent implements OnInit, OnDestroy {
         this.loadDisplayUser();
       }
     });
+
+    this.teams = [];
+    this.teams$ = this.teamService
+      .findTeams("", "name", "asc", 100)
+      .subscribe(teams => (this.teams = teams));
 
     //Initial load
     this.loadDisplayUser();
@@ -73,10 +84,12 @@ export class UserComponent implements OnInit, OnDestroy {
         }
       ];
 
-      if (!this.updatableProfile) {
-        this.kvps.push({ key: "Is Administrator?", value: isAdmin });
-        this.kvps.push({ key: "Is Activated?", value: isActivated });
-      }
+      if (!this.user.team) this.user["team"] = { tid: "", name: "" };
+
+      // if (!this.updatableProfile) {
+      //   this.kvps.push({ key: "Is Administrator?", value: isAdmin });
+      //   this.kvps.push({ key: "Is Activated?", value: isActivated });
+      // }
       // for admins updating other users profile isAdmin and isActivated displayed
       // as updatable controls in the HTML template
     });
@@ -101,8 +114,31 @@ export class UserComponent implements OnInit, OnDestroy {
     );
   }
 
+  updateIsDarCreator() {
+    this.userservice.dbFieldUpdate(
+      this.user.uid,
+      "isDarCreator",
+      !this.user.isDarCreator
+    );
+  }
+
+  updateTeam(event) {
+    let team = {
+      tid: "",
+      name: ""
+    };
+    if (event.value != "")
+      team = {
+        tid: event.value,
+        name: this.teams.find(t => t.id == event.value).name
+      };
+    this.userservice.dbFieldUpdate(this.user.uid, "team", team);
+  }
+
   ngOnDestroy() {
     if (this.userInitSub) this.userInitSub.unsubscribe();
     if (this.navigationSubscription) this.navigationSubscription.unsubscribe();
+
+    if (this.teams$) this.teams$.unsubscribe();
   }
 }

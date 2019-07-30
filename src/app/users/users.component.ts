@@ -1,48 +1,54 @@
-import { UserService } from './../services/user.service';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { UsersDataSource } from '../services/users.datasource';
-import { MatPaginator, MatSort, MatTable, MatRow } from '@angular/material';
-import { merge } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { UserService } from "./../services/user.service";
+import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { UsersDataSource } from "../services/users.datasource";
+import { MatPaginator, MatSort, MatTable, MatRow } from "@angular/material";
+import { merge } from "rxjs";
+import { tap } from "rxjs/operators";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: "app-users",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.scss"]
 })
-export class UsersComponent implements OnInit , AfterViewInit {
-  
+export class UsersComponent implements OnInit, AfterViewInit {
   dataSource: UsersDataSource;
-  displayedColumns= ["email","displayName","isAdmin", "isActivated","dateCreated"];
+  displayedColumns = [
+    "email",
+    "displayName",
+    "isAdmin",
+    "isActivated",
+    "isDarCreator",
+    "team",
+    "dateCreated"
+  ];
 
-  
   @ViewChild(MatSort) sort: MatSort;
-  
-  constructor(private userService : UserService) { }
-  
+
+  constructor(private userService: UserService) {}
+
   ngOnInit() {
     this.dataSource = new UsersDataSource(this.userService);
-    
-    this.dataSource.loadUsers( '',"email", 'asc', 100);
+
+    this.dataSource.loadUsers("", "email", "asc", 100);
   }
-  
+
   ngAfterViewInit(): void {
     this.sort.sortChange
-    .pipe(
+      .pipe(
         tap(() => {
-          console.log("sort",this.sort);
+          console.log("sort", this.sort);
           this.loadUsersPage();
         })
-    )
-    .subscribe();
+      )
+      .subscribe();
   }
 
   loadUsersPage() {
     this.dataSource.loadUsers(
-        "",
-        this.sort.active,
-        this.sort.direction==""? "asc" : this.sort.direction ,
-        100);
+      "",
+      this.sort.active,
+      this.sort.direction == "" ? "asc" : this.sort.direction,
+      100
+    );
   }
-
 }

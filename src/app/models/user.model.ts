@@ -13,4 +13,7 @@ export interface User {
   isActivated?: Boolean;
   // Indicates the user can use the application , by default
   // a user is inactive until an administrator activates them
+  team?: { tid: string; name: string };
+  // User is allowed to create DARs (Usually a team lead)
+  isDarCreator?: Boolean;
 }

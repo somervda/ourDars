@@ -61,6 +61,7 @@ import { DarcriteriaComponent } from './darcriteria/darcriteria.component';
 import { DarcriteriasComponent } from './darcriterias/darcriterias.component';
 import { DarusersComponent } from './darusers/darusers.component';
 import { DaruserComponent } from './daruser/daruser.component';
+import { MyDarsComponent } from './my-dars/my-dars.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { DaruserComponent } from './daruser/daruser.component';
     DarcriteriaComponent,
     DarcriteriasComponent,
     DarusersComponent,
-    DaruserComponent
+    DaruserComponent,
+    MyDarsComponent
   ],
   imports: [
     BrowserModule,

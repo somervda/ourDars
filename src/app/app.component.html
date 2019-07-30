@@ -18,7 +18,12 @@
         <!-- User functions  -->
         <a mat-list-item routerLink="myDars">
           <mat-icon>transform</mat-icon>
-          <span id="mainMenuMyMyDars">My DARs</span>
+          <span id="mainMenuMyDars">My DARs</span>
+        </a>
+
+        <a mat-list-item routerLink="/darfolder/create" *ngIf="(auth.user$ | async)?.isDarCreator">
+          <mat-icon>add</mat-icon>
+          <span id="mainMenuCreateDar">Create DAR</span>
         </a>
 
         <a mat-list-item [routerLink]="['user/', (auth.user$ | async)?.uid || '']">
