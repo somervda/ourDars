@@ -27,4 +27,8 @@ exports.usersDateCreated = functions.firestore
 //     return Promise.resolve(null);
 //   });
 
-export { onCreateDarUser } from "./darUsersIndex";
+export {
+  onCreateDarUser,
+  onDeleteDarUser,
+  onUpdateDarUser
+} from "./darUsersIndex";
