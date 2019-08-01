@@ -29,11 +29,53 @@ function darUserTransaction(
 
     const darSnap = await transaction.get(darRef);
 
-    const darUserIndexes = darSnap.data().darUserIndexes;
+    let darUserIndexes = cleanupDarUserIndexes(darSnap.data().darUserIndexes);
+
+    darUserIndexes = addDarUser(darUserIndexes,context.params.duid,["Owner"])
 
     // const changes = darUserIndexes["isDarUser"].push("hi");
     console.log("darUserTransaction", darUserIndexes);
 
-    // transaction.update(darRef, changes);
+     transaction.update(darRef, { darUserIndexes :  darUserIndexes });
   });
+}
+
+
+
+function cleanupDarUserIndexes(darUserIndexes:any) :any {
+  // Update the current darUserIndexes structure to make
+  // sure the main properties are set up
+  let dui = darUserIndexes;
+  // darUserIndexes undefined, initialize whole thing
+  if (!dui) 
+    dui = { isDarUser : [],
+      isOwner: [],
+      isStakeHolder: [],
+      isEvaluator: [],
+      isReader: [],
+      isVoter: [],
+    };  
+  // Check each darUser array is present
+  if(!dui["isDarUser"])
+    dui["isDarUser"] = [];
+  if(!dui["isOwner"])
+    dui["isOwner"] = [];
+  if(!dui["isStakeholder"])
+    dui["isStakeholder"]= [];
+  if(!dui["isEvaluator"])
+    dui["isEvaluator"] = [];
+  if(!dui["isVoter"])
+    dui["isVoter"] = [];
+  if(!dui["isReader"])
+    dui["isReader"] = []; 
+  return dui;
+}
+
+function addDarUser(darUserIndexes:any, uid: string,roles: [string]) : any {
+  // Adds the uid of the user to the role arrays (prevent duplicates)
+  let dui = darUserIndexes;
+  if (!dui.isDarUser.includes(uid))
+    dui.isDarUser.push(uid);
+
+  return dui;
 }

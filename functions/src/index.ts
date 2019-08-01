@@ -19,12 +19,12 @@ exports.usersDateCreated = functions.firestore
     );
   });
 
-exports.darUserUpdate = functions.firestore
-  .document("dars/{did}/darUsers/{duid}")
-  .onUpdate((snap, context) => {
-    console.log("darUserUpdate", snap, context);
+// exports.darUserUpdate = functions.firestore
+//   .document("dars/{did}/darUsers/{duid}")
+//   .onUpdate((snap, context) => {
+//     console.log("darUserUpdate", snap, context);
 
-    return Promise.resolve(null);
-  });
+//     return Promise.resolve(null);
+//   });
 
 export { onCreateDarUser } from "./darUsersIndex";
