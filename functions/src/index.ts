@@ -26,3 +26,5 @@ exports.darUserUpdate = functions.firestore
 
     return Promise.resolve(null);
   });
+
+export { onCreateDarUser } from "./darUsersIndex";
