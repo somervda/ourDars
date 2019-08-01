@@ -18,3 +18,11 @@ exports.usersDateCreated = functions.firestore
       { merge: true }
     );
   });
+
+exports.darUserUpdate = functions.firestore
+  .document("dars/{did}/darUsers/{duid}")
+  .onUpdate((snap, context) => {
+    console.log("darUserUpdate", snap, context);
+
+    return Promise.resolve(null);
+  });
