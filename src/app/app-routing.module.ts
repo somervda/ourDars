@@ -19,15 +19,15 @@ import { DarResolver } from "./services/dar-resolver";
 import { DarfolderComponent } from "./darfolder/darfolder.component";
 import { DarevaluationComponent } from "./darevaluation/darevaluation.component";
 import { IsDarCreatorGuard } from "./guards/isDarCreator.guard";
-import { MyDarsComponent } from "./my-dars/my-dars.component";
+import { MydarsComponent } from "./mydars/mydars.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "about", component: AboutComponent },
   { path: "login", component: LoginComponent },
   {
-    path: "myDars",
-    component: MyDarsComponent,
+    path: "mydars",
+    component: MydarsComponent,
     canActivate: [isActivatedGuard]
   },
   {

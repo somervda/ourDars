@@ -1,0 +1,21 @@
+.tableSizeMaximizer {
+  max-height: 1000px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-cell,
+th.mat-header-cell {
+  padding-right: 8px;
+}
+
+td.mat-cell {
+  vertical-align: text-top;
+}
+
+.deleteRow {
+  padding-top: 8px;
+}

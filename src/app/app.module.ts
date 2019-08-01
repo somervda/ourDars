@@ -54,14 +54,14 @@ import { TeamComponent } from "./team/team.component";
 import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
 import { DarComponent } from "./dar/dar.component";
 import { DarfolderComponent } from "./darfolder/darfolder.component";
-import { DarsolutionComponent } from './darsolution/darsolution.component';
-import { DarsolutionsComponent } from './darsolutions/darsolutions.component';
-import { DarevaluationComponent } from './darevaluation/darevaluation.component';
-import { DarcriteriaComponent } from './darcriteria/darcriteria.component';
-import { DarcriteriasComponent } from './darcriterias/darcriterias.component';
-import { DarusersComponent } from './darusers/darusers.component';
-import { DaruserComponent } from './daruser/daruser.component';
-import { MyDarsComponent } from './my-dars/my-dars.component';
+import { DarsolutionComponent } from "./darsolution/darsolution.component";
+import { DarsolutionsComponent } from "./darsolutions/darsolutions.component";
+import { DarevaluationComponent } from "./darevaluation/darevaluation.component";
+import { DarcriteriaComponent } from "./darcriteria/darcriteria.component";
+import { DarcriteriasComponent } from "./darcriterias/darcriterias.component";
+import { DarusersComponent } from "./darusers/darusers.component";
+import { DaruserComponent } from "./daruser/daruser.component";
+import { MydarsComponent } from "./mydars/mydars.component";
 
 @NgModule({
   declarations: [
@@ -85,7 +85,7 @@ import { MyDarsComponent } from './my-dars/my-dars.component';
     DarcriteriasComponent,
     DarusersComponent,
     DaruserComponent,
-    MyDarsComponent
+    MydarsComponent
   ],
   imports: [
     BrowserModule,
