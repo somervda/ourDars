@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
-import { Dar } from "../models/dar.model";
+import { Dar, DarStatus } from "../models/dar.model";
 import { Observable } from "rxjs";
 import { map, first } from "rxjs/operators";
 import { convertSnaps, dbFieldUpdate, convertSnap } from "./db-utils";
@@ -41,6 +41,68 @@ export class DarService {
           return convertSnaps<Dar>(snaps);
         }),
         first()
+      );
+  }
+
+  findMyDars(
+    uid: string,
+    uidMatchOn: string,
+    status: DarStatus,
+    pageSize: number
+  ): Observable<Dar[]> {
+    // console.log("findDars", sortField, sortOrder, pageSize);
+    return this.afs
+      .collection("dars", ref => {
+        let retVal = ref as any;
+
+        if (uidMatchOn == "")
+          retVal = retVal.where(
+            "darUserIndexes.isDarUser",
+            "array-contains",
+            uid
+          );
+        if (uidMatchOn == "owner")
+          retVal = retVal.where(
+            "darUserIndexes.isOwner",
+            "array-contains",
+            uid
+          );
+        if (uidMatchOn == "stakeholder")
+          retVal = retVal.where(
+            "darUserIndexes.isStakeholder",
+            "array-contains",
+            uid
+          );
+        if (uidMatchOn == "evaluator")
+          retVal = retVal.where(
+            "darUserIndexes.isEvaluator",
+            "array-contains",
+            uid
+          );
+        if (uidMatchOn == "voter")
+          retVal = retVal.where(
+            "darUserIndexes.isVoter",
+            "array-contains",
+            uid
+          );
+        if (uidMatchOn == "reader")
+          retVal = retVal.where(
+            "darUserIndexes.isReader",
+            "array-contains",
+            uid
+          );
+
+        if (status) retVal = retVal.where("darStatus", "==", status);
+        retVal = retVal.orderBy("darStatus").orderBy("title");
+        retVal = retVal.limit(pageSize);
+        return retVal;
+      })
+      .snapshotChanges()
+      .pipe(
+        map(snaps => {
+          // console.log("findDars", convertSnaps<Dar>(snaps));
+          return convertSnaps<Dar>(snaps);
+        })
       );
   }
 

@@ -1,4 +1,21 @@
 {
-  "indexes": [],
+  "indexes": [{
+      "collectionId": "dars",
+      "fields": [{
+          "fieldPath": "darUserIndexes.isOwner",
+          "mode": "ARRAY_CONTAINS"
+        },
+        {
+          "fieldPath": "darStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+
+  ],
   "fieldOverrides": []
 }
