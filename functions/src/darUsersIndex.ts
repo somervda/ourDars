@@ -4,24 +4,21 @@ import { db } from "./init";
 export const onCreateDarUser = functions.firestore
   .document("dars/{did}/darUsers/{duid}")
   .onCreate(async (snap, context) => {
-    console.log("Running onCreateDarUser trigger ...");
-
+    // console.log("Running onCreateDarUser trigger ...");
     return darUserTransaction(snap, context, "C");
   });
 
 export const onDeleteDarUser = functions.firestore
   .document("dars/{did}/darUsers/{duid}")
   .onDelete(async (snap, context) => {
-    console.log("Running onDeleteDarUser trigger ...");
-
+    // console.log("Running onDeleteDarUser trigger ...");
     return darUserTransaction(snap, context, "D");
   });
 
 export const onUpdateDarUser = functions.firestore
   .document("dars/{did}/darUsers/{duid}")
   .onUpdate(async (snap, context) => {
-    console.log("Running onUpdateDarUser trigger ...");
-
+    // console.log("Running onUpdateDarUser trigger ...");
     return darUserTransaction(snap.after, context, "U");
   });
 

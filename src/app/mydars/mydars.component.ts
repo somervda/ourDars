@@ -19,9 +19,10 @@ export class MydarsComponent implements OnInit {
   @ViewChild("selectedDarStatus") selectedDarStatus;
   @ViewChild("selectedRole") selectedRole;
   dars: Observable<Dar[]>;
-  displayedColumns = ["title", "darStatus", "description"];
+  displayedColumns = ["title", "darStatus", "roles","actions"];
   darStatus = DarStatus;
   darStatuses: Kvp[];
+  
 
   constructor(private darService: DarService, private auth: AuthService) {}
 

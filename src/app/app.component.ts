@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
           "New version available.",
           "Load New Version?",
           {
-            duration: 20000
+            duration: 60000
           }
         );
         newVersionSnackBarRef.onAction().subscribe(() => {

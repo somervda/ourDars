@@ -20,6 +20,9 @@ import { DarfolderComponent } from "./darfolder/darfolder.component";
 import { DarevaluationComponent } from "./darevaluation/darevaluation.component";
 import { IsDarCreatorGuard } from "./guards/isDarCreator.guard";
 import { MydarsComponent } from "./mydars/mydars.component";
+import { DarviewComponent } from './darview/darview.component';
+import { DarvoteComponent } from './darvote/darvote.component';
+import { DarconfirmComponent } from './darconfirm/darconfirm.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -62,6 +65,18 @@ const routes: Routes = [
     canActivate: [isAdminGuard]
   },
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
+  {
+    path: "darview/:id",
+    component: DarviewComponent
+  },
+  {
+    path: "darvote/:id",
+    component: DarvoteComponent
+  },
+  {
+    path: "darconfirm/:id",
+    component: DarconfirmComponent
+  },
   {
     path: "darfolder/create",
     component: DarfolderComponent,

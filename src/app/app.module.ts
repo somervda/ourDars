@@ -62,6 +62,9 @@ import { DarcriteriasComponent } from "./darcriterias/darcriterias.component";
 import { DarusersComponent } from "./darusers/darusers.component";
 import { DaruserComponent } from "./daruser/daruser.component";
 import { MydarsComponent } from "./mydars/mydars.component";
+import { DarviewComponent } from './darview/darview.component';
+import { DarvoteComponent } from './darvote/darvote.component';
+import { DarconfirmComponent } from './darconfirm/darconfirm.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,11 @@ import { MydarsComponent } from "./mydars/mydars.component";
     DarcriteriasComponent,
     DarusersComponent,
     DaruserComponent,
-    MydarsComponent
+    MydarsComponent,
+    ViewdarComponent,
+    DarviewComponent,
+    DarvoteComponent,
+    DarconfirmComponent
   ],
   imports: [
     BrowserModule,
