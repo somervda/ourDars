@@ -50,9 +50,10 @@ export class DarService {
     status: DarStatus,
     pageSize: number
   ): Observable<Dar[]> {
-    console.log("findMyDars", uid, "#" + uidMatchOn + "#", status);
+    // console.log("findMyDars", uid, "#" + uidMatchOn + "#", status);
     return this.afs
       .collection("dars", ref => {
+        // Add where, order, and limits
         let retVal = ref as any;
 
         if (uidMatchOn == "")

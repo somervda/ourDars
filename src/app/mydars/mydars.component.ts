@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-mydars",
@@ -25,12 +26,10 @@ export class MydarsComponent implements OnInit {
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.dars = this.darService.findMyDars(
-      this.auth.currentUser.uid,
-      "",
-      undefined,
-      20
-    );
+    this.selectedDarStatus.value = "";
+    this.selectedRole.value = "";
+    this.updateQuery();
+
     this.darStatuses = enumToMap(DarStatus);
     //this.dataSource.loadDars("", "title", "asc", 100);
   }
@@ -42,7 +41,7 @@ export class MydarsComponent implements OnInit {
       this.selectedDarStatus.value == ""
         ? undefined
         : this.selectedDarStatus.value,
-      20
+      100
     );
   }
 
