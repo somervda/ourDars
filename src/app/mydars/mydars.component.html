@@ -1,9 +1,34 @@
 <div class="page-container">
   <h1>My Dars</h1>
 
+  <mat-form-field class="half-width">
+    <mat-label>Filter By Status</mat-label>
+    <mat-select (selectionChange)="updateQuery()" #selectedDarStatus>
+      <mat-option value=""></mat-option>
+      <mat-option *ngFor="let item of darStatuses" [value]="item.key">
+        {{ item.value | titlecase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
+  <mat-form-field class="half-width">
+    <mat-label>Filter By Role</mat-label>
+    <mat-select (selectionChange)="updateQuery()" #selectedRole>
+      <mat-option value=""></mat-option>
+      <mat-option value="owner">Owner</mat-option>
+      <mat-option value="stakeholder">Stakeholder</mat-option>
+      <mat-option value="evaluator">Evaluator</mat-option>
+      <mat-option value="voter">Voter</mat-option>
+      <mat-option value="reader">Reader</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <table mat-table class="mat-elevation-z8 tableSizeMaximizer" [dataSource]="dars | async" matSortDisableClear>
+  <table
+    mat-table
+    class="mat-elevation-z8 tableSizeMaximizer"
+    [dataSource]="dars | async"
+    matSortDisableClear
+  >
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
       <td mat-cell *matCellDef="let dar">
@@ -22,19 +47,16 @@
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let dar">
         {{
-            dar.description
-              ? dar.description.length < 100
-                ? dar.description
-                : dar.description.substring(0, 99) + "..."
-              : ""
-          }}
+          dar.description
+            ? dar.description.length < 100
+              ? dar.description
+              : dar.description.substring(0, 99) + "..."
+            : ""
+        }}
       </td>
     </ng-container>
-
-
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
 </div>

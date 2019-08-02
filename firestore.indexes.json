@@ -6,10 +6,6 @@
           "mode": "ARRAY_CONTAINS"
         },
         {
-          "fieldPath": "darStatus",
-          "order": "ASCENDING"
-        },
-        {
           "fieldPath": "title",
           "order": "ASCENDING"
         }

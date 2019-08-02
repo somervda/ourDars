@@ -50,7 +50,7 @@ export class DarService {
     status: DarStatus,
     pageSize: number
   ): Observable<Dar[]> {
-    // console.log("findDars", sortField, sortOrder, pageSize);
+    console.log("findMyDars", uid, "#" + uidMatchOn + "#", status);
     return this.afs
       .collection("dars", ref => {
         let retVal = ref as any;
@@ -92,8 +92,13 @@ export class DarService {
             uid
           );
 
-        if (status) retVal = retVal.where("darStatus", "==", status);
-        retVal = retVal.orderBy("darStatus").orderBy("title");
+        if (status) {
+          retVal = retVal.where("darStatus", "==", status);
+          retVal = retVal.orderBy("title");
+        } else {
+          retVal = retVal.orderBy("darStatus").orderBy("title");
+        }
+
         retVal = retVal.limit(pageSize);
         return retVal;
       })

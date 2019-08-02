@@ -6,6 +6,8 @@ import { DarService } from "../services/dar.service";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { AuthService } from "../services/auth.service";
+import { Kvp } from "../models/global.model";
+import { enumToMap } from "../shared/utilities";
 
 @Component({
   selector: "app-mydars",
@@ -13,9 +15,12 @@ import { AuthService } from "../services/auth.service";
   styleUrls: ["./mydars.component.scss"]
 })
 export class MydarsComponent implements OnInit {
+  @ViewChild("selectedDarStatus") selectedDarStatus;
+  @ViewChild("selectedRole") selectedRole;
   dars: Observable<Dar[]>;
   displayedColumns = ["title", "darStatus", "description"];
   darStatus = DarStatus;
+  darStatuses: Kvp[];
 
   constructor(private darService: DarService, private auth: AuthService) {}
 
@@ -26,8 +31,19 @@ export class MydarsComponent implements OnInit {
       undefined,
       20
     );
-
+    this.darStatuses = enumToMap(DarStatus);
     //this.dataSource.loadDars("", "title", "asc", 100);
+  }
+
+  updateQuery() {
+    this.dars = this.darService.findMyDars(
+      this.auth.currentUser.uid,
+      this.selectedRole.value,
+      this.selectedDarStatus.value == ""
+        ? undefined
+        : this.selectedDarStatus.value,
+      20
+    );
   }
 
   // ngAfterViewInit(): void {
