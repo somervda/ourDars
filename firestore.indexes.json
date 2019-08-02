@@ -1,9 +1,10 @@
 {
   "indexes": [{
-      "collectionId": "dars",
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
       "fields": [{
           "fieldPath": "darUserIndexes.isDarUser",
-          "mode": "ARRAY_CONTAINS"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "darStatus",
@@ -16,43 +17,11 @@
       ]
     },
     {
-      "collectionId": "dars",
-      "fields": [{
-          "fieldPath": "darUserIndexes.isOwner",
-          "mode": "ARRAY_CONTAINS"
-        },
-        {
-          "fieldPath": "darStatus",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "title",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-
-    {
-      "collectionId": "dars",
-      "fields": [{
-          "fieldPath": "darUserIndexes.isStakeholder",
-          "mode": "ARRAY_CONTAINS"
-        },
-        {
-          "fieldPath": "darStatus",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "title",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionId": "dars",
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
       "fields": [{
           "fieldPath": "darUserIndexes.isEvaluator",
-          "mode": "ARRAY_CONTAINS"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "darStatus",
@@ -65,10 +34,11 @@
       ]
     },
     {
-      "collectionId": "dars",
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
       "fields": [{
-          "fieldPath": "darUserIndexes.isVoter",
-          "mode": "ARRAY_CONTAINS"
+          "fieldPath": "darUserIndexes.isOwner",
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "darStatus",
@@ -81,10 +51,45 @@
       ]
     },
     {
-      "collectionId": "dars",
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
       "fields": [{
           "fieldPath": "darUserIndexes.isReader",
-          "mode": "ARRAY_CONTAINS"
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "darStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
+      "fields": [{
+          "fieldPath": "darUserIndexes.isStakeholder",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "darStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "dars",
+      "queryScope": "COLLECTION",
+      "fields": [{
+          "fieldPath": "darUserIndexes.isVoter",
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "darStatus",
@@ -99,7 +104,8 @@
 
 
     {
-      "collectionId": "users",
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
       "fields": [{
           "fieldPath": "team.tid",
           "mode": "ASCENDING"
