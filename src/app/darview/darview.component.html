@@ -1,3 +1,84 @@
-<p>
-  darview works!
-</p>
+<div class="page-container">
+  <table>
+    <tr>
+      <td class="rowprompt">
+        Title
+      </td>
+      <td class="rowcontent">
+        {{dar.title}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Description
+      </td>
+      <td class="rowcontent">
+        {{dar.description}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Status
+      </td>
+      <td class="rowcontent">
+        {{DarStatus[dar.darStatus] |  titlecase }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Methodology
+      </td>
+      <td class="rowcontent">
+        {{DarMethod[dar.darMethod] }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Target Date
+      </td>
+      <td class="rowcontent">
+        {{dar.dateTargeted.toDate() }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Team
+      </td>
+      <td class="rowcontent">
+        {{(team | async)?.name }}
+      </td>
+    </tr>
+    <tr>
+      <td class="rowprompt">
+        Risks
+      </td>
+      <td class="rowcontent">
+        {{dar?.risks }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Constraints
+      </td>
+      <td class="rowcontent">
+        {{dar?.constraints }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Cause
+      </td>
+      <td class="rowcontent">
+        {{dar?.cause }}
+      </td>
+    </tr>
+
+  </table>
+</div>

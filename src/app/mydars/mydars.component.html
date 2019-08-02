@@ -23,12 +23,7 @@
     </mat-select>
   </mat-form-field>
 
-  <table
-    mat-table
-    class="mat-elevation-z8 tableSizeMaximizer"
-    [dataSource]="dars | async"
-    matSortDisableClear
-  >
+  <table mat-table class="mat-elevation-z8 tableSizeMaximizer" [dataSource]="dars | async" matSortDisableClear>
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
       <td mat-cell *matCellDef="let dar">{{ dar.title }}
@@ -46,7 +41,8 @@
       <th mat-header-cell *matHeaderCellDef>Roles</th>
       <td mat-cell *matCellDef="let element">
         <div class="userRole" *ngIf="element.darUserIndexes.isOwner.includes(auth.currentUser.uid)">Owner</div>
-        <div class="userRole" *ngIf="element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid)">Stakeholder</div>
+        <div class="userRole" *ngIf="element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid)">Stakeholder
+        </div>
         <div class="userRole" *ngIf="element.darUserIndexes.isEvaluator.includes(auth.currentUser.uid)">Evaluator</div>
         <div class="userRole" *ngIf="element.darUserIndexes.isReader.includes(auth.currentUser.uid)">Reader</div>
         <div class="userRole" *ngIf="element.darUserIndexes.isVoter.includes(auth.currentUser.uid)">Voter</div>
@@ -56,21 +52,35 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <span class="userAction" *ngIf="element.darUserIndexes.isDarUser.includes(auth.currentUser.uid) ">
-          <mat-icon matTooltip="View DAR document" routerLink="/darview/{{ element.id }}">description</mat-icon>
-      </span>
-        <span class="userAction" *ngIf="element.darUserIndexes.isEvaluator.includes(auth.currentUser.uid) ">
-          <mat-icon matTooltip="Perform evaluation of the solutions against criteria" routerLink="/darevaluation/{{ element.id }}">ballot</mat-icon>
-      </span>
-      <span class="userAction" *ngIf="element.darUserIndexes.isVoter.includes(auth.currentUser.uid) ">
-        <mat-icon matTooltip="Vote for the solution" routerLink="/darvote/{{ element.id }}">done</mat-icon>
-      </span>
-      <span class="userAction" *ngIf="element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid) ">
-        <mat-icon matTooltip="Stakeholder confirms the solution decision" routerLink="/darconfirm/{{ element.id }}">done_all</mat-icon>
-      </span>
-      <span class="userAction" *ngIf="element.darUserIndexes.isOwner.includes(auth.currentUser.uid) ">
-        <mat-icon matTooltip="Edit the DAR" routerLink="/darfolder/{{ element.id }}">edit</mat-icon>
-      </span>
+        <span *ngIf="element.darUserIndexes.isDarUser.includes(auth.currentUser.uid) ">
+          <button mat-button class="actionButton" matTooltip="View DAR document" routerLink="/darview/{{ element.id }}">
+            <mat-icon>description</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="element.darUserIndexes.isEvaluator.includes(auth.currentUser.uid) ">
+          <button mat-button class="actionButton" matTooltip="Perform evaluation of the solutions against criteria"
+            routerLink="/darevaluation/{{ element.id }}">
+            <mat-icon>ballot</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="element.darUserIndexes.isVoter.includes(auth.currentUser.uid) ">
+          <button mat-button class="actionButton" matTooltip="Vote for the solution"
+            routerLink="/darvote/{{ element.id }}">
+            <mat-icon>done</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid) ">
+          <button mat-button class="actionButton" matTooltip="Stakeholder confirms the solution decision"
+            routerLink="/darconfirm/{{ element.id }}">
+            <mat-icon>
+              done_all</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="element.darUserIndexes.isOwner.includes(auth.currentUser.uid) ">
+          <button mat-button class="actionButton" matTooltip="Edit the DAR" routerLink="/darfolder/{{ element.id }}">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </span>
       </td>
     </ng-container>
 

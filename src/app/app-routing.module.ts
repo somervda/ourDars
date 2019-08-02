@@ -20,9 +20,9 @@ import { DarfolderComponent } from "./darfolder/darfolder.component";
 import { DarevaluationComponent } from "./darevaluation/darevaluation.component";
 import { IsDarCreatorGuard } from "./guards/isDarCreator.guard";
 import { MydarsComponent } from "./mydars/mydars.component";
-import { DarviewComponent } from './darview/darview.component';
-import { DarvoteComponent } from './darvote/darvote.component';
-import { DarconfirmComponent } from './darconfirm/darconfirm.component';
+import { DarviewComponent } from "./darview/darview.component";
+import { DarvoteComponent } from "./darvote/darvote.component";
+import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -67,15 +67,18 @@ const routes: Routes = [
   { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
   {
     path: "darview/:id",
-    component: DarviewComponent
+    component: DarviewComponent,
+    resolve: { dar: DarResolver }
   },
   {
     path: "darvote/:id",
-    component: DarvoteComponent
+    component: DarvoteComponent,
+    resolve: { dar: DarResolver }
   },
   {
     path: "darconfirm/:id",
-    component: DarconfirmComponent
+    component: DarconfirmComponent,
+    resolve: { dar: DarResolver }
   },
   {
     path: "darfolder/create",
@@ -99,23 +102,6 @@ const routes: Routes = [
     component: DarevaluationComponent
   },
 
-  // {
-  //   path: "dar/create",
-  //   component: DarComponent,
-  //   canActivate: [isAdminGuard]
-  // },
-  // {
-  //   path: "dar/:id",
-  //   component: DarComponent,
-  //   resolve: { dar: DarResolver },
-  //   canActivate: [isAdminGuard]
-  // },
-  // {
-  //   path: "dar/delete/:id",
-  //   component: DarComponent,
-  //   resolve: { dar: DarResolver },
-  //   canActivate: [isAdminGuard]
-  // },
   {
     path: "adminDars",
     component: AdminDarsComponent,
