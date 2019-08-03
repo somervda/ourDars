@@ -5,7 +5,7 @@
         Title
       </td>
       <td class="rowcontent">
-        {{dar.title}}
+        {{ dar.title }}
       </td>
     </tr>
 
@@ -14,7 +14,7 @@
         Description
       </td>
       <td class="rowcontent">
-        {{dar.description}}
+        {{ dar.description }}
       </td>
     </tr>
 
@@ -23,7 +23,7 @@
         Status
       </td>
       <td class="rowcontent">
-        {{DarStatus[dar.darStatus] |  titlecase }}
+        {{ DarStatus[dar.darStatus] | titlecase }}
       </td>
     </tr>
 
@@ -32,7 +32,16 @@
         Methodology
       </td>
       <td class="rowcontent">
-        {{DarMethod[dar.darMethod] }}
+        {{ DarMethod[dar.darMethod] }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Created
+      </td>
+      <td class="rowcontent">
+        {{ dar.dateCreated ? dar.dateCreated.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -41,7 +50,16 @@
         Target Date
       </td>
       <td class="rowcontent">
-        {{dar.dateTargeted.toDate() }}
+        {{ dar.dateTargeted ? dar.dateTargeted.toDate().toDateString() : "" }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Closed
+      </td>
+      <td class="rowcontent">
+        {{ dar.dateClosed ? dar.dateClosed.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -50,7 +68,7 @@
         Team
       </td>
       <td class="rowcontent">
-        {{(team | async)?.name }}
+        {{ (team | async)?.name }}
       </td>
     </tr>
     <tr>
@@ -58,7 +76,7 @@
         Risks
       </td>
       <td class="rowcontent">
-        {{dar?.risks }}
+        {{ dar?.risks }}
       </td>
     </tr>
 
@@ -67,7 +85,7 @@
         Constraints
       </td>
       <td class="rowcontent">
-        {{dar?.constraints }}
+        {{ dar?.constraints }}
       </td>
     </tr>
 
@@ -76,9 +94,8 @@
         Cause
       </td>
       <td class="rowcontent">
-        {{dar?.cause }}
+        {{ dar?.cause }}
       </td>
     </tr>
-
   </table>
 </div>

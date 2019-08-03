@@ -1,4 +1,5 @@
-import { Component, OnInit, NgZone, OnDestroy, Input} from "@angular/core";
+import { AuthService } from "./../services/auth.service";
+import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DarService } from "../services/dar.service";
@@ -15,6 +16,7 @@ import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
 import { Subscription } from "rxjs";
 import { disableDebugTools } from "@angular/platform-browser";
+import { DaruserService } from "../services/daruser.service";
 
 @Component({
   selector: "app-dar",
@@ -42,7 +44,9 @@ export class DarComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private ngZone: NgZone,
     private router: Router,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private daruserService: DaruserService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -71,7 +75,9 @@ export class DarComponent implements OnInit, OnDestroy {
           // Also need to patch the dateTargeted individually to apply
           // the toDate() transformation
           if (this.dar.dateTargeted) {
-            this.form.controls["dateTargeted"].patchValue(this.dar.dateTargeted.toDate());
+            this.form.controls["dateTargeted"].patchValue(
+              this.dar.dateTargeted.toDate()
+            );
           }
         });
     }
@@ -118,22 +124,43 @@ export class DarComponent implements OnInit, OnDestroy {
   onCreate() {
     console.log("onCreated begin");
     for (const field in this.form.controls) {
-      if (field=="dateTargeted" && this.form.get("dateTargeted").value != "")
-        this.dar["dateTargeted"] = firestore.Timestamp.fromDate(this.form.get("dateTargeted").value)
-      else
-      if (field!="dateTargeted") this.dar[field] = this.form.get(field).value;
+      if (field == "dateTargeted" && this.form.get("dateTargeted").value != "")
+        this.dar["dateTargeted"] = firestore.Timestamp.fromDate(
+          this.form.get("dateTargeted").value
+        );
+      else if (field != "dateTargeted")
+        this.dar[field] = this.form.get(field).value;
     }
     console.log("onCreated", this.dar);
 
     this.darService
       .createDar(this.dar)
       .then(docRef => {
-        this.snackBar.open("DAR '" + this.dar.title + "' created.", "", {
-          duration: 2000
-        });
-        this.ngZone.run(() => this.router.navigateByUrl("/darfolder/" + docRef.id));
-
-
+        // Create darUser record, make the creator the owner
+        const did = docRef.id;
+        const darUser = {
+          email: this.auth.currentUser.email,
+          displayName: this.auth.currentUser.displayName,
+          isEvaluator: false,
+          isReader: false,
+          isOwner: true,
+          isStakeholder: false,
+          isVoter: false
+        };
+        this.daruserService
+          .createDaruser(did, this.auth.currentUser.uid, darUser)
+          .then(duRef => {
+            //
+            this.snackBar.open("DAR '" + this.dar.title + "' created.", "", {
+              duration: 2000
+            });
+            this.ngZone.run(() =>
+              this.router.navigateByUrl("/darfolder/" + did)
+            );
+          })
+          .catch(function(error) {
+            console.error("Error creating DARuser: ", error);
+          });
       })
       .catch(function(error) {
         console.error("Error creating DAR: ", error);

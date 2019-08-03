@@ -104,7 +104,7 @@ function updateDarUser(
   isReader: boolean
 ): any {
   // Adds the uid of the user to the role arrays (prevent duplicates)
-  let dui = darUserIndexes;
+  const dui = darUserIndexes;
   const hasRole =
     isOwner || isStakeholder || isEvaluator || isVoter || isReader;
 

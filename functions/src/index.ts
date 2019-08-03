@@ -19,13 +19,16 @@ exports.usersDateCreated = functions.firestore
     );
   });
 
-// exports.darUserUpdate = functions.firestore
-//   .document("dars/{did}/darUsers/{duid}")
-//   .onUpdate((snap, context) => {
-//     console.log("darUserUpdate", snap, context);
-
-//     return Promise.resolve(null);
-//   });
+exports.darsDateCreated = functions.firestore
+  .document("dars/{did}")
+  .onCreate((snap, context) => {
+    return snap.ref.set(
+      {
+        dateCreated: admin.firestore.FieldValue.serverTimestamp()
+      },
+      { merge: true }
+    );
+  });
 
 export {
   onCreateDarUser,

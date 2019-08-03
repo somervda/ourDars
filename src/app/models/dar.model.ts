@@ -4,9 +4,9 @@ export interface Dar {
   id?: string;
   title: string;
   description: string;
-  dateCreated?: Date;
+  dateCreated?: Timestamp;
   dateTargeted?: Timestamp;
-  dateClosed?: Date;
+  dateClosed?: Timestamp;
   darStatus: DarStatus;
   tid?: string;
   cause?: string;
