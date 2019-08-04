@@ -1,5 +1,5 @@
 <div class="page-container">
-  <table>
+  <table style="width : 100%">
     <tr>
       <td class="rowprompt">
         Title
@@ -97,5 +97,83 @@
         {{ dar?.cause }}
       </td>
     </tr>
+    <!-- darUsers -->
+
+    <tr>
+      <td colspan="2">
+        <div class="rowprompt">Participants</div>
+        <mat-card>
+          <table class="table">
+            <tr class="tableHeader">
+              <th>Email</th>
+              <th>Display Name</th>
+              <th>Roles</th>
+            </tr>
+            <ng-container *ngFor="let darUser of darUsers | async">
+              <tr>
+                <td>{{darUser.email}}</td>
+                <td>{{darUser.displayName}}</td>
+                <td>
+                  <span *ngIf="darUser.isOwner">Owner </span>
+                  <span *ngIf="darUser.isStakeholder">Stakeholder </span>
+                  <span *ngIf="darUser.isEvaluator">Evaluator </span>
+                  <span *ngIf="darUser.isVoter">Voter </span>
+                  <span *ngIf="darUser.isReader">Reader </span>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </mat-card>
+      </td>
+    </tr>
+
+    <!-- darSolutions -->
+    <tr>
+      <td colspan="2">
+        <div class="rowprompt">Solutions</div>
+        <mat-card>
+          <table class="table">
+            <tr class="tableHeader">
+              <th>Name</th>
+              <th>Description</th>
+              <th>Score</th>
+              <th>Votes</th>
+            </tr>
+            <ng-container *ngFor="let darSolution of darSolutions | async">
+              <tr>
+                <td style="min-width: 100px">{{darSolution.name}}</td>
+                <td>{{darSolution.description}}</td>
+              </tr>
+            </ng-container>
+          </table>
+        </mat-card>
+      </td>
+    </tr>
+
+    <!-- darCriteria -->
+
+    <tr>
+      <td colspan="2">
+        <div class="rowprompt">Criteria</div>
+        <mat-card>
+          <table class="table">
+            <tr class="tableHeader">
+              <th>Name</th>
+              <th>Description</th>
+              <th>Weighting</th>
+            </tr>
+            <ng-container *ngFor="let darCriteria of darCriterias | async">
+              <tr>
+                <td>{{darCriteria.name}}</td>
+                <td>{{darCriteria.description}}</td>
+                <td>{{CriteriaWeighting[darCriteria.weighting]}}</td>
+              </tr>
+            </ng-container>
+          </table>
+        </mat-card>
+      </td>
+    </tr>
+
+
   </table>
 </div>
