@@ -5,12 +5,15 @@
 
 table {
   width: 100%;
+  margin-top: 10px;
 }
+
 
 td.mat-cell,
 th.mat-header-cell {
   padding-right: 8px;
 }
+
 td.mat-cell {
   vertical-align: text-top;
 }
@@ -18,4 +21,3 @@ td.mat-cell {
 .deleteRow {
   padding-top: 8px;
 }
-

@@ -37,7 +37,6 @@ import {
   // MatDialogModule,
   // MatGridListModule
 } from "@angular/material";
-import { MatGridListModule } from "@angular/material/grid-list";
 
 import { NgbCarouselModule } from "@ng-bootstrap/ng-bootstrap";
 import "hammerjs";
@@ -66,6 +65,7 @@ import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
+import { DarauditComponent } from './daraudit/daraudit.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +92,8 @@ import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
     MydarsComponent,
     DarviewComponent,
     DarvoteComponent,
-    DarconfirmComponent
+    DarconfirmComponent,
+    DarauditComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +131,6 @@ import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
     NgbCarouselModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    MatGridListModule,
     // Allow offline operations - useful when used in combination with PWA functionality
     // AngularFirestoreModule.enablePersistence(),
     AngularFirestoreModule,

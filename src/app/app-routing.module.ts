@@ -23,6 +23,7 @@ import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
+import { DarauditComponent } from "./daraudit/daraudit.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -78,6 +79,11 @@ const routes: Routes = [
   {
     path: "darconfirm/:id",
     component: DarconfirmComponent,
+    resolve: { dar: DarResolver }
+  },
+  {
+    path: "daraudit/:id",
+    component: DarauditComponent,
     resolve: { dar: DarResolver }
   },
   {

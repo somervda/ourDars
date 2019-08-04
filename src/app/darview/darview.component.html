@@ -1,13 +1,8 @@
 <div class="page-container">
+  <h2>{{ dar.title }}</h2>
+  <hr>
   <table style="width : 100%">
-    <tr>
-      <td class="rowprompt">
-        Title
-      </td>
-      <td class="rowcontent">
-        {{ dar.title }}
-      </td>
-    </tr>
+
 
     <tr>
       <td class="rowprompt">
@@ -15,6 +10,24 @@
       </td>
       <td class="rowcontent">
         {{ dar.description }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        DAR ID
+      </td>
+      <td class="rowcontent">
+        {{ dar.id }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
+        Title
+      </td>
+      <td class="rowcontent">
+        {{ dar.title }}
       </td>
     </tr>
 
@@ -141,7 +154,7 @@
             </tr>
             <ng-container *ngFor="let darSolution of darSolutions | async">
               <tr>
-                <td style="min-width: 100px">{{darSolution.name}}</td>
+                <td style="min-width: 150px">{{darSolution.name}}</td>
                 <td>{{darSolution.description}}</td>
               </tr>
             </ng-container>
@@ -158,7 +171,7 @@
         <mat-card>
           <table class="table">
             <tr class="tableHeader">
-              <th>Name</th>
+              <th style="min-width: 150px">Name</th>
               <th>Description</th>
               <th>Weighting</th>
             </tr>
