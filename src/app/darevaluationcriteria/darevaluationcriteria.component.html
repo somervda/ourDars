@@ -1,5 +1,24 @@
 <mat-card>
-  <div><b>Criteria: </b>{{darcriteria.name}}</div>
+  <mat-card-header class="card-header">
+    <mat-card-title>{{darcriteria.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
   <div>{{darcriteria.description}}</div>
-  <div *ngIf="darcriteria.weighting">{{CriteriaWeighting[darcriteria.weighting]}}</div>
+  <div class="weighting" >{{CriteriaWeighting[darcriteria.weighting]}}</div>
+
+  <mat-form-field class="half-width" style="margin-top: 8px;">
+      <mat-label>Criteria Evaluation Score</mat-label>
+      <mat-select >
+        <mat-option *ngFor="let item of evaluationScoreItems" [value]="item.key">
+          {{ item.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  <mat-form-field class="full-width">
+      <input matInput  placeholder="Notes"  />
+    </mat-form-field>
+
+
+</mat-card-content>
 </mat-card>

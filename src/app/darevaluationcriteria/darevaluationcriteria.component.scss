@@ -2,3 +2,22 @@ mat-card {
     margin-bottom: 4px;
     margin-top: 4px;
 }
+
+
+.full-width {
+    width: 100%;
+  }
+  
+  .half-width {
+    width: 50%;
+    padding-right: 8px;
+    min-width: 350px;
+  }
+  
+  mat-form-field {
+    padding-bottom: 8px;
+  }
+
+  .weighting {
+      font-style: italic;
+  }
