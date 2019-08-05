@@ -93,11 +93,12 @@ export class TeamComponent implements OnInit,OnDestroy {
 
   onDelete() {
     console.log("delete", this.team.id);
+    const teamName = this.team.name;
 
     this.teamService
       .deleteTeam(this.team.id)
       .then(() => {
-        this.snackBar.open("Team '" + this.team.name + "' deleted!", "", {
+        this.snackBar.open("Team '" + teamName + "' deleted!", "", {
           duration: 2000
         });
         this.ngZone.run(() => this.router.navigateByUrl("/teams"));

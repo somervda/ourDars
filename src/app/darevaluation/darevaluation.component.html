@@ -1,3 +1,9 @@
-<p>
-  darevaluation works!
-</p>
+<div class="page-container">
+<div >Description: {{ darsolution.description }}</div>
+<div *ngIf="darsolution.evaluationNotes">Evaluation Notes: {{ darsolution.evaluationNotes}}</div>
+
+<div *ngFor="let darcriteria of darcriterias | async">
+  <app-darevaluationcriteria [darcriteria]="darcriteria"></app-darevaluationcriteria>
+
+</div>
+</div>

@@ -69,6 +69,7 @@ import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
 import { DarevaluationsComponent } from './darevaluations/darevaluations.component';
 import { SubheadingComponent } from './subheading/subheading.component';
+import { DarevaluationcriteriaComponent } from './darevaluationcriteria/darevaluationcriteria.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { SubheadingComponent } from './subheading/subheading.component';
     DarconfirmComponent,
     DarauditComponent,
     DarevaluationsComponent,
-    SubheadingComponent
+    SubheadingComponent,
+    DarevaluationcriteriaComponent
   ],
   imports: [
     BrowserModule,

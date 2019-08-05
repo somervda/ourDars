@@ -1,0 +1,5 @@
+<mat-card>
+  <div><b>Criteria: </b>{{darcriteria.name}}</div>
+  <div>{{darcriteria.description}}</div>
+  <div *ngIf="darcriteria.weighting">{{CriteriaWeighting[darcriteria.weighting]}}</div>
+</mat-card>

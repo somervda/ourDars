@@ -1,5 +1,7 @@
+<app-subheading [title]="team.name" *ngIf="crudAction == Crud.Update"></app-subheading>
+<app-subheading title="Create New Team" *ngIf="crudAction == Crud.Create"></app-subheading>
+<app-subheading [title]="'Delete: ' + team.name" *ngIf="crudAction == Crud.Delete"></app-subheading>
 <div class="page-container">
-  <h1>Team</h1>
 
   <form class="standard-form" [formGroup]="teamForm">
     <mat-form-field class="full-width">

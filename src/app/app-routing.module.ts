@@ -105,7 +105,8 @@ const routes: Routes = [
   },
   {
     path: "darevaluations/:id",
-    component: DarevaluationsComponent
+    component: DarevaluationsComponent,
+    resolve: { dar: DarResolver }
   },
 
   {
