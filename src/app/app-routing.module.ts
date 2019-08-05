@@ -17,7 +17,7 @@ import { TeamResolver } from "./services/team-resolver";
 import { DarComponent } from "./dar/dar.component";
 import { DarResolver } from "./services/dar-resolver";
 import { DarfolderComponent } from "./darfolder/darfolder.component";
-import { DarevaluationComponent } from "./darevaluation/darevaluation.component";
+import { DarevaluationsComponent } from "./darevaluations/darevaluations.component";
 import { IsDarCreatorGuard } from "./guards/isDarCreator.guard";
 import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
@@ -104,8 +104,8 @@ const routes: Routes = [
     canActivate: [isAdminGuard]
   },
   {
-    path: "darevaluation/:id",
-    component: DarevaluationComponent
+    path: "darevaluations/:id",
+    component: DarevaluationsComponent
   },
 
   {

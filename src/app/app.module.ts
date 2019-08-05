@@ -27,6 +27,7 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatExpansionModule,
   //MatDividerModule,
   MatInputModule,
   MatFormFieldModule,
@@ -65,7 +66,9 @@ import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
-import { DarauditComponent } from './daraudit/daraudit.component';
+import { DarauditComponent } from "./daraudit/daraudit.component";
+import { DarevaluationsComponent } from './darevaluations/darevaluations.component';
+import { SubheadingComponent } from './subheading/subheading.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +96,9 @@ import { DarauditComponent } from './daraudit/daraudit.component';
     DarviewComponent,
     DarvoteComponent,
     DarconfirmComponent,
-    DarauditComponent
+    DarauditComponent,
+    DarevaluationsComponent,
+    SubheadingComponent
   ],
   imports: [
     BrowserModule,
@@ -120,6 +125,7 @@ import { DarauditComponent } from './daraudit/daraudit.component';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatExpansionModule,
     // MatMenuModule,
     //MatDividerModule,
     MatTabsModule,
