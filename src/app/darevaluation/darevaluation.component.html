@@ -1,9 +1,14 @@
 <div class="page-container">
-<div >Description: {{ darsolution.description }}</div>
-<div *ngIf="darsolution.evaluationNotes">Evaluation Notes: {{ darsolution.evaluationNotes}}</div>
+  <div>Description: {{ darsolution.description }}</div>
+  <div *ngIf="darsolution.evaluationNotes">
+    Evaluation Notes: {{ darsolution.evaluationNotes }}
+  </div>
 
-<div *ngFor="let darcriteria of darcriterias | async">
-  <app-darevaluationcriteria [darcriteria]="darcriteria"></app-darevaluationcriteria>
-
-</div>
+  <div *ngFor="let darcriteria of darcriterias | async">
+    <app-darevaluationcriteria
+      [darcriteria]="darcriteria"
+      [dsid]="darsolution.id"
+      [did]="dar.id"
+    ></app-darevaluationcriteria>
+  </div>
 </div>

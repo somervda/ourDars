@@ -4,17 +4,17 @@ export interface Darsolution {
   description: string;
   // Notes to help with the evaluations, i.e. how to get access to the solution etc
   evaluationNotes?: string;
-  criteriaEvaluations?: [CriteriaEvaluation];
+  criteriaEvaluations?: CriteriaEvaluation[];
 }
 
 export interface CriteriaEvaluation {
   dcid: string;
   notes?: string;
-  evaluationScore: EvaluationScore;
+  evaluationScore?: EvaluationScore;
 }
 
 export enum EvaluationScore {
-  // 100% met 
+  // 100% met
   "Fully Met" = 0,
   // Met criteria but things to be aware of (i.e. Non stated criteria my be in play - ie "w version to be aware of")
   "Met" = 1,
