@@ -5,10 +5,7 @@
   </div>
 
   <div *ngFor="let darcriteria of darcriterias | async">
-    <app-darevaluationcriteria
-      [darcriteria]="darcriteria"
-      [dsid]="darsolution.id"
-      [did]="dar.id"
-    ></app-darevaluationcriteria>
+    <app-darevaluationcriteria [darcriteria]="darcriteria" [darsolution]="darsolution" [dar]="dar">
+    </app-darevaluationcriteria>
   </div>
 </div>
