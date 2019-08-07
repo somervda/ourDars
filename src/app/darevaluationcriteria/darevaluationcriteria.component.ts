@@ -1,5 +1,5 @@
 import { CriteriaWeighting } from "./../models/darcriteria.model";
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy, ViewChild } from "@angular/core";
 import { Darcriteria } from "../models/darcriteria.model";
 import { Darsolution } from "../models/darsolution.model";
 import { enumToMap } from "../shared/utilities";
@@ -18,6 +18,9 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
   @Input() darcriteria: Darcriteria;
   @Input() darsolution: Darsolution;
   @Input() dar: Dar;
+  @ViewChild("evaluationScore") evaluationScore;
+  @ViewChild("notes") notes;
+
   CriteriaWeighting = CriteriaWeighting;
   EvaluationScore = EvaluationScore;
   evaluationScoreItems: Kvp[];
@@ -33,9 +36,18 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
       .findById(this.dar.id, this.darsolution.id, this.darcriteria.id)
       .subscribe(evaluations => {
         if (evaluations.length == 0)
-          this.darevaluation = { dcid: this.darcriteria.id };
+          this.darevaluation = { dcid: this.darcriteria.id, notes: "" };
         else this.darevaluation = evaluations[0];
       });
+  }
+
+  onUpdate() {
+    console.log(
+      "onUpdate evaluationScore",
+      this.evaluationScore.value,
+      " notes:",
+      this.notes.nativeElement.value
+    );
   }
 
   ngOnDestroy() {}

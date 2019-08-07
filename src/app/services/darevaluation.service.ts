@@ -1,3 +1,4 @@
+import { Darevaluation } from "./../models/darevaluation.model";
 import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
@@ -42,5 +43,17 @@ export class DarevaluationService {
           return convertSnaps<Darevaluation>(snaps);
         })
       );
+  }
+
+  updateEvaluation(
+    did: string,
+    dsid: string,
+    deid: string,
+    darevaluation: Darevaluation
+  ): Promise<DocumentReference> {
+    console.log("updateEvaluation", did, dsid, deid, darevaluation);
+    return this.afs
+      .collection("/dars/" + did + "/darSolutions/" + dsid + "")
+      .add(darsolution);
   }
 }
