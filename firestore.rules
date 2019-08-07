@@ -55,28 +55,28 @@ service cloud.firestore {
         
     // darsolutions document rules
     // 
-        match /dars/{dar}/darSolutions/{darSolution} {
+        match /dars/{dar}/darSolutions/{dsid} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
         
     // darCriteria document rules
     // 
-        match /dars/{dar}/darCriteria/{darCriteria} {
+        match /dars/{dar}/darCriteria/{dcid} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
 
     // darUsers document rules
     // 
-        match /dars/{dar}/darUsers/{darUser} {
+        match /dars/{dar}/darUsers/{duid} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
 
     // darEvaluations document rules
     // 
-        match /dars/{dar}/darSolutions/{darSolution}/darEvaluations/{deid} {
+        match /dars/{dar}/darSolutions/{dsid}/darEvaluations/{deid} {
           allow read:  if isAuthenticated();
           allow write:  if isAdmin() ;
         }
