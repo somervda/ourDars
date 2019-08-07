@@ -2,8 +2,7 @@ import { Darevaluation } from "./../models/darevaluation.model";
 import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { Darevaluation } from "../models/darevaluation.model";
-import { convertSnaps } from "./db-utils";
+import { convertSnap } from "./db-utils";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -12,11 +11,7 @@ import { map } from "rxjs/operators";
 export class DarevaluationService {
   constructor(private afs: AngularFirestore) {}
 
-  findById(
-    did: string,
-    dsid: string,
-    dcid: string
-  ): Observable<Darevaluation[]> {
+  findById(did: string, dsid: string, dcid: string): Observable<Darevaluation> {
     console.log(
       "DarevaluationService findById",
       " did:",
@@ -26,34 +21,35 @@ export class DarevaluationService {
       "dcid:",
       dcid
     );
+    const docLocation =
+      "/dars/" + did + "/darSolutions/" + dsid + "/darEvaluations/" + dcid;
+    console.log("DarevaluationService docLocation", docLocation);
+
+    return this.afs
+      .doc(docLocation)
+      .snapshotChanges()
+      .pipe(
+        map(snap => {
+          return convertSnap<Darevaluation>(snap);
+        })
+      );
+  }
+
+  setEvaluation(
+    did: string,
+    dsid: string,
+    dcid: string,
+    darevaluation: Darevaluation
+  ): Promise<void> {
+    console.log("updateEvaluation", did, dsid, dcid, darevaluation);
 
     return this.afs
       .collection("dars")
       .doc(did)
       .collection("darSolutions")
       .doc(dsid)
-      .collection("darEvaluations", ref => ref.where("dcid", "==", dcid))
-      .snapshotChanges()
-      .pipe(
-        map(snaps => {
-          console.log(
-            "DarevaluationService",
-            convertSnaps<Darevaluation>(snaps)
-          );
-          return convertSnaps<Darevaluation>(snaps);
-        })
-      );
-  }
-
-  updateEvaluation(
-    did: string,
-    dsid: string,
-    deid: string,
-    darevaluation: Darevaluation
-  ): Promise<DocumentReference> {
-    console.log("updateEvaluation", did, dsid, deid, darevaluation);
-    return this.afs
-      .collection("/dars/" + did + "/darSolutions/" + dsid + "")
-      .add(darsolution);
+      .collection("darEvaluations")
+      .doc(dcid)
+      .set(darevaluation);
   }
 }

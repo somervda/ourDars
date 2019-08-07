@@ -24,6 +24,7 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
   CriteriaWeighting = CriteriaWeighting;
   EvaluationScore = EvaluationScore;
   evaluationScoreItems: Kvp[];
+
   darevaluation$: Subscription;
   darevaluation: Darevaluation;
 
@@ -34,10 +35,10 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
 
     this.darevaluation$ = this.darevaluationService
       .findById(this.dar.id, this.darsolution.id, this.darcriteria.id)
-      .subscribe(evaluations => {
-        if (evaluations.length == 0)
-          this.darevaluation = { dcid: this.darcriteria.id, notes: "" };
-        else this.darevaluation = evaluations[0];
+      .subscribe(evaluation => {
+        console.log("darEvaluation ngOnInit subscribe", evaluation);
+        this.darevaluation = evaluation;
+        // if (!this.darevaluation.notes) this.darevaluation["notes"] = "";
       });
   }
 
@@ -48,6 +49,21 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
       " notes:",
       this.notes.nativeElement.value
     );
+    if (!this.evaluationScore.value)
+      delete this.darevaluation["evaluationScore"];
+    else this.darevaluation["evaluationScore"] = this.evaluationScore.value;
+    this.darevaluation["notes"] = this.notes.nativeElement.value;
+    this.darevaluationService
+      .setEvaluation(
+        this.dar.id,
+        this.darsolution.id,
+        this.darcriteria.id,
+        this.darevaluation
+      )
+      .then()
+      .catch(error =>
+        console.error("darevaluationcriteria onUpdate error", error)
+      );
   }
 
   ngOnDestroy() {}

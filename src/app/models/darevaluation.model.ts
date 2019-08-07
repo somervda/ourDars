@@ -1,6 +1,5 @@
 export interface Darevaluation {
   id?: string;
-  dcid: string;
   notes?: string;
   evaluationScore?: EvaluationScore;
 }
