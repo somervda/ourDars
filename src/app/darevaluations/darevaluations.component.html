@@ -1,7 +1,7 @@
 <app-subheading title="Evaluate DAR Solutions"></app-subheading>
 <div class="page-container">
 <mat-accordion multi="false">
-<div *ngFor="let darsolution of darsolutions | async">
+<div *ngFor="let darsolution of darsolutions$ | async">
     <mat-expansion-panel>
         <mat-expansion-panel-header>
         <b>{{darsolution.name}}</b>

@@ -78,7 +78,7 @@
         Team
       </td>
       <td class="rowcontent">
-        {{ (team | async)?.name }}
+        {{ (team$ | async)?.name }}
       </td>
     </tr>
     <tr>
@@ -107,7 +107,7 @@
         {{ dar?.cause }}
       </td>
     </tr>
-    <!-- darUsers -->
+    <!-- darUsers$ -->
 
     <tr>
       <td colspan="2">
@@ -119,7 +119,7 @@
               <th>Display Name</th>
               <th>Roles</th>
             </tr>
-            <ng-container *ngFor="let darUser of darUsers | async">
+            <ng-container *ngFor="let darUser of darUsers$ | async">
               <tr>
                 <td>{{ darUser.email }}</td>
                 <td>{{ darUser.displayName }}</td>
@@ -137,7 +137,7 @@
       </td>
     </tr>
 
-    <!-- darSolutions -->
+    <!-- darSolutions$ -->
     <tr>
       <td colspan="2">
         <div class="rowprompt">Solutions</div>
@@ -149,7 +149,7 @@
               <th>Score</th>
               <th>Votes</th>
             </tr>
-            <ng-container *ngFor="let darSolution of darSolutions | async">
+            <ng-container *ngFor="let darSolution of darSolutions$ | async">
               <tr>
                 <td style="min-width: 150px">{{ darSolution.name }}</td>
                 <td>{{ darSolution.description }}</td>
@@ -172,7 +172,7 @@
               <th>Description</th>
               <th>Weighting</th>
             </tr>
-            <ng-container *ngFor="let darCriteria of darCriterias | async">
+            <ng-container *ngFor="let darCriteria of darCriterias$ | async">
               <tr>
                 <td>{{ darCriteria.name }}</td>
                 <td>{{ darCriteria.description }}</td>
@@ -193,13 +193,13 @@
           <table class="heatTable">
             <tr>
               <th style="min-width: 150px" style="vertical-align: bottom">Solutions</th>
-              <th class="rotate" *ngFor="let darCriteria of darCriterias | async">
+              <th class="rotate" *ngFor="let darCriteria of darCriterias$ | async">
                 <div>
                   <span>{{ darCriteria.name.length>20 ? (darCriteria.name.slice(0,20) + "..."): darCriteria.name }}</span>
                 </div>
               </th>
             </tr>
-            <ng-container *ngFor="let darSolution of darSolutions | async">
+            <ng-container *ngFor="let darSolution of darSolutions$ | async">
               <tr>
                 <td>{{ darSolution.name }}</td>
 

@@ -27,7 +27,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
   Crud = Crud;
   form: FormGroup;
   darcriteria: Darcriteria;
-  darcriteria$: Subscription;
+  darcriteria$$: Subscription;
   criteriaWeightings: Kvp[];
 
   constructor(
@@ -47,9 +47,9 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
     this.createForm();
 
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
-      if (this.darcriteria$) this.darcriteria$.unsubscribe();
+      if (this.darcriteria$$) this.darcriteria$$.unsubscribe();
 
-      this.darcriteria$ = this.darcriteriaService
+      this.darcriteria$$ = this.darcriteriaService
         .findById(this._did, this._dcid)
         .subscribe(dc => {
           this.darcriteria = dc;
@@ -156,6 +156,6 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    if (this.darcriteria$) this.darcriteria$.unsubscribe();
+    if (this.darcriteria$$) this.darcriteria$$.unsubscribe();
   }
 }

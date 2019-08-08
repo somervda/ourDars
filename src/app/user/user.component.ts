@@ -18,10 +18,10 @@ export class UserComponent implements OnInit, OnDestroy {
   user: User;
   kvps: KeyValuePair[];
   updatableProfile: boolean = false;
-  userInitSub: Subscription;
-  navigationSubscription: Subscription;
+  userInit$$: Subscription;
+  navigation$$: Subscription;
   teams: Team[];
-  teams$: Subscription;
+  teams$$: Subscription;
   selectedTid: string;
 
   constructor(
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // subscribe to the router events - storing the subscription so
     // we can unsubscribe later.
-    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+    this.navigation$$ = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.loadDisplayUser();
@@ -44,7 +44,7 @@ export class UserComponent implements OnInit, OnDestroy {
     });
 
     this.teams = [];
-    this.teams$ = this.teamService
+    this.teams$$ = this.teamService
       .findTeams("", "name", "asc", 100)
       .subscribe(teams => (this.teams = teams));
 
@@ -61,7 +61,7 @@ export class UserComponent implements OnInit, OnDestroy {
     const isAdmin = this.user.isAdmin ? "Yes" : "No";
     const isActivated = this.user.isActivated ? "Yes" : "No";
 
-    this.userInitSub = this.auth.user$.subscribe(currentUser => {
+    this.userInit$$ = this.auth.user$.subscribe(currentUser => {
       // The user page is read only for non-administrators
       // or where the uid = the logged on user UID)
       // if the user is and administrator and looking at other peoples profiles then updates
@@ -136,9 +136,9 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userInitSub) this.userInitSub.unsubscribe();
-    if (this.navigationSubscription) this.navigationSubscription.unsubscribe();
+    if (this.userInit$$) this.userInit$$.unsubscribe();
+    if (this.navigation$$) this.navigation$$.unsubscribe();
 
-    if (this.teams$) this.teams$.unsubscribe();
+    if (this.teams$$) this.teams$$.unsubscribe();
   }
 }

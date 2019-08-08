@@ -15,7 +15,7 @@ import { Crud } from "../models/global.model";
 })
 export class DarsolutionsComponent implements OnInit {
   @Input() dar: Dar;
-  darsolutions: Observable<Darsolution[]>;
+  darsolutions$: Observable<Darsolution[]>;
   displayedColumns: string[] = ["evaluate", "name", "delete"];
   dsid: string;
   crudAction = Crud.Update;
@@ -32,7 +32,7 @@ export class DarsolutionsComponent implements OnInit {
 
   ngOnInit() {
     // get a observable of all darsolutions related to this dar
-    this.darsolutions = this.darsolutionservice.findAllDarsolutions(
+    this.darsolutions$ = this.darsolutionservice.findAllDarsolutions(
       this.dar.id,
       100
     );

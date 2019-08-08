@@ -12,7 +12,7 @@ import { DarsolutionService } from '../services/darsolution.service';
 })
 export class DarevaluationsComponent implements OnInit {
 
-  darsolutions: Observable<Darsolution[]>;
+  darsolutions$: Observable<Darsolution[]>;
   dar : Dar;
 
 
@@ -25,7 +25,7 @@ export class DarevaluationsComponent implements OnInit {
     this.dar = this.route.snapshot.data["dar"];
     console.log("darevaluations",this.dar);
     // get a observable of all darsolutions related to this dar
-    this.darsolutions = this.darsolutionservice.findAllDarsolutions(
+    this.darsolutions$ = this.darsolutionservice.findAllDarsolutions(
       this.dar.id,
       100
     );

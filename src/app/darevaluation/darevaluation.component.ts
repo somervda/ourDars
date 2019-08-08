@@ -19,14 +19,14 @@ import { Darcriteria } from '../models/darcriteria.model';
 export class DarevaluationComponent implements OnInit {
   @Input() darsolution : Darsolution;
   @Input() dar : Dar;
-  darcriterias: Observable<Darcriteria[]>;
+  darcriteria$: Observable<Darcriteria[]>;
   
   constructor(private darcriteriaservice : DarcriteriaService) { }
 
   ngOnInit() {
     console.log("darevaluation",this.dar, this.darsolution);
     // get a observable of all darsolutions related to this dar
-    this.darcriterias = this.darcriteriaservice.findAllDarcriteria(
+    this.darcriteria$ = this.darcriteriaservice.findAllDarcriteria(
       this.dar.id,
       1000
     );

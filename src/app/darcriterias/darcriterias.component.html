@@ -1,8 +1,8 @@
 <div class="page-container">
   <div class="table-container">
-    <div *ngIf="(darcriteria | async)?.length ==0">No criteria defined. Press "New Criteria" to create criteria for
+    <div *ngIf="(darcriteria$ | async)?.length ==0">No criteria defined. Press "New Criteria" to create criteria for
       this decision.</div>
-    <table mat-table [dataSource]="darcriteria | async" class="mat-elevation-z8">
+    <table mat-table [dataSource]="darcriteria$ | async" class="mat-elevation-z8">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef style="padding-left: 20px">Name (Click to edit)</th>

@@ -25,7 +25,7 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
   EvaluationScore = EvaluationScore;
   evaluationScoreItems: Kvp[];
 
-  darevaluation$: Subscription;
+  darevaluation$$: Subscription;
   darevaluation: Darevaluation;
 
   constructor(private darevaluationService: DarevaluationService) {}
@@ -33,7 +33,7 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.evaluationScoreItems = enumToMap(EvaluationScore);
 
-    this.darevaluation$ = this.darevaluationService
+    this.darevaluation$$ = this.darevaluationService
       .findById(this.dar.id, this.darsolution.id, this.darcriteria.id)
       .subscribe(evaluation => {
         console.log("darEvaluation ngOnInit subscribe", evaluation);

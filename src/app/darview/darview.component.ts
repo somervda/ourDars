@@ -22,13 +22,12 @@ export class DarviewComponent implements OnInit, OnDestroy {
   dar: Dar;
   DarStatus = DarStatus;
   DarMethod = DarMethod;
-  team: Observable<Team>;
-  dar$: Subscription;
+  team$: Observable<Team>;
+  dar$$: Subscription;
   did: string;
-  darUsers: Observable<Daruser[]>;
-  darSolutions: Observable<Darsolution[]>;
-  darSolutions2: Observable<Darsolution[]>;
-  darCriterias: Observable<Darcriteria[]>;
+  darUsers$: Observable<Daruser[]>;
+  darSolutions$: Observable<Darsolution[]>;
+  darCriterias$: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
 
   constructor(
@@ -44,19 +43,15 @@ export class DarviewComponent implements OnInit, OnDestroy {
     this.dar = this.route.snapshot.data["dar"];
     this.did = this.dar.id;
 
-    this.dar$ = this.darService.findById(this.did).subscribe(dar => {
+    this.dar$$ = this.darService.findById(this.did).subscribe(dar => {
       this.dar = dar;
-      this.team = this.teamService.findById(this.dar.tid);
-      this.darUsers = this.daruserService.findAllDarusers(this.did, 1000);
-      this.darSolutions = this.darsolutionService.findAllDarsolutions(
+      this.team$ = this.teamService.findById(this.dar.tid);
+      this.darUsers$ = this.daruserService.findAllDarusers(this.did, 1000);
+      this.darSolutions$ = this.darsolutionService.findAllDarsolutions(
         this.did,
         1000
       );
-      this.darSolutions2 = this.darsolutionService.findAllDarsolutions(
-        this.did,
-        1000
-      );
-      this.darCriterias = this.darcriteriaService.findAllDarcriteria(
+      this.darCriterias$ = this.darcriteriaService.findAllDarcriteria(
         this.did,
         1000
       );
@@ -64,6 +59,6 @@ export class DarviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.dar$) this.dar$.unsubscribe();
+    if (this.dar$$) this.dar$$.unsubscribe();
   }
 }

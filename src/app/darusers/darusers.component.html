@@ -1,8 +1,8 @@
 <div class="page-container">
   <div class="table-container">
-    <div *ngIf="(darusers | async)?.length ==0">No users defined. Press "New User" to create new participants for
+    <div *ngIf="(darusers$ | async)?.length ==0">No users defined. Press "New User" to create new participants for
       this decision.</div>
-    <table mat-table [dataSource]="darusers | async" class="mat-elevation-z8">
+    <table mat-table [dataSource]="darusers$ | async" class="mat-elevation-z8">
 
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef style="padding-left: 20px">User (Click to edit)</th>

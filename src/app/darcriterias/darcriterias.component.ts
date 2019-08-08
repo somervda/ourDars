@@ -16,7 +16,7 @@ import { DarcriteriaService } from "../services/darcriteria.service";
 export class DarcriteriasComponent implements OnInit {
   @Input() dar: Dar;
   //darcriteria$: Subscription;
-  darcriteria: Observable<Darcriteria[]>;
+  darcriteria$: Observable<Darcriteria[]>;
   displayedColumns: string[] = ["name", "weighting", "delete"];
   dcid: string;
   crudAction = Crud.Update;
@@ -34,7 +34,7 @@ export class DarcriteriasComponent implements OnInit {
 
   ngOnInit() {
     // get a observable of all darsolutions related to this dar
-    this.darcriteria = this.darcriteriaservice.findAllDarcriteria(
+    this.darcriteria$ = this.darcriteriaservice.findAllDarcriteria(
       this.dar.id,
       100
     );

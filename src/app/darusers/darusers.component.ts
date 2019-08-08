@@ -15,7 +15,7 @@ import { DaruserService } from "../services/daruser.service";
 })
 export class DarusersComponent implements OnInit {
   @Input() dar: Dar;
-  darusers: Observable<Daruser[]>;
+  darusers$: Observable<Daruser[]>;
   displayedColumns: string[] = ["email", "Roles", "delete"];
   duid: string;
   crudAction = Crud.Update;
@@ -32,7 +32,7 @@ export class DarusersComponent implements OnInit {
 
   ngOnInit() {
     // get a observable of all darusers related to this dar
-    this.darusers = this.daruserservice.findAllDarusers(this.dar.id, 100);
+    this.darusers$ = this.daruserservice.findAllDarusers(this.dar.id, 100);
   }
 
   selectUser(duid: string) {

@@ -1,8 +1,8 @@
 <div class="page-container">
   <div class="table-container">
-    <div *ngIf="(darsolutions | async)?.length ==0">No Solutions defined. Press "New Solution" to create solutions for
+    <div *ngIf="(darsolutions$ | async)?.length ==0">No Solutions defined. Press "New Solution" to create solutions for
       this decision.</div>
-    <table mat-table [dataSource]="darsolutions | async" class="mat-elevation-z8">
+    <table mat-table [dataSource]="darsolutions$ | async" class="mat-elevation-z8">
 
       <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->

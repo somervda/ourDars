@@ -33,7 +33,7 @@ export class DarComponent implements OnInit, OnDestroy {
   darStatuses: Kvp[];
   form: FormGroup;
   team$;
-  darSubscription: Subscription;
+  dar$$: Subscription;
 
   // testDate: Date;
 
@@ -66,7 +66,7 @@ export class DarComponent implements OnInit, OnDestroy {
       this.dar = this.route.snapshot.data["dar"];
 
       // Subscribe to dar to keep getting realtime updates
-      this.darSubscription = this.darService
+      this.dar$$ = this.darService
         .findById(this.dar.id)
         .subscribe(dar => {
           this.dar = dar;
@@ -199,8 +199,8 @@ export class DarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.darSubscription) {
-      this.darSubscription.unsubscribe();
+    if (this.dar$$) {
+      this.dar$$.unsubscribe();
       // console.log("Unsubscribe DAR");
     }
   }
