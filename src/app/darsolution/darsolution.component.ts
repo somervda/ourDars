@@ -19,7 +19,7 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() did: string;
   @Input() dsid: string;
   @Input() crudAction: Crud;
-  // Update dummy value with new value each time component is 
+  // Update dummy value with new value each time component is
   // updated from parent component to force OnChange to fire.
   @Input() dummyValue: number;
   _did: string;
@@ -28,7 +28,7 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   Crud = Crud;
   form: FormGroup;
   darsolution: Darsolution;
-  darsolution$: Subscription;
+  darsolution$$: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -46,11 +46,10 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
     this.resetLocalValues();
     this.createForm();
 
-
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
-      if (this.darsolution$) this.darsolution$.unsubscribe();
+      if (this.darsolution$$) this.darsolution$$.unsubscribe();
 
-      this.darsolution$ = this.darsolutionService
+      this.darsolution$$ = this.darsolutionService
         .findById(this._did, this._dsid)
         .subscribe(ds => {
           this.darsolution = ds;
@@ -64,7 +63,6 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get(field).markAsTouched();
       }
     }
-
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {
@@ -87,7 +85,6 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onCreate() {
-
     for (const field in this.form.controls) {
       this.darsolution[field] = this.form.get(field).value;
     }
@@ -132,11 +129,9 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
     this._dsid = this.dsid;
     this._crudAction = this.crudAction;
     this.darsolution = { name: "", description: "", evaluationNotes: "" };
-
   }
 
   createForm() {
-    
     // Create form group and initialize with  values
     this.form = this.fb.group({
       name: [
@@ -163,6 +158,6 @@ export class DarsolutionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    if (this.darsolution$) this.darsolution$.unsubscribe();
+    if (this.darsolution$$) this.darsolution$$.unsubscribe();
   }
 }

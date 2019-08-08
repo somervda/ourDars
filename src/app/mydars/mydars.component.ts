@@ -18,11 +18,10 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 export class MydarsComponent implements OnInit {
   @ViewChild("selectedDarStatus") selectedDarStatus;
   @ViewChild("selectedRole") selectedRole;
-  dars: Observable<Dar[]>;
-  displayedColumns = ["title", "darStatus", "roles","actions"];
+  dars$: Observable<Dar[]>;
+  displayedColumns = ["title", "darStatus", "roles", "actions"];
   darStatus = DarStatus;
   darStatuses: Kvp[];
-  
 
   constructor(private darService: DarService, private auth: AuthService) {}
 
@@ -36,7 +35,7 @@ export class MydarsComponent implements OnInit {
   }
 
   updateQuery() {
-    this.dars = this.darService.findMyDars(
+    this.dars$ = this.darService.findMyDars(
       this.auth.currentUser.uid,
       this.selectedRole.value,
       this.selectedDarStatus.value == ""

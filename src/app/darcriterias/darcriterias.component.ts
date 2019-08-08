@@ -15,7 +15,6 @@ import { DarcriteriaService } from "../services/darcriteria.service";
 })
 export class DarcriteriasComponent implements OnInit {
   @Input() dar: Dar;
-  //darcriteria$: Subscription;
   darcriteria$: Observable<Darcriteria[]>;
   displayedColumns: string[] = ["name", "weighting", "delete"];
   dcid: string;

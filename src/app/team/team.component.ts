@@ -13,14 +13,14 @@ import { Observable, Subscription } from "rxjs";
   templateUrl: "./team.component.html",
   styleUrls: ["./team.component.scss"]
 })
-export class TeamComponent implements OnInit,OnDestroy {
+export class TeamComponent implements OnInit, OnDestroy {
   team: Team;
   crudAction: Crud;
   // Declare an instance of crud enum to use for checking crudAction value
   Crud = Crud;
 
   teamForm: FormGroup;
-  teamSubscription : Subscription;
+  teamSubscription$$: Subscription;
 
   constructor(
     private teamService: TeamService,
@@ -44,21 +44,28 @@ export class TeamComponent implements OnInit,OnDestroy {
     } else {
       this.team = this.route.snapshot.data["team"];
       // Subscribe to team to keep getting live updates
-      this.teamSubscription = this.teamService.findById(this.team.id).subscribe(team =>
-        { 
-          this.team = team; 
-          console.log("subscribed team",this.team);
-          this.teamForm.patchValue(this.team) 
+      this.teamSubscription$$ = this.teamService
+        .findById(this.team.id)
+        .subscribe(team => {
+          this.team = team;
+          console.log("subscribed team", this.team);
+          this.teamForm.patchValue(this.team);
         });
     }
 
-
     // Create form group and initalize with team values
     this.teamForm = this.fb.group({
-      name: [this.team.name, [Validators.required,  Validators.minLength(3),Validators.maxLength(30)]],
+      name: [
+        this.team.name,
+        [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+      ],
       description: [
         this.team.description,
-        [Validators.required, Validators.minLength(20), Validators.maxLength(500)]
+        [
+          Validators.required,
+          Validators.minLength(20),
+          Validators.maxLength(500)
+        ]
       ]
     });
 
@@ -125,6 +132,6 @@ export class TeamComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.teamSubscription ) this.teamSubscription.unsubscribe();
+    if (this.teamSubscription$$) this.teamSubscription$$.unsubscribe();
   }
 }

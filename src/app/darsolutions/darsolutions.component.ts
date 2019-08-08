@@ -16,7 +16,7 @@ import { Crud } from "../models/global.model";
 export class DarsolutionsComponent implements OnInit {
   @Input() dar: Dar;
   darsolutions$: Observable<Darsolution[]>;
-  displayedColumns: string[] = ["evaluate", "name", "delete"];
+  displayedColumns: string[] = ["name", "delete"];
   dsid: string;
   crudAction = Crud.Update;
   forCD = 0;

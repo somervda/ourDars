@@ -37,25 +37,23 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   Crud = Crud;
   form: FormGroup;
   daruser: Daruser;
-  daruser$: Subscription;
+  daruser$$: Subscription;
 
   selectedUser: string;
   selectEmail: string;
   team$;
   // users subscription and results
-  users$: Subscription;
+  users$$: Subscription;
   users: User[];
   // darusers subscription and results
-  darusers$: Subscription;
+  darusers$$: Subscription;
   darusers: Daruser[];
   // Array of users that can be user to select a new user on a create
   // is the list of users minus users already assigned to the dar
   createUserOptions: UserOption[];
   // tidFinder = "";
-  @ViewChild("emailFilter") emailFilter ;
+  @ViewChild("emailFilter") emailFilter;
   @ViewChild("tidFilter") tidFilter;
-
-
 
   constructor(
     private fb: FormBuilder,
@@ -79,13 +77,13 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     if (this._crudAction == Crud.Create) {
       // When in create mode build a list of users who are notalready assigned
       // to the DAR
-      this.users$ = this.userService
-        .findMatchingUsers(undefined,undefined, 100)
+      this.users$$ = this.userService
+        .findMatchingUsers(undefined, undefined, 100)
         .subscribe(users => {
           this.users = users;
           this.rebuildCreateUserOptions();
         });
-      this.darusers$ = this.daruserService
+      this.darusers$$ = this.daruserService
         .findAllDarusers(this._did, 100)
         .subscribe(darusers => {
           this.darusers = darusers;
@@ -94,9 +92,9 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this._crudAction == Crud.Update || this._crudAction == Crud.Delete) {
-      if (this.daruser$) this.daruser$.unsubscribe();
+      if (this.daruser$$) this.daruser$$.unsubscribe();
 
-      this.daruser$ = this.daruserService
+      this.daruser$$ = this.daruserService
         .findById(this._did, this._duid)
         .subscribe(du => {
           this.daruser = du;
@@ -180,16 +178,18 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   onFilterChange() {
     // Update the createUserOptions - only select users in the matching team
     // console.log("onFindTeamChange", this.tidFilter);
-    if (this.users$) this.users$.unsubscribe();
-    this.users$ = this.userService
-      .findMatchingUsers(this.tidFilter.value,this.emailFilter.nativeElement.value, 100)
+    if (this.users$$) this.users$$.unsubscribe();
+    this.users$$ = this.userService
+      .findMatchingUsers(
+        this.tidFilter.value,
+        this.emailFilter.nativeElement.value,
+        100
+      )
       .subscribe(users => {
         this.users = users;
         this.rebuildCreateUserOptions();
       });
   }
-
-
 
   resetLocalValues() {
     this._did = this.did;
@@ -239,9 +239,9 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     // Clean up any subscriptions
-    if (this.daruser$) this.daruser$.unsubscribe();
-    if (this.users$) this.users$.unsubscribe();
-    if (this.darusers$) this.darusers$.unsubscribe();
+    if (this.daruser$$) this.daruser$$.unsubscribe();
+    if (this.users$$) this.users$$.unsubscribe();
+    if (this.darusers$$) this.darusers$$.unsubscribe();
   }
 }
 
