@@ -187,6 +187,31 @@
       </td>
     </tr>
 
+    <!-- evaluation heatmap -->
+
+    <tr>
+      <td colspan="2">
+        <div class="rowprompt">Solution Evaluations</div>
+        <mat-card>
+          <table class="table">
+            <tr>
+              <th style="min-width: 150px">Criteria</th>
+              <th class="rotate" *ngFor="let darSolution of darSolutions | async">
+                <div><span>{{darSolution.name}}</span></div>
+              </th>
+
+            </tr>
+            <ng-container *ngFor="let darCriteria of darCriterias | async">
+              <tr>
+                <td>{{darCriteria.name}}</td>
+                <td *ngFor="let darSolution of darSolutions | async">3 bggn werd</td>
+              </tr>
+            </ng-container>
+          </table>
+        </mat-card>
+      </td>
+    </tr>
+
 
   </table>
 </div>
