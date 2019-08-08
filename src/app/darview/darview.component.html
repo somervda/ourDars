@@ -1,9 +1,6 @@
 <app-subheading [title]="dar.title"></app-subheading>
 <div class="page-container">
-
   <table style="width : 100%">
-
-
     <tr>
       <td class="rowprompt">
         Description
@@ -116,7 +113,7 @@
       <td colspan="2">
         <div class="rowprompt">Participants</div>
         <mat-card>
-          <table class="table">
+          <table class="subTable">
             <tr class="tableHeader">
               <th>Email</th>
               <th>Display Name</th>
@@ -124,8 +121,8 @@
             </tr>
             <ng-container *ngFor="let darUser of darUsers | async">
               <tr>
-                <td>{{darUser.email}}</td>
-                <td>{{darUser.displayName}}</td>
+                <td>{{ darUser.email }}</td>
+                <td>{{ darUser.displayName }}</td>
                 <td>
                   <span *ngIf="darUser.isOwner">Owner </span>
                   <span *ngIf="darUser.isStakeholder">Stakeholder </span>
@@ -145,7 +142,7 @@
       <td colspan="2">
         <div class="rowprompt">Solutions</div>
         <mat-card>
-          <table class="table">
+          <table class="subTable">
             <tr class="tableHeader">
               <th>Name</th>
               <th>Description</th>
@@ -154,8 +151,8 @@
             </tr>
             <ng-container *ngFor="let darSolution of darSolutions | async">
               <tr>
-                <td style="min-width: 150px">{{darSolution.name}}</td>
-                <td>{{darSolution.description}}</td>
+                <td style="min-width: 150px">{{ darSolution.name }}</td>
+                <td>{{ darSolution.description }}</td>
               </tr>
             </ng-container>
           </table>
@@ -169,7 +166,7 @@
       <td colspan="2">
         <div class="rowprompt">Criteria</div>
         <mat-card>
-          <table class="table">
+          <table class="subTable">
             <tr class="tableHeader">
               <th style="min-width: 150px">Name</th>
               <th>Description</th>
@@ -177,9 +174,9 @@
             </tr>
             <ng-container *ngFor="let darCriteria of darCriterias | async">
               <tr>
-                <td>{{darCriteria.name}}</td>
-                <td>{{darCriteria.description}}</td>
-                <td>{{CriteriaWeighting[darCriteria.weighting]}}</td>
+                <td>{{ darCriteria.name }}</td>
+                <td>{{ darCriteria.description }}</td>
+                <td>{{ CriteriaWeighting[darCriteria.weighting] }}</td>
               </tr>
             </ng-container>
           </table>
@@ -191,27 +188,26 @@
 
     <tr>
       <td colspan="2">
-        <div class="rowprompt">Solution Evaluations</div>
+        <div class="rowprompt">Solution Evaluation Heatmap</div>
         <mat-card>
-          <table class="table">
+          <table class="heatTable">
             <tr>
-              <th style="min-width: 150px">Criteria</th>
-              <th class="rotate" *ngFor="let darSolution of darSolutions | async">
-                <div><span>{{darSolution.name}}</span></div>
+              <th style="min-width: 150px" style="vertical-align: bottom">Solutions</th>
+              <th class="rotate" *ngFor="let darCriteria of darCriterias | async">
+                <div>
+                  <span>{{ darCriteria.name.length>20 ? (darCriteria.name.slice(0,20) + "..."): darCriteria.name }}</span>
+                </div>
               </th>
-
             </tr>
-            <ng-container *ngFor="let darCriteria of darCriterias | async">
+            <ng-container *ngFor="let darSolution of darSolutions | async">
               <tr>
-                <td>{{darCriteria.name}}</td>
-                <td *ngFor="let darSolution of darSolutions | async">3 bggn werd</td>
+                <td>{{ darSolution.name }}</td>
+
               </tr>
             </ng-container>
           </table>
         </mat-card>
       </td>
     </tr>
-
-
   </table>
 </div>

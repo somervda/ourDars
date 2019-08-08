@@ -11,6 +11,7 @@ import { DarsolutionService } from "../services/darsolution.service";
 import { Darsolution } from "../models/darsolution.model";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
+import { share } from "rxjs/operators";
 
 @Component({
   selector: "app-darview",
@@ -26,6 +27,7 @@ export class DarviewComponent implements OnInit, OnDestroy {
   did: string;
   darUsers: Observable<Daruser[]>;
   darSolutions: Observable<Darsolution[]>;
+  darSolutions2: Observable<Darsolution[]>;
   darCriterias: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
 
@@ -47,6 +49,10 @@ export class DarviewComponent implements OnInit, OnDestroy {
       this.team = this.teamService.findById(this.dar.tid);
       this.darUsers = this.daruserService.findAllDarusers(this.did, 1000);
       this.darSolutions = this.darsolutionService.findAllDarsolutions(
+        this.did,
+        1000
+      );
+      this.darSolutions2 = this.darsolutionService.findAllDarsolutions(
         this.did,
         1000
       );

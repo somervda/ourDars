@@ -8,7 +8,7 @@
   vertical-align: top;
 }
 
-.table {
+.subTable {
   margin-left: 8px;
   width: 100%;
   margin-top: 3px;
@@ -17,6 +17,8 @@
 .tableHeader {
   background-color: lightgrey;
 }
+
+.heatTable {}
 
 mat-card {
   width: 100%;
@@ -27,7 +29,7 @@ td {
 
 }
 
-tr,
+.subTable tr,
 td,
 th {
   border-top: 0px;
@@ -40,6 +42,7 @@ th.rotate {
   /* Something you can count on */
   height: 140px;
   white-space: nowrap;
+  background: white;
 
 }
 
@@ -53,6 +56,6 @@ th.rotate>div {
 }
 
 th.rotate>div>span {
-  border-bottom: 1px solid #ccc;
+  // border-bottom: 1px solid #ccc;
   padding: 5px 10px;
 }
