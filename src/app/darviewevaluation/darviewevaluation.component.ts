@@ -1,3 +1,4 @@
+import { DarevaluationService } from './../services/darevaluation.service';
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Dar } from "../models/dar.model";
 import { EvaluationScore } from "../models/darevaluation.model";
@@ -12,17 +13,25 @@ import { DarsolutionService } from "../services/darsolution.service";
 export class DarviewevaluationComponent implements OnInit, OnDestroy {
   @Input() dar: Dar;
   darsolution$$: Subscription;
-  solutionEvaluations$$: Subscription[];
+  evaluations$$: Subscription;
 
-  constructor(private darsolutionService: DarsolutionService) {}
+
+  constructor(
+    private darsolutionService: DarsolutionService,
+    private darevaluationService: DarevaluationService) {}
 
   ngOnInit() {
-    // Build the evaluationMatrix from criteris/solution/evaluation documents
-    this.darsolution$$ = this.darsolutionService
-      .findAllDarsolutions(this.dar.id, 1000)
-      .subscribe
-      // Load solutionEvaluations entry
-      ();
+    // // Build the evaluationMatrix from criteris/solution/evaluation documents
+    // this.darsolution$$ = this.darsolutionService
+    //   .findAllDarsolutions(this.dar.id, 1000)
+    //   .subscribe
+    //   // Load solutionEvaluations entry
+    //   ();
+
+    console.log("Darviewevaluation",this.dar);
+    this.evaluations$$ = this.darevaluationService.findAllForDar(this.dar.id).subscribe(das => {
+      console.log("Darviewevaluation evaluations$$",das);
+    });
   }
 
   ngOnDestroy() {
