@@ -35,3 +35,5 @@ export {
   onDeleteDarUser,
   onUpdateDarUser
 } from "./darUsersIndex";
+
+export { onCreateDarEvaluations } from "./darEvaluations";
