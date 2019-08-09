@@ -1,8 +1,8 @@
-import { DarevaluationService } from './../services/darevaluation.service';
+import { DarevaluationService } from "./../services/darevaluation.service";
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Dar } from "../models/dar.model";
-import { EvaluationScore } from "../models/darevaluation.model";
-import { Subscription } from "rxjs";
+import { EvaluationScore, Darevaluation } from "../models/darevaluation.model";
+import { Subscription, Observable } from "rxjs";
 import { DarsolutionService } from "../services/darsolution.service";
 
 @Component({
@@ -14,11 +14,12 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
   @Input() dar: Dar;
   darsolution$$: Subscription;
   evaluations$$: Subscription;
-
+  e$: Observable<Darevaluation[]>;
 
   constructor(
     private darsolutionService: DarsolutionService,
-    private darevaluationService: DarevaluationService) {}
+    private darevaluationService: DarevaluationService
+  ) {}
 
   ngOnInit() {
     // // Build the evaluationMatrix from criteris/solution/evaluation documents
@@ -28,10 +29,14 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
     //   // Load solutionEvaluations entry
     //   ();
 
-    console.log("Darviewevaluation",this.dar);
-    this.evaluations$$ = this.darevaluationService.findAllForDar(this.dar.id).subscribe(das => {
-      console.log("Darviewevaluation evaluations$$",das);
-    });
+    console.log("Darviewevaluation", this.dar);
+    // this.e$ == this.darevaluationService.findAllForDar(this.dar.id);
+    // console.log("Darviewevaluation e$", this.e$);
+    this.evaluations$$ = this.darevaluationService
+      .findAllForDar(this.dar.id)
+      .subscribe(das => {
+        console.log("Darviewevaluation evaluations$$", das);
+      });
   }
 
   ngOnDestroy() {

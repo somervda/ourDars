@@ -55,11 +55,12 @@ export class DarevaluationService {
 
   findAllForDar(did: string): Observable<Darevaluation[]> {
     console.log("findAllForDar ", did);
-    return  this.afs.collectionGroup('darEvaluations', ref => ref.where('did', '==', did))
+    return this.afs
+      .collectionGroup("darEvaluations", ref => ref.where("did", "==", did))
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findDarcriteria", convertSnaps<Darevaluation>(snaps));
+          console.log("findAllForDar", convertSnaps<Darevaluation>(snaps));
           return convertSnaps<Darevaluation>(snaps);
         })
       );
