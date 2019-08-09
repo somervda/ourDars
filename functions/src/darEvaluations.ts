@@ -4,10 +4,12 @@ import * as admin from "firebase-admin";
 export const onCreateDarEvaluations = functions.firestore
   .document("dars/{did}/darSolutions/{dsid}/darEvaluations/{dcid}")
   .onCreate(async (snap, context) => {
+    // Add dar id and solution id to document
+    // to use in collection group query 
     return snap.ref.set(
       {
         dateCreated: admin.firestore.FieldValue.serverTimestamp(),
-        dar: context.params["did"],
+        did: context.params["did"],
         dsid: context.params["dsid"]
       },
       { merge: true }

@@ -53,18 +53,19 @@ export class DarevaluationService {
       .set(darevaluation);
   }
 
-  // findAllDarevaluations(did: string): Observable<Darcriteria[]> {
-  //   console.log("findAllDarevaluations ", did);
-  //   return this.afs
-  //     .collection("dars")
-  //     .doc(did)
-  //     .collection("darSolutions")
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map(snaps => {
-  //         console.log("findDarcriteria", convertSnaps<Darcriteria>(snaps));
-  //         return convertSnaps<Darcriteria>(snaps);
-  //       })
-  //     );
-  // }
+  findAllForDar(did: string): Observable<Darcriteria[]> {
+    console.log("findAllForDar ", did);
+    return  this.afs.collectionGroup('darEvaluations').where('did', '==', did)
+    return 
+      .collection("dars")
+      .doc(did)
+      .collection("darSolutions")
+      .snapshotChanges()
+      .pipe(
+        map(snaps => {
+          console.log("findDarcriteria", convertSnaps<Darcriteria>(snaps));
+          return convertSnaps<Darcriteria>(snaps);
+        })
+      );
+  }
 }

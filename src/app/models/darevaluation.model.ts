@@ -1,7 +1,16 @@
+import { Timestamp } from "@firebase/firestore-types";
+
 export interface Darevaluation {
   id?: string;
   notes?: string;
   evaluationScore?: EvaluationScore;
+  // dateCreated automatically populated in cloud based onCreate function
+  dateCreated?: Timestamp;
+  // did and dsid are used in the evaluation heatmap/matrix views and
+  // get auto-populated with the cloud based onCreate function
+  did?: string;
+  dsid?: string;
+
 }
 
 export enum EvaluationScore {
