@@ -2,7 +2,7 @@ import { Darevaluation } from "./../models/darevaluation.model";
 import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { convertSnap } from "./db-utils";
+import { convertSnap, convertSnaps } from "./db-utils";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -53,18 +53,14 @@ export class DarevaluationService {
       .set(darevaluation);
   }
 
-  findAllForDar(did: string): Observable<Darcriteria[]> {
+  findAllForDar(did: string): Observable<Darevaluation[]> {
     console.log("findAllForDar ", did);
-    return  this.afs.collectionGroup('darEvaluations').where('did', '==', did)
-    return 
-      .collection("dars")
-      .doc(did)
-      .collection("darSolutions")
+    return  this.afs.collectionGroup('darEvaluations', ref => ref.where('did', '==', did))
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          console.log("findDarcriteria", convertSnaps<Darcriteria>(snaps));
-          return convertSnaps<Darcriteria>(snaps);
+          console.log("findDarcriteria", convertSnaps<Darevaluation>(snaps));
+          return convertSnaps<Darevaluation>(snaps);
         })
       );
   }
