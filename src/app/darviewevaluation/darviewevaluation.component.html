@@ -1,7 +1,7 @@
 <table class="heatTable">
   <tr>
     <th></th>
-    <th class="rotate" *ngFor="let darSolution of darsolutions" [matTooltip]="darSolution.name">
+    <th class="rotate" *ngFor="let darSolution of darsolutions" [matTooltip]="'Solution: ' + darSolution.name">
       <div>
         <span>{{
           darSolution.name.length > 20
@@ -13,7 +13,7 @@
   </tr>
   <ng-container *ngFor="let darCriteria of darcriterias">
     <tr>
-      <td class="evaluationSolution" [matTooltip]="darCriteria.name">{{
+      <td class="evaluationSolution" [matTooltip]="'Criteria:' + darCriteria.name">{{
         darCriteria.name.length > 25
           ? darCriteria.name.slice(0, 25) + "..."
           : darCriteria.name
@@ -32,7 +32,7 @@
   <tr>
     <td class="totalsHeading">Totals</td>
     <ng-container *ngFor="let darSolution of darsolutions">
-      <td class="totalsCell">0</td>
+      <td class="totalsCell">{{displaySolutionScore(darSolution)}}</td>
     </ng-container>
   </tr>
 </table>
