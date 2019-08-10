@@ -44,14 +44,33 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
       .subscribe(dea => (this.darevaluations = dea));
   }
 
-  displayEvaluationCell(dsid: string, dcid: string): string {
-    console.log("displayEvaluationCell", dsid, dcid);
-    if (!dsid || !dcid) return " ";
+  displayEvaluationCell(
+    dsid: string,
+    dcid: string
+  ): { cellText: string; cellTooltip: string; cellBGColor: string } {
+    //console.log("displayEvaluationCell", dsid, dcid);
+    let cellContent = { cellText: "", cellTooltip: "", cellBGColor: "" };
+    if (!dsid || !dcid) {
+      cellContent.cellText = " ";
+      cellContent.cellTooltip = "Internal Error";
+      cellContent.cellBGColor = "red";
+      console.error("displayEvaluationCell - missing parameter", dsid, dcid);
+    }
+
     const evaluation: Darevaluation = this.darevaluations.find(
       e => e.id == dcid && e.dsid == dsid
     );
-    if (evaluation) return evaluation.evaluationScore.toString();
-    else return "-";
+    if (evaluation) {
+      cellContent.cellText = evaluation.evaluationScore.toString();
+      cellContent.cellTooltip = "Calculated";
+      cellContent.cellBGColor = "white";
+    } else {
+      cellContent.cellText = "-";
+      cellContent.cellTooltip = "No evaluation done";
+      cellContent.cellBGColor = "WHITESMOKE";
+    }
+
+    return cellContent;
   }
 
   ngOnDestroy() {

@@ -14,10 +14,14 @@
   <ng-container *ngFor="let darSolution of darsolutions">
     <tr>
       <td class="evaluationSolution">{{ darSolution.name }}</td>
-
-      <td class="evaluationCell" *ngFor="let darCriteria of darcriterias">
-        {{ displayEvaluationCell(darSolution.id, darCriteria.id) }}
-      </td>
+      <ng-container *ngFor="let darCriteria of darcriterias">
+        <ng-container *ngIf="displayEvaluationCell(darSolution.id, darCriteria.id) as cellContent">
+          <td class="evaluationCell" [matTooltip]="cellContent.cellTooltip"
+            [style.background-color]="cellContent.cellBGColor">
+            {{ cellContent.cellText }}
+          </td>
+        </ng-container>
+      </ng-container>
     </tr>
   </ng-container>
 </table>

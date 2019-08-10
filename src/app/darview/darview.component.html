@@ -146,13 +146,13 @@
             <tr class="tableHeader">
               <th>Name</th>
               <th>Description</th>
-              <th>Score</th>
-              <th>Votes</th>
+              <th>Evaluation Notes</th>
             </tr>
             <ng-container *ngFor="let darSolution of darSolutions$ | async">
               <tr>
                 <td style="min-width: 150px">{{ darSolution.name }}</td>
                 <td>{{ darSolution.description }}</td>
+                <td>{{ darSolution.evaluationNotes}}</td>
               </tr>
             </ng-container>
           </table>
