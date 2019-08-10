@@ -10,18 +10,20 @@
         }}</span>
       </div>
     </th>
+    <th class="rotate"  ><div><span >Total</span></div></th>
   </tr>
   <ng-container *ngFor="let darSolution of darsolutions">
     <tr>
       <td class="evaluationSolution">{{ darSolution.name }}</td>
       <ng-container *ngFor="let darCriteria of darcriterias">
-        <ng-container *ngIf="displayEvaluationCell(darSolution.id, darCriteria.id) as cellContent">
+        <ng-container *ngIf="displayEvaluationCell(darSolution, darCriteria) as cellContent">
           <td class="evaluationCell" [matTooltip]="cellContent.cellTooltip"
             [style.background-color]="cellContent.cellBGColor">
             {{ cellContent.cellText }}
           </td>
         </ng-container>
       </ng-container>
+      <td class="evaluationTotal">0</td>
     </tr>
   </ng-container>
 </table>

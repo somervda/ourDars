@@ -5,7 +5,7 @@ import { EvaluationScore, Darevaluation } from "../models/darevaluation.model";
 import { Subscription, Observable } from "rxjs";
 import { DarsolutionService } from "../services/darsolution.service";
 import { Darsolution } from "../models/darsolution.model";
-import { Darcriteria } from "../models/darcriteria.model";
+import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 
 @Component({
@@ -45,32 +45,93 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
   }
 
   displayEvaluationCell(
-    dsid: string,
-    dcid: string
+    darsolution: Darsolution,
+    darcriteria: Darcriteria
   ): { cellText: string; cellTooltip: string; cellBGColor: string } {
-    //console.log("displayEvaluationCell", dsid, dcid);
     let cellContent = { cellText: "", cellTooltip: "", cellBGColor: "" };
-    if (!dsid || !dcid) {
-      cellContent.cellText = " ";
-      cellContent.cellTooltip = "Internal Error";
-      cellContent.cellBGColor = "red";
-      console.error("displayEvaluationCell - missing parameter", dsid, dcid);
-    }
+    // console.log("displayEvaluationCell", darsolution, darcriteria,this.darevaluations);
+    if (this.darevaluations) {
+      
+      if (!darsolution || !darcriteria) {
+        console.error("displayEvaluationCell - missing parameter", darsolution, darcriteria);
+      }
 
-    const evaluation: Darevaluation = this.darevaluations.find(
-      e => e.id == dcid && e.dsid == dsid
-    );
-    if (evaluation) {
-      cellContent.cellText = evaluation.evaluationScore.toString();
-      cellContent.cellTooltip = "Calculated";
-      cellContent.cellBGColor = "white";
-    } else {
-      cellContent.cellText = "-";
-      cellContent.cellTooltip = "No evaluation done";
-      cellContent.cellBGColor = "WHITESMOKE";
+      const evaluation: Darevaluation = this.darevaluations.find(
+        e => e.id == darcriteria.id && e.dsid == darsolution.id
+      );
+      if (evaluation && evaluation.evaluationScore) {
+        const score = this.calculateCellScore(darsolution,darcriteria,evaluation);
+        cellContent.cellText = score.value.toString();
+        cellContent.cellTooltip = score.rational;
+        cellContent.cellBGColor = score.color;
+      } else {
+        cellContent.cellText = "-";
+        cellContent.cellTooltip = "No evaluation done";
+        cellContent.cellBGColor = "WHITESMOKE";
+      }
     }
 
     return cellContent;
+  }
+
+  calculateCellScore(darsolution: Darsolution, darcriteria: Darcriteria, evaluation: Darevaluation): 
+  { value: number; rational: string; color: string }
+  {
+    let score = { 
+      value: 0,
+       rational: "Criteria:" + CriteriaWeighting[darcriteria.weighting] +
+       " Evaluation_Score:" + EvaluationScore[evaluation.evaluationScore], color: "" };
+
+    const warningColor = "Salmon";
+    const attentionColor = "Bisque";
+
+    // Rules
+    // Critical: Fully Met 8, met 4 , met workarounds 2, partially met/ not met (warning)
+    // Important: Fully Met 5, met 4, met workarounds 3, partially met 1 , not met 0 (warning)
+    // Desirable: Fully Met 1, met 1 , met workarounds 1, partially met 0,  not met 0
+    if (darcriteria.weighting == CriteriaWeighting.Critical)
+    {
+      if (evaluation.evaluationScore == EvaluationScore["Fully Met"]) score.value=8;
+      if (evaluation.evaluationScore == EvaluationScore.Met) score.value=4;
+      if (evaluation.evaluationScore == EvaluationScore["Met with Workarounds"]) score.value=2;
+      if (evaluation.evaluationScore == EvaluationScore["Partially Met"]) {
+        score.value=0;
+        score.rational +=". Note: Critical criterial not given a score when only partially met";
+        score.color = attentionColor;
+      }
+      if (evaluation.evaluationScore == EvaluationScore["Not Met"]) {
+        score.value=0;
+        score.rational +=". Note: Critical criterial must be met to get a score.";
+        score.color = warningColor;
+      }
+    }
+
+      if (darcriteria.weighting == CriteriaWeighting.Important)
+      {
+        if (evaluation.evaluationScore == EvaluationScore["Fully Met"]) score.value=5;
+        if (evaluation.evaluationScore == EvaluationScore.Met) score.value=4;
+        if (evaluation.evaluationScore == EvaluationScore["Met with Workarounds"]) score.value=3;
+        if (evaluation.evaluationScore == EvaluationScore["Partially Met"]) score.value=1;
+        if (evaluation.evaluationScore == EvaluationScore["Not Met"]) {
+          score.value=0;
+          score.rational +=". Unable to met Important criteria at any level.";
+          score.color = attentionColor;
+        }
+      }
+
+      if (darcriteria.weighting == CriteriaWeighting.Desirable)
+      {
+        if (evaluation.evaluationScore == EvaluationScore["Fully Met"]) score.value=1;
+        if (evaluation.evaluationScore == EvaluationScore.Met) score.value=1;
+        if (evaluation.evaluationScore == EvaluationScore["Met with Workarounds"]) score.value=1;
+        if (evaluation.evaluationScore == EvaluationScore["Partially Met"]) score.value=0;
+        if (evaluation.evaluationScore == EvaluationScore["Not Met"]) score.value=0;
+      }
+    
+
+
+    return score;
+
   }
 
   ngOnDestroy() {

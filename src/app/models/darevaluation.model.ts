@@ -15,13 +15,13 @@ export interface Darevaluation {
 
 export enum EvaluationScore {
   // 100% met
-  "Fully Met" = 0,
+  "Fully Met" = 1,
   // Met criteria but things to be aware of (i.e. Non stated criteria my be in play - ie "w version to be aware of")
-  "Met" = 1,
+  "Met" = 2,
   // Mets the criteria under certain conditions i.e. "Need to purchase the support package"
-  "Met with Workarounds" = 2,
+  "Met with Conditions" = 3,
   // The full description of the criteria is not met - but parts are
-  "Partially Met" = 3,
+  "Partially Met" = 4,
   // No match with criteria
-  "Not Met" = 4
+  "Not Met" = 5
 }
