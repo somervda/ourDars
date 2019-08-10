@@ -188,28 +188,11 @@
 
     <tr>
       <td colspan="2">
-        <div class="rowprompt">Solution Evaluation Heatmap</div>
+        <div class="rowprompt">Solution Evaluation Matrix</div>
         <mat-card>
-          <table class="heatTable">
-            <tr>
-              <th style="min-width: 150px" style="vertical-align: bottom">Solutions</th>
-              <th class="rotate" *ngFor="let darCriteria of darCriterias$ | async">
-                <div>
-                  <span>{{ darCriteria.name.length>20 ? (darCriteria.name.slice(0,20) + "..."): darCriteria.name }}</span>
-                </div>
-              </th>
-            </tr>
-            <ng-container *ngFor="let darSolution of darSolutions$ | async">
-              <tr>
-                <td>{{ darSolution.name }}</td>
-
-              </tr>
-            </ng-container>
-          </table>
+          <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
         </mat-card>
       </td>
     </tr>
   </table>
-
-  <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
 </div>

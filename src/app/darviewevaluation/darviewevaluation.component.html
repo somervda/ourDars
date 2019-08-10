@@ -1,3 +1,23 @@
-<p>
-  darviewevaluation works!
-</p>
+<table class="heatTable">
+  <tr>
+    <th></th>
+    <th class="rotate" *ngFor="let darCriteria of darcriterias">
+      <div>
+        <span>{{
+          darCriteria.name.length > 20
+            ? darCriteria.name.slice(0, 20) + "..."
+            : darCriteria.name
+        }}</span>
+      </div>
+    </th>
+  </tr>
+  <ng-container *ngFor="let darSolution of darsolutions">
+    <tr>
+      <td class="evaluationSolution">{{ darSolution.name }}</td>
+
+      <td class="evaluationCell" *ngFor="let darCriteria of darcriterias">
+        {{ displayEvaluationCell(darSolution.id, darCriteria.id) }}
+      </td>
+    </tr>
+  </ng-container>
+</table>

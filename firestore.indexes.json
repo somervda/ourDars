@@ -1,8 +1,10 @@
 {
-  "indexes": [{
+  "indexes": [
+    {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isDarUser",
           "arrayConfig": "CONTAINS"
         },
@@ -19,7 +21,8 @@
     {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isEvaluator",
           "arrayConfig": "CONTAINS"
         },
@@ -36,7 +39,8 @@
     {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isOwner",
           "arrayConfig": "CONTAINS"
         },
@@ -53,7 +57,8 @@
     {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isReader",
           "arrayConfig": "CONTAINS"
         },
@@ -70,7 +75,8 @@
     {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isStakeholder",
           "arrayConfig": "CONTAINS"
         },
@@ -87,7 +93,8 @@
     {
       "collectionGroup": "dars",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "darUserIndexes.isVoter",
           "arrayConfig": "CONTAINS"
         },
@@ -102,11 +109,11 @@
       ]
     },
 
-
     {
       "collectionGroup": "users",
       "queryScope": "COLLECTION",
-      "fields": [{
+      "fields": [
+        {
           "fieldPath": "team.tid",
           "mode": "ASCENDING"
         },
@@ -116,20 +123,18 @@
         }
       ]
     }
-
   ],
-  "fieldOverrides": [{
-    "collectionGroup": "darEvaluations",
-    "fieldPath": "did",
-    "": "** Only ascending index needed in this use case - see https://stackoverflow.com/questions/56428593/what-is-the-json-format-for-a-firestore-individual-field-index-within-a-collecti ",
-    "indexes": [{
-        "order": "ASCENDING",
-        "queryScope": "COLLECTION"
-      },
-      {
-        "order": "ASCENDING",
-        "queryScope": "COLLECTION_GROUP"
-      }
-    ]
-  }]
+  "fieldOverrides": [
+    {
+      "collectionGroup": "darEvaluations",
+      "fieldPath": "did",
+      "": "** Only ascending index needed in this use case - see https://stackoverflow.com/questions/56428593/what-is-the-json-format-for-a-firestore-individual-field-index-within-a-collecti ",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION_GROUP"
+        }
+      ]
+    }
+  ]
 }
