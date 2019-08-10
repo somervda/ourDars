@@ -1,21 +1,24 @@
 <table class="heatTable">
   <tr>
     <th></th>
-    <th class="rotate" *ngFor="let darCriteria of darcriterias">
+    <th class="rotate" *ngFor="let darSolution of darsolutions" [matTooltip]="darSolution.name">
       <div>
         <span>{{
-          darCriteria.name.length > 20
-            ? darCriteria.name.slice(0, 20) + "..."
-            : darCriteria.name
+          darSolution.name.length > 20
+            ? darSolution.name.slice(0, 20) + "..."
+            : darSolution.name
         }}</span>
       </div>
     </th>
-    <th class="rotate"  ><div><span >Total</span></div></th>
   </tr>
-  <ng-container *ngFor="let darSolution of darsolutions">
+  <ng-container *ngFor="let darCriteria of darcriterias">
     <tr>
-      <td class="evaluationSolution">{{ darSolution.name }}</td>
-      <ng-container *ngFor="let darCriteria of darcriterias">
+      <td class="evaluationSolution" [matTooltip]="darCriteria.name">{{
+        darCriteria.name.length > 25
+          ? darCriteria.name.slice(0, 25) + "..."
+          : darCriteria.name
+      }}</td>
+      <ng-container *ngFor="let darSolution of darsolutions">
         <ng-container *ngIf="displayEvaluationCell(darSolution, darCriteria) as cellContent">
           <td class="evaluationCell" [matTooltip]="cellContent.cellTooltip"
             [style.background-color]="cellContent.cellBGColor">
@@ -23,7 +26,13 @@
           </td>
         </ng-container>
       </ng-container>
-      <td class="evaluationTotal">0</td>
+
     </tr>
   </ng-container>
+  <tr>
+    <td class="totalsHeading">Totals</td>
+    <ng-container *ngFor="let darSolution of darsolutions">
+      <td class="totalsCell">0</td>
+    </ng-container>
+  </tr>
 </table>

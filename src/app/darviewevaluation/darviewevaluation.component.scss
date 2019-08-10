@@ -18,6 +18,7 @@ th.rotate > div > span {
 
 .evaluationCell {
   border-style: solid;
+  border-width: 1px;
   text-align: center;
   padding: 3px;
   border-color: lightgray;
@@ -29,4 +30,20 @@ th.rotate > div > span {
 
 .evaluationTotal {
   text-align: right;
+}
+
+.totalsHeading {
+  background-color: white;
+  font-weight: 600; 
+}
+
+.totalsCell {
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+  padding: 3px;
+  border-color: lightgray;
+  background-color: Honeydew;
+  font-weight: 600;
+
 }
