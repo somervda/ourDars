@@ -1,18 +1,12 @@
 <div *ngFor="let darsolution of darsolutions$ | async">
+  <div class="solutionDetail">{{darsolution.name}}</div>
 
-  <mat-card>
-    <mat-card-header class="card-header">
-      {{darsolution.name}}
-    </mat-card-header>
-    <mat-card-content>
-      <div *ngFor="let darcriteria of darcriterias$ | async">
-        {{darcriteria.name}}
-        <ng-container>
+  <div *ngFor="let darcriteria of darcriterias$ | async">
+    <div class="criteriaDetail">{{darcriteria.name}}</div>
+    <ng-container *ngIf="getEvaluation(darsolution,darcriteria) as evaluation">
+      <div class="evaluationDetail">Score: {{EvaluationScore[evaluation.evaluationScore]}}</div>
+      <div class="evaluationDetail">Notes: {{evaluation.notes}}</div>
+    </ng-container>
+  </div>
 
-        </ng-container>
-      </div>
-
-
-    </mat-card-content>
-  </mat-card>
 </div>
