@@ -83,6 +83,11 @@ service cloud.firestore {
           allow write:  if isAdmin() ;
         }
 
+        match /{path=**}/darEvaluations/{dcid} {
+          allow read, write;
+        }
+        
+
         
 
     // general rule - only logged on users can access any firestore document
