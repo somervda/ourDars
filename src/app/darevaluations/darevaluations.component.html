@@ -4,7 +4,7 @@
     <div *ngFor="let darsolution of darsolutions$ | async">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <div class="solutionHeader">{{darsolution.name}}</div>
+          <div class="solutionHeader">Solution: {{darsolution.name}}</div>
         </mat-expansion-panel-header>
 
         <ng-template matExpansionPanelContent>

@@ -4,14 +4,16 @@ th.rotate {
   white-space: nowrap;
 }
 
-th.rotate > div {
+th.rotate>div {
   transform:
-      /* Magic Numbers */ translate(25px, 51px)
-    /* 45 is really 360 - 45 */ rotate(315deg);
+    /* Magic Numbers */
+    translate(25px, 51px)
+    /* 45 is really 360 - 45 */
+    rotate(315deg);
   width: 50px;
 }
 
-th.rotate > div > span {
+th.rotate>div>span {
   // border-bottom: 1px solid #ccc;
   padding: 5px 10px;
 }
@@ -34,7 +36,7 @@ th.rotate > div > span {
 
 .totalsHeading {
   background-color: white;
-  font-weight: 600; 
+  font-weight: 600;
 }
 
 .totalsCell {
@@ -46,4 +48,8 @@ th.rotate > div > span {
   background-color: Honeydew;
   font-weight: 600;
 
+}
+
+.evaluationDetails {
+  margin-top: 10px;
 }

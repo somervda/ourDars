@@ -67,10 +67,11 @@ import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
-import { DarevaluationsComponent } from './darevaluations/darevaluations.component';
-import { SubheadingComponent } from './subheading/subheading.component';
-import { DarevaluationcriteriaComponent } from './darevaluationcriteria/darevaluationcriteria.component';
-import { DarviewevaluationComponent } from './darviewevaluation/darviewevaluation.component';
+import { DarevaluationsComponent } from "./darevaluations/darevaluations.component";
+import { SubheadingComponent } from "./subheading/subheading.component";
+import { DarevaluationcriteriaComponent } from "./darevaluationcriteria/darevaluationcriteria.component";
+import { DarviewevaluationComponent } from "./darviewevaluation/darviewevaluation.component";
+import { DarviewevaluationdetailsComponent } from "./darviewevaluationdetails/darviewevaluationdetails.component";
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { DarviewevaluationComponent } from './darviewevaluation/darviewevaluatio
     DarevaluationsComponent,
     SubheadingComponent,
     DarevaluationcriteriaComponent,
-    DarviewevaluationComponent
+    DarviewevaluationComponent,
+    DarviewevaluationdetailsComponent
   ],
   imports: [
     BrowserModule,
