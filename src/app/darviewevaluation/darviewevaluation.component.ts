@@ -156,17 +156,19 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
 
   displaySolutionScore(darsolution): string {
     let totalScore = 0;
-    this.darcriterias.forEach(darcriteria => {
-      const evaluation: Darevaluation = this.darevaluations.find(
-        e => e.id == darcriteria.id && e.dsid == darsolution.id
-      );
-      if (evaluation)
-        totalScore += this.calculateCellScore(
-          darsolution,
-          darcriteria,
-          evaluation
-        ).value;
-    });
+    if (this.darevaluations && this.darcriterias) {
+      this.darcriterias.forEach(darcriteria => {
+        const evaluation: Darevaluation = this.darevaluations.find(
+          e => e.id == darcriteria.id && e.dsid == darsolution.id
+        );
+        if (evaluation)
+          totalScore += this.calculateCellScore(
+            darsolution,
+            darcriteria,
+            evaluation
+          ).value;
+      });
+    }
 
     return totalScore.toString();
   }

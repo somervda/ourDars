@@ -1,1 +1,21 @@
 <app-subheading title="Voting"></app-subheading>
+<div class="page-container">
+    <mat-label>Vote for your preferred solution</mat-label>
+
+    <mat-radio-group aria-label="Select an option">
+        <div class="voteRadio"><mat-radio-button value="" >[No Vote]</mat-radio-button></div>
+        <div  class="voteRadio" *ngFor="let darsolution of darsolutions$ | async">
+            <mat-radio-button value="darsolution.id" >
+                {{ darsolution.name }}
+            </mat-radio-button>
+        </div>
+      </mat-radio-group>
+    <!-- <mat-select (selectionChange)="onSolutionSelection()" #solutionSelector>
+      <mat-option value="">[No Vote]</mat-option>
+      <mat-option *ngFor="let darsolution of darsolutions$ | async" [value]="darsolution.id">
+        {{ darsolution.name }}
+      </mat-option>
+    </mat-select> -->
+    <hr>
+    <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
+</div>

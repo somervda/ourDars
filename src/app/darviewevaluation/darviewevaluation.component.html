@@ -32,7 +32,7 @@
   <tr>
     <td class="totalsHeading">Totals</td>
     <ng-container *ngFor="let darSolution of darsolutions">
-      <td class="totalsCell">{{displaySolutionScore(darSolution)}}</td>
+      <td class="totalsCell" *ngIf="darSolution">{{displaySolutionScore(darSolution)}}</td>
     </ng-container>
   </tr>
 </table>

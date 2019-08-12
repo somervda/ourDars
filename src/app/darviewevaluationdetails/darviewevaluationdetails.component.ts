@@ -6,7 +6,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { DarsolutionService } from "../services/darsolution.service";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { DarevaluationService } from "../services/darevaluation.service";
-import { Darcriteria } from "../models/darcriteria.model";
+import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { Darevaluation } from "../models/darevaluation.model";
 
 @Component({
@@ -21,6 +21,7 @@ export class DarviewevaluationdetailsComponent implements OnInit {
   darevaluation$$: Subscription;
   darevaluations: Darevaluation[];
   EvaluationScore =EvaluationScore;
+  CriteriaWeighting = CriteriaWeighting;
 
   constructor(
     private darsolutionService: DarsolutionService,

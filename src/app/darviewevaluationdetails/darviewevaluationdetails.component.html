@@ -1,10 +1,12 @@
+
+<hr/>
 <div *ngFor="let darsolution of darsolutions$ | async">
   <div class="solutionDetail">{{darsolution.name}}</div>
 
   <div *ngFor="let darcriteria of darcriterias$ | async">
-    <div class="criteriaDetail">{{darcriteria.name}}</div>
+    <div class="criteriaDetail">{{darcriteria.name}} ({{CriteriaWeighting[darcriteria.weighting]}})</div>
     <ng-container *ngIf="getEvaluation(darsolution,darcriteria) as evaluation">
-      <div class="evaluationDetail">Score: {{EvaluationScore[evaluation.evaluationScore]}}</div>
+      <div class="evaluationDetail" >Score: <u>{{EvaluationScore[evaluation.evaluationScore]}}</u></div>
       <div class="evaluationDetail">Notes: {{evaluation.notes}}</div>
     </ng-container>
   </div>
