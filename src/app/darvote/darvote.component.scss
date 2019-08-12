@@ -1,15 +1,17 @@
 .radioGroup {
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px ;
-    line-height: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  line-height: 1;
+  margin-top: 10px;
 }
 
 .solutionDescription {
-    margin-left: 25px ;
-    margin-bottom: 10px;
+  margin-left: 30px;
+  margin-bottom: 10px;
+  font-size: 70%;
 }
 
 .evaluationInformationCard {
-    margin-top : 10px;
+  margin-top: 10px;
 }

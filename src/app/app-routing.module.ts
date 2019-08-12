@@ -74,6 +74,7 @@ const routes: Routes = [
   {
     path: "darvote/:id",
     component: DarvoteComponent,
+    canActivate: [isActivatedGuard],
     resolve: { dar: DarResolver }
   },
   {

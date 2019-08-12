@@ -2,23 +2,23 @@
 <div class="page-container">
 
 
-    <mat-radio-group aria-labelledby="example-radio-group-label" class="radioGroup">
-        <mat-radio-button value="x" >[No Vote]</mat-radio-button>
-        <ng-container *ngFor="let darsolution of darsolutions$ | async">
-          <mat-radio-button  [value]="darsolution.id" >
-              {{ darsolution.name }}
-          </mat-radio-button>
-          <div class="solutionDescription">{{darsolution.description}}</div>
-        </ng-container>
-      </mat-radio-group>
+  <mat-radio-group aria-labelledby="example-radio-group-label" class="radioGroup" [value]="daruser?.solutionVote.dsid">
+    <mat-radio-button value="" (change)=" onVote('')">[No Vote]</mat-radio-button>
+    <ng-container *ngFor="let darsolution of darsolutions">
+      <mat-radio-button [value]="darsolution.id" (change)="onVote(darsolution.id)">
+        {{ darsolution.name }}
+      </mat-radio-button>
+      <div class="solutionDescription">{{darsolution.description}}</div>
+    </ng-container>
+  </mat-radio-group>
 
 
-    <div *ngIf="dar.darMethod == DarMethod.Hybrid">
-        <hr>
-      <b>Evaluation Information</b>
+  <div *ngIf="dar.darMethod == DarMethod.Hybrid">
+    <hr>
+    <b>Evaluation Information</b>
 
-      <mat-card class="evaluationInformationCard">
+    <mat-card class="evaluationInformationCard">
       <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
     </mat-card>
-    </div>
+  </div>
 </div>

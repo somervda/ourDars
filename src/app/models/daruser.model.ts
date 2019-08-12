@@ -2,7 +2,11 @@ export interface Daruser {
   id?: string;
   email: string;
   displayName?: string;
-  solutionVote?: string;
+  solutionVote?: {
+    dsid: string;
+    name: string;
+  };
+  confirmed?: boolean;
   comments?: string;
   isEvaluator?: boolean;
   isReader?: boolean;

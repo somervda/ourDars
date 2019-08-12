@@ -119,7 +119,7 @@ export class DarviewevaluationComponent implements OnInit, OnDestroy {
       if (evaluation.evaluationScore == EvaluationScore["Not Met"]) {
         score.value = 0;
         score.rational +=
-          ". Note: Critical criterial must be met to get a score.";
+          ". Note: Critical criterial must be met to get a score. Not meeting critical criteria may disqualify the whole solution!";
         score.color = warningColor;
       }
     }
