@@ -42,7 +42,7 @@ function darUserTransaction(
 
     let darUserIndexes = cleanupDarUserIndexes(darSnap.data().darUserIndexes);
 
-    if (darUserAction == "C" || darUserAction == "U")
+    if (darUserAction === "C" || darUserAction === "U")
       darUserIndexes = updateDarUser(
         darUserIndexes,
         context.params.duid,
@@ -53,7 +53,7 @@ function darUserTransaction(
         isReader
       );
 
-    if (darUserAction == "D")
+    if (darUserAction === "D")
       darUserIndexes = updateDarUser(
         darUserIndexes,
         context.params.duid,
