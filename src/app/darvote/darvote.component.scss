@@ -1,3 +1,15 @@
-.voteRadio {
-    margin-left: 10px;
+.radioGroup {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px ;
+    line-height: 1;
+}
+
+.solutionDescription {
+    margin-left: 25px ;
+    margin-bottom: 10px;
+}
+
+.evaluationInformationCard {
+    margin-top : 10px;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Darsolution } from '../models/darsolution.model';
-import { Dar } from '../models/dar.model';
+import { Dar, DarMethod } from '../models/dar.model';
 import { DarsolutionService } from '../services/darsolution.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,6 +14,8 @@ export class DarvoteComponent implements OnInit {
   // @ViewChild("solutionSelector") solutionSelector;
   darsolutions$: Observable<Darsolution[]>;
   dar : Dar;
+
+  DarMethod = DarMethod;
 
   constructor(
     private darsolutionService : DarsolutionService,
