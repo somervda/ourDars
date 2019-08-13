@@ -32,8 +32,13 @@ export class DarconfirmComponent implements OnInit {
   }
 
   onFieldUpdate() {
-    console.log("DarconfirmComponent onFieldUpdate",this.confirmDar)
-
+    console.log("DarconfirmComponent onFieldUpdate",this.confirmDar.checked)
+    this.daruserService.fieldUpdate(
+      this.dar.id,
+      this.auth.currentUser.uid,
+      "confirmed",
+      this.confirmDar.checked
+    );
 
   }
 
