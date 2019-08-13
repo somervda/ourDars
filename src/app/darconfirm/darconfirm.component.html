@@ -1,3 +1,14 @@
-<p>
-  darconfirm works!
-</p>
+<app-subheading title="Confirm this DAR is Complete"></app-subheading>
+<div class="page-container">
+
+  <mat-checkbox  (change)="onFieldUpdate()" [value]="(daruser | async)?.confirmed" #confirmDar>Confirm</mat-checkbox>
+  <br>
+  Note: Review the DAR information below and as stakeholder confirm that the DAR has been performed correctly and you agree
+  that the appropriate solution has been chosen. Once all the stakeholders have confirmed the DAR this DAR will be closed.
+
+    <hr>
+    <b>DAR Information</b>
+
+      <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
+
+</div>

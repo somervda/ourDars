@@ -80,6 +80,7 @@ const routes: Routes = [
   {
     path: "darconfirm/:id",
     component: DarconfirmComponent,
+    canActivate: [isActivatedGuard],
     resolve: { dar: DarResolver }
   },
   {
