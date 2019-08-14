@@ -14,8 +14,7 @@
 
 
   <div *ngIf="dar.darMethod == DarMethod.Hybrid">
-    <hr>
-    <b>Evaluation Information</b>
+    <app-subheading title="Evaluation Information"></app-subheading>
 
     <mat-card class="evaluationInformationCard">
       <app-darviewevaluation [dar]="dar"></app-darviewevaluation>

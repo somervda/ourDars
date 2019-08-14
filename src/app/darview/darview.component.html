@@ -112,7 +112,7 @@
     <tr>
       <td colspan="2">
         <div class="rowprompt">Participants</div>
-        <mat-card>
+        <mat-card class="scrollableCard">
           <table class="subTable">
             <tr class="tableHeader">
               <th>Email</th>
@@ -146,6 +146,7 @@
             </ng-container>
           </table>
         </mat-card>
+
       </td>
     </tr>
 
@@ -153,7 +154,7 @@
     <tr>
       <td colspan="2">
         <div class="rowprompt">Solutions</div>
-        <mat-card>
+        <mat-card class="scrollableCard">
           <table class="subTable">
             <tr class="tableHeader">
               <th>Name</th>
@@ -177,12 +178,12 @@
     <tr>
       <td colspan="2">
         <div class="rowprompt">Criteria</div>
-        <mat-card>
+        <mat-card class="scrollableCard">
           <table class="subTable">
             <tr class="tableHeader">
               <th style="min-width: 150px">Name</th>
               <th>Description</th>
-              <th>Weighting</th>
+              <th style="min-width:100px">Weighting</th>
             </tr>
             <ng-container *ngFor="let darCriteria of darCriterias$ | async">
               <tr>
@@ -201,7 +202,7 @@
     <tr>
       <td colspan="2">
         <div class="rowprompt">Solution Evaluation Matrix</div>
-        <mat-card>
+        <mat-card class="scrollableCard">
           <app-darviewevaluation [dar]="dar"></app-darviewevaluation>
         </mat-card>
       </td>

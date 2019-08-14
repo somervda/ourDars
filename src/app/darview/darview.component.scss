@@ -2,6 +2,7 @@
   font-weight: bold;
   padding-right: 8px;
   vertical-align: top;
+  min-width: 100px;
 }
 
 .rowcontent {
@@ -26,7 +27,6 @@ mat-card {
 
 td {
   vertical-align: top;
-
 }
 
 .subTable tr,
@@ -38,3 +38,10 @@ th {
   padding-top: 2px;
 }
 
+.subTable td,
+th {
+  word-break: break-all;
+}
+
+
+.scrollableCard {}

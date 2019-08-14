@@ -1,14 +1,16 @@
 <app-subheading title="Confirm this DAR is Complete"></app-subheading>
 <div class="page-container">
 
-  <mat-checkbox  (change)="onFieldUpdate()" [checked]="(daruser$ | async)?.confirmed" #confirmDar>Confirm</mat-checkbox>
+  <mat-checkbox (change)="onFieldUpdate()" [checked]="(daruser$ | async)?.confirmed" #confirmDar>Confirm</mat-checkbox>
   <br>
-  Note: Review the DAR information below and as stakeholder confirm that the DAR has been performed correctly and you agree
-  that the appropriate solution has been chosen. Once all the stakeholders have confirmed the DAR this DAR will be closed.
+  Note: Review the DAR information below and as stakeholder confirm that the DAR has been performed correctly and you
+  agree
+  that the appropriate solution has been chosen. Once all the stakeholders have confirmed the DAR this DAR will be
+  closed.
+  <br><br>
 
-    <hr>
-    <b>DAR Information</b>
-    <br><br>
-      <app-darview ></app-darview>
-
+  <app-subheading title="Dar Information"></app-subheading>
+  <mat-card>
+    <app-darview></app-darview>
+  </mat-card>
 </div>
