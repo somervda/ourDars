@@ -29,6 +29,8 @@ export class DarviewComponent implements OnInit, OnDestroy {
   darSolutions$: Observable<Darsolution[]>;
   darCriterias$: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
+  
+  sm = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +44,9 @@ export class DarviewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dar = this.route.snapshot.data["dar"];
     this.did = this.dar.id;
+
+    // Get the indow width to use when displaying long text on small screen devices (<600 px)
+    this.sm = (window.innerWidth < 600);
 
     this.dar$$ = this.darService.findById(this.did).subscribe(dar => {
       this.dar = dar;

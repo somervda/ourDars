@@ -157,15 +157,28 @@
         <mat-card class="scrollableCard">
           <table class="subTable">
             <tr class="tableHeader">
-              <th>Name</th>
-              <th>Description</th>
-              <th>Evaluation Notes</th>
+              <th style="min-width: 100px">Name</th>
+              <th >Description</th>
+              <th >Evaluation Notes</th>
             </tr>
             <ng-container *ngFor="let darSolution of darSolutions$ | async">
               <tr>
-                <td style="min-width: 150px">{{ darSolution.name }}</td>
-                <td>{{ darSolution.description }}</td>
-                <td>{{ darSolution.evaluationNotes}}</td>
+                <ng-container *ngIf="sm" >
+                  <td >{{ darSolution.name }}</td>
+                  <td >{{          
+                      darSolution.description.length < 50
+                      ? darSolution.description
+                      : darSolution.description.substring(0, 50) + "..." }}</td>
+                  <td >{{          
+                      darSolution.evaluationNotes.length < 50
+                      ? darSolution.evaluationNotes
+                      : darSolution.evaluationNotes.substring(0, 50) + "..." }}</td>
+                </ng-container>
+                <ng-container *ngIf="!sm" >
+                    <td >{{ darSolution.name }}</td>
+                    <td >{{ darSolution.description }}</td>
+                    <td >{{ darSolution.evaluationNotes}}</td>
+                </ng-container>
               </tr>
             </ng-container>
           </table>
@@ -181,14 +194,20 @@
         <mat-card class="scrollableCard">
           <table class="subTable">
             <tr class="tableHeader">
-              <th style="min-width: 150px">Name</th>
+              <th style="min-width: 100px">Name</th>
               <th>Description</th>
-              <th style="min-width:100px">Weighting</th>
+              <th style="min-width: 100px">Weighting</th>
             </tr>
             <ng-container *ngFor="let darCriteria of darCriterias$ | async">
               <tr>
                 <td>{{ darCriteria.name }}</td>
-                <td>{{ darCriteria.description }}</td>
+
+                <td *ngIf="!sm">{{ darCriteria.description }}</td>
+                <td *ngIf="sm">{{          
+                    darCriteria.description.length < 50
+                    ? darCriteria.description
+                    : darCriteria.description.substring(0, 50) + "..." }}</td>
+
                 <td>{{ CriteriaWeighting[darCriteria.weighting] }}</td>
               </tr>
             </ng-container>
