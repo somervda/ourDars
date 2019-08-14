@@ -12,6 +12,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { share } from "rxjs/operators";
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: "app-darview",
@@ -38,15 +39,31 @@ export class DarviewComponent implements OnInit, OnDestroy {
     private darService: DarService,
     private daruserService: DaruserService,
     private darsolutionService: DarsolutionService,
-    private darcriteriaService: DarcriteriaService
+    private darcriteriaService: DarcriteriaService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.dar = this.route.snapshot.data["dar"];
     this.did = this.dar.id;
 
-    // Get the indow width to use when displaying long text on small screen devices (<600 px)
-    this.sm = (window.innerWidth < 600);
+    // Get the indow width to use when displaying long text on small screen devices (<740 px)
+    // It should result in full text being able to be shown in devices that are iPad mini or larger screens
+    this.sm = (window.innerWidth < 740);
+    if (this.sm) {
+      // mat-snackBar doesn't like to be called from onInit so the use of the promise below
+      // is bit of a hack to remove the console error messages
+      Promise.resolve().then(() => { 
+        this.snackBar.open(
+          "Your browser window is less than 740 pixels wide so " + 
+          "some text have been abbreviated, use a full size browser to show the full DAR document.",
+          "",
+          {
+            duration: 8000
+          }
+        );
+      });
+    }
 
     this.dar$$ = this.darService.findById(this.did).subscribe(dar => {
       this.dar = dar;

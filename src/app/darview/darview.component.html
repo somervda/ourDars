@@ -123,7 +123,7 @@
             </tr>
             <ng-container *ngFor="let darUser of darUsers$ | async">
               <tr>
-                <td>{{ darUser.email }}</td>
+                <td><a href="mailto:{{darUser.email}}?Subject=DAR: {{dar.title}}">{{ darUser.email }}</a></td>
                 <td>{{ darUser.displayName }}</td>
                 <td>
                   <span *ngIf="darUser.isOwner">Owner </span>
@@ -134,13 +134,14 @@
                 </td>
                 <td>
                   <ng-container *ngIf="darUser.isVoter">
-                    {{ darUser?.solutionVote?.name}}
+                    {{ darUser?.solutionVote ? darUser?.solutionVote?.name : '-'}}
                   </ng-container>
                 </td>
-                <td>
+                <td style="text-align: center">
                   <i class="material-icons" *ngIf="darUser.isStakeholder && darUser?.confirmed">
                     done
                   </i>
+                  <div  *ngIf="darUser.isStakeholder && !darUser.confirmed">-</div>
                 </td>
               </tr>
             </ng-container>
