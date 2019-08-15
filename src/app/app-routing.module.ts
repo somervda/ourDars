@@ -8,8 +8,8 @@ import { UsersComponent } from "./users/users.component";
 import { UserComponent } from "./user/user.component";
 import { UserResolver } from "./services/user-resolver";
 import { AdministrationComponent } from "./administration/administration.component";
-import { isAdminGuard } from "./guards/isAdmin.guard";
-import { isActivatedGuard } from "./guards/isActivated.guard";
+import { IsAdminGuard } from "./guards/isAdmin.guard";
+import { IsActivatedGuard } from "./guards/isActivated.guard";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamComponent } from "./team/team.component";
 import { AdminDarsComponent } from "./admin-dars/admin-dars.component";
@@ -24,48 +24,50 @@ import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
+import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "about", component: AboutComponent },
   { path: "login", component: LoginComponent },
+  { path: "notAuthorized", component: NotauthorizedComponent },
   {
     path: "mydars",
     component: MydarsComponent,
-    canActivate: [isActivatedGuard]
+    canActivate: [IsActivatedGuard]
   },
   {
     path: "administration",
     component: AdministrationComponent,
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
-  { path: "users", component: UsersComponent, canActivate: [isAdminGuard] },
+  { path: "users", component: UsersComponent, canActivate: [IsAdminGuard] },
   {
     path: "user/:uid",
     component: UserComponent,
     resolve: { user: UserResolver },
-    canActivate: [isActivatedGuard],
+    canActivate: [IsActivatedGuard],
     runGuardsAndResolvers: "always"
   },
 
   {
     path: "team/create",
     component: TeamComponent,
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
   {
     path: "team/:id",
     component: TeamComponent,
     resolve: { team: TeamResolver },
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
   {
     path: "team/delete/:id",
     component: TeamComponent,
     resolve: { team: TeamResolver },
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
-  { path: "teams", component: TeamsComponent, canActivate: [isAdminGuard] },
+  { path: "teams", component: TeamsComponent, canActivate: [IsAdminGuard] },
   {
     path: "darview/:id",
     component: DarviewComponent,
@@ -74,13 +76,13 @@ const routes: Routes = [
   {
     path: "darvote/:id",
     component: DarvoteComponent,
-    canActivate: [isActivatedGuard],
+    canActivate: [IsActivatedGuard],
     resolve: { dar: DarResolver }
   },
   {
     path: "darconfirm/:id",
     component: DarconfirmComponent,
-    canActivate: [isActivatedGuard],
+    canActivate: [IsActivatedGuard],
     resolve: { dar: DarResolver }
   },
   {
@@ -97,13 +99,13 @@ const routes: Routes = [
     path: "darfolder/:id",
     component: DarfolderComponent,
     resolve: { dar: DarResolver },
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
   {
     path: "darfolder/delete/:id",
     component: DarfolderComponent,
     resolve: { dar: DarResolver },
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
   {
     path: "darevaluations/:id",
@@ -114,7 +116,7 @@ const routes: Routes = [
   {
     path: "adminDars",
     component: AdminDarsComponent,
-    canActivate: [isAdminGuard]
+    canActivate: [IsAdminGuard]
   },
   { path: "notfound", component: NotfoundComponent },
   { path: "**", component: NotfoundComponent }

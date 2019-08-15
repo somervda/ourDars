@@ -72,6 +72,7 @@ import { SubheadingComponent } from "./subheading/subheading.component";
 import { DarevaluationcriteriaComponent } from "./darevaluationcriteria/darevaluationcriteria.component";
 import { DarviewevaluationComponent } from "./darviewevaluation/darviewevaluation.component";
 import { DarviewevaluationdetailsComponent } from "./darviewevaluationdetails/darviewevaluationdetails.component";
+import { NotauthorizedComponent } from './notauthorized/notauthorized.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { DarviewevaluationdetailsComponent } from "./darviewevaluationdetails/da
     SubheadingComponent,
     DarevaluationcriteriaComponent,
     DarviewevaluationComponent,
-    DarviewevaluationdetailsComponent
+    DarviewevaluationdetailsComponent,
+    NotauthorizedComponent
   ],
   imports: [
     BrowserModule,
