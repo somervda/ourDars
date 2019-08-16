@@ -1,4 +1,5 @@
 <app-subheading title="Access Error"></app-subheading>
 <div class="page-container">
-  <p>You do not have the rights to access the requested function.</p>
+  <p>You do not have access the requested function.</p>
+  <p>Function: {{(queryParams$ | async)?.path}}</p>
 </div>
