@@ -1,10 +1,16 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  OnDestroy
+} from "@angular/core";
 import { DarsDataSource } from "../services/dars.datasource";
 import { DarStatus, Dar } from "../models/dar.model";
 import { MatSort } from "@angular/material";
 import { DarService } from "../services/dar.service";
 import { tap } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
@@ -15,17 +21,20 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
   templateUrl: "./mydars.component.html",
   styleUrls: ["./mydars.component.scss"]
 })
-export class MydarsComponent implements OnInit {
+export class MydarsComponent implements OnInit, OnDestroy {
   @ViewChild("selectedDarStatus") selectedDarStatus;
   @ViewChild("selectedRole") selectedRole;
   dars$: Observable<Dar[]>;
   displayedColumns = ["title", "darStatus", "roles", "actions"];
   darStatus = DarStatus;
   darStatuses: Kvp[];
+  user$$: Subscription;
+  uid: string;
 
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
+    console.log("mydars   ngOnInit");
     this.selectedDarStatus.value = "";
     this.selectedRole.value = "";
     this.updateQuery();
@@ -35,35 +44,28 @@ export class MydarsComponent implements OnInit {
   }
 
   updateQuery() {
-    this.dars$ = this.darService.findMyDars(
-      this.auth.currentUser.uid,
-      this.selectedRole.value,
-      this.selectedDarStatus.value == ""
-        ? undefined
-        : this.selectedDarStatus.value,
-      100
-    );
+    // console.log(
+    //   "mydars   updateQuery",
+    //   this.uid,
+    //   "-",
+    //   this.selectedRole.value,
+    //   "-",
+    //   this.selectedDarStatus.value
+    // );
+    if (this.user$$) this.user$$.unsubscribe();
+    this.user$$ = this.auth.user$.subscribe(u => {
+      this.dars$ = this.darService.findMyDars(
+        u.uid,
+        this.selectedRole.value,
+        this.selectedDarStatus.value == ""
+          ? undefined
+          : this.selectedDarStatus.value,
+        100
+      );
+    });
   }
 
-  // ngAfterViewInit(): void {
-  //   this.sort.sortChange
-  //     .pipe(
-  //       tap(() => {
-  //         console.log("sort", this.sort);
-  //         this.loadDarsPage();
-  //       })
-  //     )
-  //     .subscribe(() => {
-  //       console.log("mydars ngOnInit subscribe to sort change");
-  //     });
-  // }
-
-  // loadDarsPage() {
-  //   this.dataSource.loadDars(
-  //     "",
-  //     this.sort.active,
-  //     this.sort.direction == "" ? "asc" : this.sort.direction,
-  //     100
-  //   );
-  // }
+  ngOnDestroy() {
+    if (this.user$$) this.user$$.unsubscribe();
+  }
 }
