@@ -37,3 +37,8 @@ td.mat-cell {
 .actionButton {
   margin-top: 5px;
 }
+
+td,
+th {
+  word-break: break-word;
+}
