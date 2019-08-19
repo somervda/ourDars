@@ -39,13 +39,15 @@ export interface Dar {
 }
 
 // Most common DAR status items that are used to search for
-// "Active" dars for a user are given values less than 4
+// "Active" dars for a user are given values less than 5
+// create and delete have restricted viewing rights
 export enum DarStatus {
-  active = 1,
-  reviewed = 2,
-  closed = 3,
-  created = 4,
-  deleted = 5
+  evaluate = 1,
+  vote = 2,
+  confirm = 3,
+  closed = 4,
+  create = 5,
+  deleted = 6
 }
 
 export enum DarMethod {

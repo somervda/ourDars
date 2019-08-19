@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import { onGetNextDarStatus } from  "./darStatus";
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -30,6 +31,15 @@ exports.darsDateCreated = functions.firestore
     );
   });
 
+export const getNextDarStatus = functions.https.onRequest((request, response) => {
+    // Use to test the onGetNextDarStatus function
+    console.log("request.params",request.params['0']);
+    console.log("request.params onGetNextDarStatus ",onGetNextDarStatus(request.params['0']));
+    
+    
+  response.send(onGetNextDarStatus(request.params['0']));
+});
+
 export {
   onCreateDarUser,
   onDeleteDarUser,
@@ -37,3 +47,4 @@ export {
 } from "./darUsersIndex";
 
 export { onCreateDarEvaluations } from "./darEvaluations";
+

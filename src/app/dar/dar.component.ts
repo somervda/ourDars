@@ -59,7 +59,7 @@ export class DarComponent implements OnInit, OnDestroy {
       this.dar = {
         title: "",
         description: "",
-        darStatus: DarStatus.created,
+        darStatus: DarStatus.create,
         darMethod: DarMethod.Process
       };
     } else {
