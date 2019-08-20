@@ -1,4 +1,4 @@
-import { DarMethod, DarStatus } from './../../src/app/models/dar.model';
+import { DarMethod, DarStatus } from "./models";
 import { db } from "./init";
 
 export interface DarNextStatusInfo {
@@ -23,7 +23,9 @@ export async function onGetNextDarStatus(
   };
 
   console.log("onGetNextDarStatus did", did);
-  const docRef = <FirebaseFirestore.DocumentReference>db.collection("dars").doc(did);
+  const docRef = <FirebaseFirestore.DocumentReference>(
+    db.collection("dars").doc(did)
+  );
 
   await docRef
     .get()
@@ -49,58 +51,61 @@ export async function onGetNextDarStatus(
     // Need to check if darusers, darcriteria and darsolutions have been set
     // up before moving to the active statuses
 
-
     let isCriteriaReady = false;
     let isSolutionReady = false;
 
     // Check criteria (Must be at least 1)
-    const criteriaRef = <FirebaseFirestore.CollectionReference>db.collection("dars").doc(did).collection("darCriteria")
+    const criteriaRef = <FirebaseFirestore.CollectionReference>db
+      .collection("dars")
+      .doc(did)
+      .collection("darCriteria");
     await criteriaRef
       .get()
       .then(snaps => {
-          if (snaps.docs.length>0) {
-            // At least one criteria must be defined
-            isCriteriaReady = true;
-          }
-        })
+        if (snaps.docs.length > 0) {
+          // At least one criteria must be defined
+          isCriteriaReady = true;
+        }
+      })
       .catch(function(error: any) {
-          console.error("Error getting darCriteria:", error);
-        });
+        console.error("Error getting darCriteria:", error);
+      });
 
     // Check solutions (Must be at least 2)
-    const solutionRef = <FirebaseFirestore.CollectionReference>db.collection("dars").doc(did).collection("darSolutions")
+    const solutionRef = <FirebaseFirestore.CollectionReference>db
+      .collection("dars")
+      .doc(did)
+      .collection("darSolutions");
     await solutionRef
       .get()
       .then(snaps => {
-          if (snaps.docs.length>1) {
-            // At least two solutions must be defined
-            isSolutionReady = true;
-          }
-        })
+        if (snaps.docs.length > 1) {
+          // At least two solutions must be defined
+          isSolutionReady = true;
+        }
+      })
       .catch(function(error: any) {
-          console.error("Error getting darSolutions:", error);
-        });
+        console.error("Error getting darSolutions:", error);
+      });
 
-  
+    console.log("isCriteriaReady", isCriteriaReady);
+    console.log("isSolutionReady", isSolutionReady);
 
-    console.log("isCriteriaReady",isCriteriaReady);
-    console.log("isSolutionReady",isSolutionReady);
-
-
-    if (!isCriteriaReady)  darNextStatusInfo.comments += "At least one criteria must be defined. ";
-    if (!isSolutionReady)  darNextStatusInfo.comments += "At least two solutions must be defined. ";
+    if (!isCriteriaReady)
+      darNextStatusInfo.comments += "At least one criteria must be defined. ";
+    if (!isSolutionReady)
+      darNextStatusInfo.comments += "At least two solutions must be defined. ";
     if (isCriteriaReady || isSolutionReady) {
       if (darNextStatusInfo.darMethod === DarMethod.Vote) {
         darNextStatusInfo.nextDarStatus = DarStatus.vote;
-      }
-      else {
+      } else {
         darNextStatusInfo.nextDarStatus = DarStatus.evaluate;
       }
+    } else {
+      darNextStatusInfo.nextDarStatusExplanation =
+        "This DAR document can not move forward from " +
+        "the create status until all basic DAR information is set up.";
     }
-    else {
-      darNextStatusInfo.nextDarStatusExplanation = "This DAR document can not move forward from " 
-        + "the create status until all basic DAR information is set up."
-      }
   }
 
   return darNextStatusInfo;

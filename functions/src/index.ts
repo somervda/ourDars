@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { onGetNextDarStatus,DarNextStatusInfo } from "./darStatus";
+import { onGetNextDarStatus, DarNextStatusInfo } from "./darStatus";
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -38,10 +38,10 @@ export const getNextDarStatus = functions.https.onRequest(
     console.log("request.params", request.params["0"]);
     let pathParam = <string>request.params["0"];
     if (pathParam.slice(0, 1) === "/") pathParam = pathParam.substr(1);
-    let x : DarNextStatusInfo;
+    let x: DarNextStatusInfo;
 
     x = await onGetNextDarStatus(pathParam);
-    console.log("x:",x);
+    console.log("x:", x);
     response.send(pathParam + "-" + x);
   }
 );
