@@ -42,7 +42,20 @@ export const getNextDarStatus = functions.https.onRequest(
 
     x = await onGetNextDarStatus(pathParam);
     console.log("x:", x);
-    response.send(pathParam + "-" + x);
+    response.send(
+      "Version:1.00,   DocId:" +
+        pathParam +
+        ",   Method:" +
+        x.darMethod +
+        ",   Status:" +
+        x.darStatus +
+        ",   Comments:" +
+        x.comments +
+        ",   explanation:" +
+        x.nextDarStatusExplanation +
+        ",   nextStatus:" +
+        x.nextDarStatus
+    );
   }
 );
 
