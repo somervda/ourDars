@@ -31,12 +31,29 @@ exports.darsDateCreated = functions.firestore
     );
   });
 
-  exports.darsNextStatusOnUpdate = functions.firestore
+exports.darsNextStatusOnUpdate = functions.firestore
   .document("dars/{did}")
-  .onUpdate(async (change, context) => {
-    const afterDarGetNextStatusInfo = await onGetNextDarStatus( context.params.did);
-    if (change.before.data().DarNextStatusInfo === change.after.data().DarNextStatusInfo) return null;
-    return change.after.ref.set(
+  .onUpdate(async (snap, context) => {
+    const afterDarGetNextStatusInfo = await onGetNextDarStatus(
+      context.params.did
+    );
+    console.log(context.params.did, " - ", afterDarGetNextStatusInfo);
+
+    const after = snap.after.data();
+
+    if (after) {
+      console.log(
+        "after.DarNextStatusInfo === afterDarGetNextStatusInfo",
+        afterDarGetNextStatusInfo,
+        after.DarNextStatusInfo
+      );
+      if (after.DarNextStatusInfo === afterDarGetNextStatusInfo) {
+        console.log("Matching!");
+        return null;
+      }
+    }
+    console.log("Updating DAR");
+    return snap.after.ref.set(
       {
         DarNextStatusInfo: afterDarGetNextStatusInfo
       },
