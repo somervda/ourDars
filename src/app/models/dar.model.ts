@@ -36,6 +36,12 @@ export interface Dar {
     isReader?: [string];
     isVoter?: [string];
   };
+  // Information about the next valid dar status and how it was decided
+  DarNextStatusInfo?: {
+    nextDarStatus?: DarStatus | null;
+    nextDarStatusExplanation?: string;
+    comments?: string;
+  }
 }
 
 // Most common DAR status items that are used to search for

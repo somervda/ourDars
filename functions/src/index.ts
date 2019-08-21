@@ -31,6 +31,19 @@ exports.darsDateCreated = functions.firestore
     );
   });
 
+  exports.darsNextStatusOnUpdate = functions.firestore
+  .document("dars/{did}")
+  .onUpdate(async (change, context) => {
+    const afterDarGetNextStatusInfo = await onGetNextDarStatus( context.params.did);
+    if (change.before.data().DarNextStatusInfo === change.after.data().DarNextStatusInfo) return null;
+    return change.after.ref.set(
+      {
+        DarNextStatusInfo: afterDarGetNextStatusInfo
+      },
+      { merge: true }
+    );
+  });
+
 export const getNextDarStatus = functions.https.onRequest(
   async (request, response) => {
     // Use to test the onGetNextDarStatus function
