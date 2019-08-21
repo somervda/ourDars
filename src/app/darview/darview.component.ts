@@ -28,6 +28,7 @@ export class DarviewComponent implements OnInit, OnDestroy {
   did: string;
   darUsers$: Observable<Daruser[]>;
   darSolutions$: Observable<Darsolution[]>;
+  darSolution$: Observable<Darsolution>;
   darCriterias$: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
   
@@ -73,11 +74,16 @@ export class DarviewComponent implements OnInit, OnDestroy {
         this.did,
         1000
       );
+      this.darSolution$ = this.darsolutionService.findById(this.did,this.dar.dsid);
       this.darCriterias$ = this.darcriteriaService.findAllDarcriteria(
         this.did,
         1000
       );
     });
+  }
+
+  getSolution$(dsid:string):Observable<Darsolution> {
+    return this.darsolutionService.findById(this.did,dsid);
   }
 
   ngOnDestroy() {

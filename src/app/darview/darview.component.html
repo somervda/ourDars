@@ -30,6 +30,15 @@
 
     <tr>
       <td class="rowprompt">
+        Solution (Chosen)
+      </td>
+      <td class="rowcontent">
+        {{ (darSolution$ | async)?.name}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rowprompt">
         Status
       </td>
       <td class="rowcontent">

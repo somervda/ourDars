@@ -2,8 +2,6 @@ import { DarMethod, DarStatus } from "./models";
 import { db } from "./init";
 
 export interface DarNextStatusInfo {
-  darStatus: DarStatus | null;
-  darMethod: DarMethod | null;
   nextDarStatus: DarStatus | null;
   nextDarStatusExplanation: string;
   comments: string;
@@ -15,8 +13,6 @@ export async function onGetNextDarStatus(
   // Will return the valid next DarStatus or null if no valid next status
   // Next status is based on the current DarStatus, methodology, the content of darsolution,darcriteria and daruser
   let darNextStatusInfo = <DarNextStatusInfo>{
-    darStatus: null,
-    darMethod: null,
     nextDarStatus: null,
     nextDarStatusExplanation: "",
     comments: ""
@@ -33,6 +29,9 @@ export async function onGetNextDarStatus(
     isReader: [],
     isVoter: []
   };
+  let dsid = "";
+  let darStatus = null;
+  let darMethod = null;
 
   console.log("onGetNextDarStatus did", did);
   const docRef = <FirebaseFirestore.DocumentReference>(
@@ -45,9 +44,10 @@ export async function onGetNextDarStatus(
       if (doc.exists) {
         const dar = doc.data();
         console.log("Document data:", dar);
-        darNextStatusInfo.darMethod = dar.darMethod;
-        darNextStatusInfo.darStatus = dar.darStatus;
+        darMethod = dar.darMethod;
+        darStatus = dar.darStatus;
         darUserIndexes = dar.darUserIndexes;
+        dsid = dar["dsid"];
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -60,12 +60,12 @@ export async function onGetNextDarStatus(
     });
 
   // Exit if DAR not found
-  if (darNextStatusInfo.darStatus === null) return darNextStatusInfo;
+  if (darStatus === null) return darNextStatusInfo;
 
   // Logic to work out next available status.
   // For documents in create status additional work is needed
   // to check darusers, darcriteria and dars
-  if (darNextStatusInfo.darStatus === DarStatus.create) {
+  if (darStatus === DarStatus.create) {
     // Need to check if darusers, darcriteria and darsolutions have been set
     // up before moving to the active statuses
 
@@ -115,19 +115,19 @@ export async function onGetNextDarStatus(
         darUserIndexes.isStakeholder.length > 0
       ) {
         if (
-          darNextStatusInfo.darMethod === DarMethod.Process &&
+          darMethod === DarMethod.Process &&
           darUserIndexes.isEvaluator &&
           darUserIndexes.isEvaluator.length > 0
         )
           isUserReady = true;
         if (
-          darNextStatusInfo.darMethod === DarMethod.Vote &&
+          darMethod === DarMethod.Vote &&
           darUserIndexes.isVoter &&
           darUserIndexes.isVoter.length > 0
         )
           isUserReady = true;
         if (
-          darNextStatusInfo.darMethod === DarMethod.Hybrid &&
+          darMethod === DarMethod.Hybrid &&
           darUserIndexes.isEvaluator &&
           darUserIndexes.isEvaluator.length > 0 &&
           darUserIndexes.isVoter &&
@@ -151,7 +151,7 @@ export async function onGetNextDarStatus(
         " if methodology is Vote or Hybrid then a voter role is needed, if methodology is  Process " +
         " or Hybrid then an evaluator role is needed.";
     if (isCriteriaReady && isSolutionReady && isUserReady) {
-      if (darNextStatusInfo.darMethod === DarMethod.Vote) {
+      if (darMethod === DarMethod.Vote) {
         darNextStatusInfo.nextDarStatus = DarStatus.vote;
       } else {
         darNextStatusInfo.nextDarStatus = DarStatus.evaluate;
@@ -165,19 +165,28 @@ export async function onGetNextDarStatus(
 
   // For status other than create a simple decision tree is used
 
-  if (darNextStatusInfo.darStatus === DarStatus.vote)
+  if (darStatus === DarStatus.vote)
     darNextStatusInfo.nextDarStatus = DarStatus.confirm;
 
-  if (darNextStatusInfo.darStatus === DarStatus.evaluate) {
-    if (darNextStatusInfo.darMethod === DarMethod.Hybrid) {
+  if (darStatus === DarStatus.evaluate) {
+    if (darMethod === DarMethod.Hybrid) {
       darNextStatusInfo.nextDarStatus = DarStatus.vote;
     } else {
       darNextStatusInfo.nextDarStatus = DarStatus.confirm;
     }
   }
 
-  if (darNextStatusInfo.darStatus === DarStatus.confirm)
+  if (darStatus === DarStatus.confirm)
     darNextStatusInfo.nextDarStatus = DarStatus.closed;
+
+  // Check for nextDarStatus = confirm that a solution is chosen
+  if (darNextStatusInfo.nextDarStatus === DarStatus.confirm &&
+    (!dsid || dsid === "")) {
+      darNextStatusInfo.nextDarStatus = null;
+      darNextStatusInfo.nextDarStatusExplanation = "DAR document can not be confirmed until a solution is selected by the owner";
+    }
+
+
 
   return darNextStatusInfo;
 }
