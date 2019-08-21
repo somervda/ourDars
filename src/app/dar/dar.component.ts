@@ -1,3 +1,4 @@
+import { DarsolutionService } from './../services/darsolution.service';
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
@@ -14,9 +15,10 @@ import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";
 import { TeamService } from "../services/team.service";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { disableDebugTools } from "@angular/platform-browser";
 import { DaruserService } from "../services/daruser.service";
+import { Darsolution } from '../models/darsolution.model';
 
 @Component({
   selector: "app-dar",
@@ -31,6 +33,7 @@ export class DarComponent implements OnInit, OnDestroy {
   DarMethod = DarMethod;
   darMethods: Kvp[];
   darStatuses: Kvp[];
+  darSolutions$ : Observable<Darsolution[]>;
   form: FormGroup;
   team$;
   dar$$: Subscription;
@@ -46,7 +49,8 @@ export class DarComponent implements OnInit, OnDestroy {
     private router: Router,
     private teamService: TeamService,
     private daruserService: DaruserService,
-    private auth: AuthService
+    private auth: AuthService,
+    private darsolutionService : DarsolutionService
   ) {}
 
   ngOnInit() {
@@ -70,6 +74,7 @@ export class DarComponent implements OnInit, OnDestroy {
         .findById(this.dar.id)
         .subscribe(dar => {
           this.dar = dar;
+          this.darSolutions$ = this.darsolutionService.findAllDarsolutions(this.dar.id,100);
           // console.log("subscribed dar", this.dar);
           this.form.patchValue(this.dar);
           // Also need to patch the dateTargeted individually to apply
@@ -108,7 +113,8 @@ export class DarComponent implements OnInit, OnDestroy {
       tid: [this.dar.tid ? this.dar.tid : "NA"],
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
-      cause: [this.dar.cause, [Validators.maxLength(10000)]]
+      cause: [this.dar.cause, [Validators.maxLength(10000)]],
+      dsid: [this.dar.dsid],
     });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
@@ -194,6 +200,10 @@ export class DarComponent implements OnInit, OnDestroy {
       // Do any type conversions before storing value
       if (toType && toType == "Timestamp")
         newValue = firestore.Timestamp.fromDate(this.form.get(fieldName).value);
+      if (toType && toType == "Blankable" && !this.form.get(fieldName).value ) {
+        console.log("Blankable", this.form.get(fieldName).value);
+        newValue = "";    
+      } 
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
   }

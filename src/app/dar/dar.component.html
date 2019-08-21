@@ -72,6 +72,16 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
+      <mat-label>Chosen Solution</mat-label>
+      <mat-select formControlName="dsid" (selectionChange)="onFieldUpdate('dsid','Blankable')">
+        <mat-option [value]=""></mat-option>
+        <mat-option *ngFor="let darsolution of (darSolutions$ | async)" [value]="darsolution.id">
+          {{ darsolution.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
       <textarea matInput formControlName="risks" (change)="onFieldUpdate('risks')" matAutosizeMinRows="4"
         matAutosizeMaxRows="20" matTextareaAutosize placeholder="Risks"></textarea>
       <mat-error *ngIf="form.controls['risks'].hasError('maxlength')">
