@@ -43,7 +43,7 @@ export const getNextDarStatus = functions.https.onRequest(
     x = await onGetNextDarStatus(pathParam);
     console.log("x:", x);
     response.send(
-      "Version:1.02,   DocId:" +
+      "Version:1.04,   DocId:" +
         pathParam +
         ",   Method:" +
         x.darMethod +

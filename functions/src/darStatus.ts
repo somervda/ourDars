@@ -22,6 +22,18 @@ export async function onGetNextDarStatus(
     comments: ""
   };
 
+  let darUserIndexes = {
+    // isDarUser contains a uid for each user with access to the dar
+    // it duplicates information in the other user uid arrays but will make
+    // queries for myDars component more straight forward (Don't need to do a union on a set of 5 queries)
+    isDarUser: [],
+    isOwner: [],
+    isStakeholder: [],
+    isEvaluator: [],
+    isReader: [],
+    isVoter: []
+  };
+
   console.log("onGetNextDarStatus did", did);
   const docRef = <FirebaseFirestore.DocumentReference>(
     db.collection("dars").doc(did)
@@ -35,14 +47,20 @@ export async function onGetNextDarStatus(
         console.log("Document data:", dar);
         darNextStatusInfo.darMethod = dar.darMethod;
         darNextStatusInfo.darStatus = dar.darStatus;
+        darUserIndexes = dar.darUserIndexes;
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
+        darNextStatusInfo.comments = "No such DAR document!";
       }
     })
     .catch(function(error: any) {
       console.log("Error getting document:", error);
+      darNextStatusInfo.comments = "Error getting DAR document: " + error;
     });
+
+  // Exit if DAR not found
+  if (darNextStatusInfo.darStatus === null) return darNextStatusInfo;
 
   // Logic to work out next available status.
   // For documents in create status additional work is needed
@@ -53,6 +71,7 @@ export async function onGetNextDarStatus(
 
     let isCriteriaReady = false;
     let isSolutionReady = false;
+    let isUserReady = false;
 
     // Check criteria (Must be at least 1)
     const criteriaRef = <FirebaseFirestore.CollectionReference>db
@@ -88,14 +107,50 @@ export async function onGetNextDarStatus(
         console.error("Error getting darSolutions:", error);
       });
 
+    // Check darUsers (Must be at least 1 stakeholder, if !process then 1 voter, if !vote then 1 evaluator)
+    console.log("darUserIndexes", darUserIndexes);
+    if (darUserIndexes) {
+      if (
+        darUserIndexes.isStakeholder &&
+        darUserIndexes.isStakeholder.length > 0
+      ) {
+        if (
+          darNextStatusInfo.darMethod === DarMethod.Process &&
+          darUserIndexes.isEvaluator &&
+          darUserIndexes.isEvaluator.length > 0
+        )
+          isUserReady = true;
+        if (
+          darNextStatusInfo.darMethod === DarMethod.Vote &&
+          darUserIndexes.isVoter &&
+          darUserIndexes.isVoter.length > 0
+        )
+          isUserReady = true;
+        if (
+          darNextStatusInfo.darMethod === DarMethod.Hybrid &&
+          darUserIndexes.isEvaluator &&
+          darUserIndexes.isEvaluator.length > 0 &&
+          darUserIndexes.isVoter &&
+          darUserIndexes.isVoter.length > 0
+        )
+          isUserReady = true;
+      }
+    }
+
     console.log("isCriteriaReady", isCriteriaReady);
     console.log("isSolutionReady", isSolutionReady);
+    console.log("isUserReady", isUserReady);
 
     if (!isCriteriaReady)
       darNextStatusInfo.comments += "At least one criteria must be defined. ";
     if (!isSolutionReady)
       darNextStatusInfo.comments += "At least two solutions must be defined. ";
-    if (isCriteriaReady || isSolutionReady) {
+    if (!isUserReady)
+      darNextStatusInfo.comments +=
+        "Required user roles not defined; Stakeholder role is always required, " +
+        " if methodology is Vote or Hybrid then a voter role is needed, if methodology is  Process " +
+        " or Hybrid then an evaluator role is needed.";
+    if (isCriteriaReady && isSolutionReady && isUserReady) {
       if (darNextStatusInfo.darMethod === DarMethod.Vote) {
         darNextStatusInfo.nextDarStatus = DarStatus.vote;
       } else {
@@ -107,6 +162,22 @@ export async function onGetNextDarStatus(
         "the create status until all basic DAR information is set up.";
     }
   }
+
+  // For status other than create a simple decision tree is used
+
+  if (darNextStatusInfo.darStatus === DarStatus.vote)
+    darNextStatusInfo.nextDarStatus = DarStatus.confirm;
+
+  if (darNextStatusInfo.darStatus === DarStatus.evaluate) {
+    if (darNextStatusInfo.darMethod === DarMethod.Hybrid) {
+      darNextStatusInfo.nextDarStatus = DarStatus.vote;
+    } else {
+      darNextStatusInfo.nextDarStatus = DarStatus.confirm;
+    }
+  }
+
+  if (darNextStatusInfo.darStatus === DarStatus.confirm)
+    darNextStatusInfo.nextDarStatus = DarStatus.closed;
 
   return darNextStatusInfo;
 }
