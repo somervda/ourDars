@@ -79,7 +79,7 @@ function cleanupDarUserIndexes(darUserIndexes: any): any {
     dui = {
       isDarUser: [],
       isOwner: [],
-      isStakeHolder: [],
+      isStakeholder: [],
       isEvaluator: [],
       isReader: [],
       isVoter: []

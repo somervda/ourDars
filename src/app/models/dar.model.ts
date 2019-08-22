@@ -1,4 +1,4 @@
-import { Timestamp } from '@firebase/firestore-types';
+import { Timestamp } from "@firebase/firestore-types";
 
 export interface Dar {
   id?: string;
@@ -31,7 +31,7 @@ export interface Dar {
     // queries for myDars component more straight forward (Don't need to do a union on a set of 5 queries)
     isDarUser?: [string];
     isOwner?: [string];
-    isStakeHolder?: [string];
+    isStakeholder?: [string];
     isEvaluator?: [string];
     isReader?: [string];
     isVoter?: [string];
@@ -41,7 +41,7 @@ export interface Dar {
     nextDarStatus?: DarStatus | null;
     nextDarStatusExplanation?: string;
     comments?: string;
-  }
+  };
 }
 
 // Most common DAR status items that are used to search for

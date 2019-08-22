@@ -1,4 +1,5 @@
 import { DarMethod, DarStatus } from "./models";
+import * as functions from "firebase-functions";
 import { db } from "./init";
 
 export interface DarNextStatusInfo {
@@ -6,6 +7,34 @@ export interface DarNextStatusInfo {
   nextDarStatusExplanation: string;
   comments: string;
 }
+
+// *******  HTTP Tester ****
+
+export const getNextDarStatus = functions.https.onRequest(
+  async (request, response) => {
+    // Use to test the onGetNextDarStatus function
+    // https://us-central1-ourdars-7b9e2.cloudfunctions.net/getNextDarStatus/s32tXhTTmAO3OiCgkpVK
+    console.log("request.params", request.params["0"]);
+    let pathParam = <string>request.params["0"];
+    if (pathParam.slice(0, 1) === "/") pathParam = pathParam.substr(1);
+    let x: DarNextStatusInfo;
+
+    x = await onGetNextDarStatus(pathParam);
+    console.log("x:", x);
+    response.send(
+      "Version:1.05,   DocId:" +
+        pathParam +
+        ",   Comments:" +
+        x.comments +
+        ",   explanation:" +
+        x.nextDarStatusExplanation +
+        ",   nextStatus:" +
+        x.nextDarStatus
+    );
+  }
+);
+
+// **** Supporting functions *
 
 export async function onGetNextDarStatus(
   did: string
@@ -180,13 +209,107 @@ export async function onGetNextDarStatus(
     darNextStatusInfo.nextDarStatus = DarStatus.closed;
 
   // Check for nextDarStatus = confirm that a solution is chosen
-  if (darNextStatusInfo.nextDarStatus === DarStatus.confirm &&
-    (!dsid || dsid === "")) {
-      darNextStatusInfo.nextDarStatus = null;
-      darNextStatusInfo.nextDarStatusExplanation = "DAR document can not be confirmed until a solution is selected by the owner";
-    }
-
-
+  if (
+    darNextStatusInfo.nextDarStatus === DarStatus.confirm &&
+    (!dsid || dsid === "")
+  ) {
+    darNextStatusInfo.nextDarStatus = null;
+    darNextStatusInfo.nextDarStatusExplanation =
+      "DAR document can not be confirmed until a solution is selected by the owner";
+  }
 
   return darNextStatusInfo;
 }
+
+//********** Database Triggers that drive nextStatus updates*/
+// Update when dar is updated, a darSolutions write, or a darcriteria write
+// Note: darUsers already trigger a dar update so no additional trigger needed
+
+export const OnUpdateDarNextStatus = functions.firestore
+  .document("dars/{did}")
+  .onUpdate(async (snap, context) => {
+    const darGetNextStatusInfo = await onGetNextDarStatus(context.params.did);
+    console.log(context.params.did, " - ", darGetNextStatusInfo);
+    const deepEqual = require("deep-equal");
+
+    const after = snap.after.data();
+
+    // Exit without updating if no changes (stop update loops)
+    if (after) {
+      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("darGetNextStatusInfo", darGetNextStatusInfo);
+      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+        console.log("Matching - no update!");
+        return null;
+      }
+    }
+    console.log("Updating DAR DarNextStatusInfo");
+    return snap.after.ref.set(
+      {
+        DarNextStatusInfo: darGetNextStatusInfo
+      },
+      { merge: true }
+    );
+  });
+
+export const OnWriteDarCriteriaNextStatus = functions.firestore
+  .document("dars/{did}/darCriteria/{dcid}")
+  .onWrite(async (snap, context) => {
+    const darRef = snap.before.ref.parent.parent;
+    const after = snap.after.data();
+    const darGetNextStatusInfo = await onGetNextDarStatus(context.params.did);
+    const deepEqual = require("deep-equal");
+
+    console.log(context.params.did, " - ", darGetNextStatusInfo);
+
+    // No need to update if no changes
+    if (after) {
+      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("darGetNextStatusInfo", darGetNextStatusInfo);
+      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+        console.log("Matching - no update!");
+        return null;
+      }
+    }
+    console.log("Updating DAR");
+    if (darRef) {
+      return darRef.set(
+        {
+          DarNextStatusInfo: darGetNextStatusInfo
+        },
+        { merge: true }
+      );
+    }
+    return null;
+  });
+
+export const OnWriteDarSolutionsNextStatus = functions.firestore
+  .document("dars/{did}/darSolutions/{dsid}")
+  .onWrite(async (snap, context) => {
+    const darRef = snap.before.ref.parent.parent;
+    const after = snap.after.data();
+    const darGetNextStatusInfo = await onGetNextDarStatus(context.params.did);
+    const deepEqual = require("deep-equal");
+
+    console.log(context.params.did, " - ", darGetNextStatusInfo);
+
+    // No need to update if no changes
+    if (after) {
+      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("darGetNextStatusInfo", darGetNextStatusInfo);
+      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+        console.log("Matching - no update!");
+        return null;
+      }
+    }
+    console.log("Updating DAR");
+    if (darRef) {
+      return darRef.set(
+        {
+          DarNextStatusInfo: darGetNextStatusInfo
+        },
+        { merge: true }
+      );
+    }
+    return null;
+  });
