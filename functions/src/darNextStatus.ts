@@ -236,9 +236,9 @@ export const OnUpdateDarNextStatus = functions.firestore
 
     // Exit without updating if no changes (stop update loops)
     if (after) {
-      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("after.DarNextStatusInfo", after.darNextStatusInfo);
       console.log("darGetNextStatusInfo", darGetNextStatusInfo);
-      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+      if (deepEqual(after.darNextStatusInfo, darGetNextStatusInfo)) {
         console.log("Matching - no update!");
         return null;
       }
@@ -246,7 +246,7 @@ export const OnUpdateDarNextStatus = functions.firestore
     console.log("Updating DAR DarNextStatusInfo");
     return snap.after.ref.set(
       {
-        DarNextStatusInfo: darGetNextStatusInfo
+        darNextStatusInfo: darGetNextStatusInfo
       },
       { merge: true }
     );
@@ -264,9 +264,9 @@ export const OnWriteDarCriteriaNextStatus = functions.firestore
 
     // No need to update if no changes
     if (after) {
-      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("after.DarNextStatusInfo", after.darNextStatusInfo);
       console.log("darGetNextStatusInfo", darGetNextStatusInfo);
-      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+      if (deepEqual(after.darNextStatusInfo, darGetNextStatusInfo)) {
         console.log("Matching - no update!");
         return null;
       }
@@ -275,7 +275,7 @@ export const OnWriteDarCriteriaNextStatus = functions.firestore
     if (darRef) {
       return darRef.set(
         {
-          DarNextStatusInfo: darGetNextStatusInfo
+          darNextStatusInfo: darGetNextStatusInfo
         },
         { merge: true }
       );
@@ -295,9 +295,9 @@ export const OnWriteDarSolutionsNextStatus = functions.firestore
 
     // No need to update if no changes
     if (after) {
-      console.log("after.DarNextStatusInfo", after.DarNextStatusInfo);
+      console.log("after.DarNextStatusInfo", after.darNextStatusInfo);
       console.log("darGetNextStatusInfo", darGetNextStatusInfo);
-      if (deepEqual(after.DarNextStatusInfo, darGetNextStatusInfo)) {
+      if (deepEqual(after.darNextStatusInfo, darGetNextStatusInfo)) {
         console.log("Matching - no update!");
         return null;
       }
@@ -306,7 +306,7 @@ export const OnWriteDarSolutionsNextStatus = functions.firestore
     if (darRef) {
       return darRef.set(
         {
-          DarNextStatusInfo: darGetNextStatusInfo
+          darNextStatusInfo: darGetNextStatusInfo
         },
         { merge: true }
       );

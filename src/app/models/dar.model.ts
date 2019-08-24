@@ -37,7 +37,7 @@ export interface Dar {
     isVoter?: [string];
   };
   // Information about the next valid dar status and how it was decided
-  DarNextStatusInfo?: {
+  darNextStatusInfo?: {
     nextDarStatus?: DarStatus | null;
     nextDarStatusExplanation?: string;
     comments?: string;

@@ -7,7 +7,7 @@ export interface Daruser {
     name: string;
   };
   confirmed?: boolean;
-  comments?: string;
+  confirmComment?: string;
   isEvaluator?: boolean;
   isReader?: boolean;
   isOwner?: boolean;
