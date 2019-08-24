@@ -1,12 +1,18 @@
 <app-subheading title="Confirm this DAR is Complete"></app-subheading>
 <div class="page-container">
+  <mat-checkbox class="full-width" (change)="onConfirmatedUpdate()" [checked]="(daruser$ | async)?.confirmed" #confirmDar>Confirm</mat-checkbox>
+ 
+  <textarea class="full-width" matInput (change)="onConfirmCommentUpdate()"  
+    matAutosizeMaxRows="20" matAutosizeMinRows="4" matTextareaAutosize 
+    placeholder="Confirmation Comments" #confirmComment>{{(daruser$ | async)?.confirmComment}}</textarea>
+   <br>
 
-  <mat-checkbox (change)="onFieldUpdate()" [checked]="(daruser$ | async)?.confirmed" #confirmDar>Confirm</mat-checkbox>
-  <br>
-  Note: Review the DAR information below and as stakeholder confirm that the DAR has been performed correctly and you
+
+  <i>Note: Review the DAR information below and as stakeholder confirm that the DAR has been performed correctly and you
   agree
-  that the appropriate solution has been chosen. Once all the stakeholders have confirmed the DAR this DAR will be
-  closed.
+  that the appropriate solution has been chosen. You can enter any comments about why you are confirming, 
+  or are not confirming this DAR.
+  Once all the stakeholders have confirmed the DAR this DAR will be closed.</i>
   <br><br>
 
   <app-subheading title="Dar Information"></app-subheading>

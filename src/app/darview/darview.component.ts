@@ -74,7 +74,10 @@ export class DarviewComponent implements OnInit, OnDestroy {
         this.did,
         1000
       );
-      this.darSolution$ = this.darsolutionService.findById(this.did,this.dar.dsid);
+      // console.log("ngOnInit findById did:",this.did , " dsid:",this.dar.dsid);
+      if (this.dar.dsid) {
+        this.darSolution$ = this.darsolutionService.findById(this.did,this.dar.dsid);
+      }
       this.darCriterias$ = this.darcriteriaService.findAllDarcriteria(
         this.did,
         1000
@@ -83,6 +86,7 @@ export class DarviewComponent implements OnInit, OnDestroy {
   }
 
   getSolution$(dsid:string):Observable<Darsolution> {
+    // console.log("getSolution$ dsid:",dsid);
     return this.darsolutionService.findById(this.did,dsid);
   }
 

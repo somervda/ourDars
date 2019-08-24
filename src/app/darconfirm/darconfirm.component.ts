@@ -13,6 +13,7 @@ import { Daruser } from '../models/daruser.model';
 })
 export class DarconfirmComponent implements OnInit {
   @ViewChild("confirmDar") confirmDar;
+  @ViewChild("confirmComment") confirmComment;
   dar: Dar;
   daruser$: Observable<Daruser>;
 
@@ -31,8 +32,8 @@ export class DarconfirmComponent implements OnInit {
     .findById(this.dar.id, this.auth.currentUser.uid)
   }
 
-  onFieldUpdate() {
-    console.log("DarconfirmComponent onFieldUpdate",this.confirmDar.checked)
+  onConfirmatedUpdate() {
+    console.log("DarconfirmComponent onConfirmatedUpdate",this.confirmDar.checked)
     this.daruserService.fieldUpdate(
       this.dar.id,
       this.auth.currentUser.uid,
@@ -40,6 +41,16 @@ export class DarconfirmComponent implements OnInit {
       this.confirmDar.checked
     );
 
+  }
+
+  onConfirmCommentUpdate() {
+    console.log("DarconfirmComponent onConfirmCommentUpdate",this.confirmComment.nativeElement.value)
+    this.daruserService.fieldUpdate(
+      this.dar.id,
+      this.auth.currentUser.uid,
+      "confirmComment",
+      this.confirmComment.nativeElement.value
+    );
   }
 
 }

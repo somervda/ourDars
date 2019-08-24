@@ -14,9 +14,9 @@ export class DarsolutionService {
   constructor(private afs: AngularFirestore) {}
 
   findById(did: string,dsid : string): Observable<Darsolution> {
-    // console.log("darsoluionservice findById"," did:",did," dsid:",dsid);
+    console.log("darsoluionservice findById"," did:",did," dsid:",dsid);
     const docLocation = "/dars/" + did + "/darSolutions/" + dsid;
-    // console.log("darsoluionservice findById",docLocation);
+    console.log("darsoluionservice findById",docLocation);
     return this.afs
       .doc(docLocation)
       .snapshotChanges()
