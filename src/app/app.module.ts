@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AngularFireModule } from "@angular/fire";
+import { AngularFirePerformanceModule } from '@angular/fire/performance';
 
 import { environment } from "../environments/environment";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -145,6 +146,7 @@ import { NotauthorizedComponent } from './notauthorized/notauthorized.component'
     AppRoutingModule,
     NgbCarouselModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirePerformanceModule,
     AngularFireAuthModule,
     // Allow offline operations - useful when used in combination with PWA functionality
     // AngularFirestoreModule.enablePersistence(),
