@@ -12,7 +12,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { share } from "rxjs/operators";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 @Component({
   selector: "app-darview",
@@ -41,7 +41,8 @@ export class DarviewComponent implements OnInit, OnDestroy {
     private daruserService: DaruserService,
     private darsolutionService: DarsolutionService,
     private darcriteriaService: DarcriteriaService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -85,9 +86,15 @@ export class DarviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  getSolution$(dsid:string):Observable<Darsolution> {
-    // console.log("getSolution$ dsid:",dsid);
-    return this.darsolutionService.findById(this.did,dsid);
+  openPrintableDialog() {
+    const dialogRef = this.dialog.open(DarviewComponent, {
+      width: '1000px'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   this.animal = result;
+    // });
   }
 
   ngOnDestroy() {
