@@ -12,7 +12,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { share } from "rxjs/operators";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-darview",
@@ -31,7 +31,7 @@ export class DarviewComponent implements OnInit, OnDestroy {
   darSolution$: Observable<Darsolution>;
   darCriterias$: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
-  
+
   sm = false;
 
   constructor(
@@ -50,14 +50,14 @@ export class DarviewComponent implements OnInit, OnDestroy {
 
     // Get the indow width to use when displaying long text on small screen devices (<740 px)
     // It should result in full text being able to be shown in devices that are iPad mini or larger screens
-    this.sm = (window.innerWidth < 740);
+    this.sm = window.innerWidth < 740;
     if (this.sm) {
       // mat-snackBar doesn't like to be called from onInit so the use of the promise below
       // is bit of a hack to remove the console error messages
-      Promise.resolve().then(() => { 
+      Promise.resolve().then(() => {
         this.snackBar.open(
-          "Your browser window is less than 740 pixels wide so " + 
-          "some text have been abbreviated, use a full size browser to show the full DAR document.",
+          "Your browser window is less than 740 pixels wide so " +
+            "some text have been abbreviated, use a full size browser to show the full DAR document.",
           "",
           {
             duration: 8000
@@ -76,17 +76,16 @@ export class DarviewComponent implements OnInit, OnDestroy {
       );
       // console.log("ngOnInit findById did:",this.did , " dsid:",this.dar.dsid);
       if (this.dar.dsid) {
-        this.darSolution$ = this.darsolutionService.findById(this.did,this.dar.dsid);
+        this.darSolution$ = this.darsolutionService.findById(
+          this.did,
+          this.dar.dsid
+        );
       }
       this.darCriterias$ = this.darcriteriaService.findAllDarcriteria(
         this.did,
         1000
       );
     });
-  }
-
-  openPrintableDialog() {
-    
   }
 
   ngOnDestroy() {

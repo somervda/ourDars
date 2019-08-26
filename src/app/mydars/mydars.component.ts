@@ -7,7 +7,7 @@ import { AuthService } from "../services/auth.service";
 import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import * as firebase from "firebase/app";
-
+//const perf = firebase.performance();
 
 @Component({
   selector: "app-mydars",
@@ -22,7 +22,6 @@ export class MydarsComponent implements OnInit, OnDestroy {
   darStatus = DarStatus;
   darStatuses: Kvp[];
   screenTrace: firebase.performance.Trace;
-
 
   constructor(private darService: DarService, private auth: AuthService) {}
 

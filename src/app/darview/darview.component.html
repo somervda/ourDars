@@ -1,5 +1,4 @@
 <app-subheading [title]="dar.title"></app-subheading>
-<div class="topcorner"><button mat-raised-button (click)="openPrintableDialog()">Print</button></div>
 <div class="page-container">
   <table style="width : 100%">
     <tr>
@@ -34,8 +33,8 @@
         Chosen Solution
       </td>
       <td class="rowcontent"><u>
-        {{ (darSolution$ | async)?.name}}
-      </u></td>
+          {{ (darSolution$ | async)?.name}}
+        </u></td>
     </tr>
 
     <tr>
@@ -151,7 +150,7 @@
                   <i class="material-icons" *ngIf="darUser.isStakeholder && darUser?.confirmed">
                     done
                   </i>
-                  <div  *ngIf="darUser.isStakeholder && !darUser.confirmed">-</div>
+                  <div *ngIf="darUser.isStakeholder && !darUser.confirmed">-</div>
                 </td>
               </tr>
             </ng-container>
@@ -169,26 +168,26 @@
           <table class="subTable">
             <tr class="tableHeader">
               <th style="min-width: 100px">Name</th>
-              <th >Description</th>
-              <th >Evaluation Notes</th>
+              <th>Description</th>
+              <th>Evaluation Notes</th>
             </tr>
             <ng-container *ngFor="let darSolution of darSolutions$ | async">
               <tr>
-                <ng-container *ngIf="sm" >
-                  <td >{{ darSolution.name }}</td>
-                  <td >{{          
+                <ng-container *ngIf="sm">
+                  <td>{{ darSolution.name }}</td>
+                  <td>{{          
                       darSolution.description.length < 50
                       ? darSolution.description
                       : darSolution.description.substring(0, 50) + "..." }}</td>
-                  <td >{{          
+                  <td>{{          
                       darSolution.evaluationNotes.length < 50
                       ? darSolution.evaluationNotes
                       : darSolution.evaluationNotes.substring(0, 50) + "..." }}</td>
                 </ng-container>
-                <ng-container *ngIf="!sm" >
-                    <td >{{ darSolution.name }}</td>
-                    <td >{{ darSolution.description }}</td>
-                    <td >{{ darSolution.evaluationNotes}}</td>
+                <ng-container *ngIf="!sm">
+                  <td>{{ darSolution.name }}</td>
+                  <td>{{ darSolution.description }}</td>
+                  <td>{{ darSolution.evaluationNotes}}</td>
                 </ng-container>
               </tr>
             </ng-container>

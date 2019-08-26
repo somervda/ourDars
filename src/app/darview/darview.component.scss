@@ -19,7 +19,7 @@
   background-color: lightgrey;
 }
 
-.heatTable {}
+
 
 mat-card {
   width: 100%;
@@ -44,10 +44,12 @@ th {
 }
 
 
-.scrollableCard {}
 
-.topcorner{
-  position:absolute;
-  top:70px;
-  right:10px;
- }
+
+@media print {
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
