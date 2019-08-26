@@ -15,7 +15,7 @@ export class AdminDarsComponent implements OnInit, AfterViewInit {
   displayedColumns = ["title", "darStatus", "description", "id"];
   darStatus = DarStatus;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private darService: DarService) {}
 

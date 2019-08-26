@@ -15,8 +15,8 @@ import * as firebase from "firebase/app";
   styleUrls: ["./mydars.component.scss"]
 })
 export class MydarsComponent implements OnInit, OnDestroy {
-  @ViewChild("selectedDarStatus") selectedDarStatus;
-  @ViewChild("selectedRole") selectedRole;
+  @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
+  @ViewChild("selectedRole", { static: true }) selectedRole;
   dars$: Observable<Dar[]>;
   displayedColumns = ["title", "darStatus", "roles", "actions"];
   darStatus = DarStatus;

@@ -12,8 +12,8 @@ import { Daruser } from '../models/daruser.model';
   styleUrls: ['./darconfirm.component.scss']
 })
 export class DarconfirmComponent implements OnInit {
-  @ViewChild("confirmDar") confirmDar;
-  @ViewChild("confirmComment") confirmComment;
+  @ViewChild("confirmDar", { static: true }) confirmDar;
+  @ViewChild("confirmComment", { static: true }) confirmComment;
   dar: Dar;
   daruser$: Observable<Daruser>;
 

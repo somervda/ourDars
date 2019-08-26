@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AngularFireModule } from "@angular/fire";
-import { AngularFirePerformanceModule } from '@angular/fire/performance';
+import { AngularFirePerformanceModule } from "@angular/fire/performance";
 
 import { environment } from "../environments/environment";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -73,7 +73,7 @@ import { SubheadingComponent } from "./subheading/subheading.component";
 import { DarevaluationcriteriaComponent } from "./darevaluationcriteria/darevaluationcriteria.component";
 import { DarviewevaluationComponent } from "./darviewevaluation/darviewevaluation.component";
 import { DarviewevaluationdetailsComponent } from "./darviewevaluationdetails/darviewevaluationdetails.component";
-import { NotauthorizedComponent } from './notauthorized/notauthorized.component';
+import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
 
 @NgModule({
   declarations: [

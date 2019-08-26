@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     "dateCreated"
   ];
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private userService: UserService) {}
 

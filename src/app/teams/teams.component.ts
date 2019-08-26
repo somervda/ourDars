@@ -14,7 +14,7 @@ export class TeamsComponent implements OnInit, AfterViewInit {
   dataSource: TeamsDataSource;
   displayedColumns = ["name","description","id"];
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private teamService: TeamService) {}
 

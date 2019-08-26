@@ -18,8 +18,8 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
   @Input() darcriteria: Darcriteria;
   @Input() darsolution: Darsolution;
   @Input() dar: Dar;
-  @ViewChild("evaluationScore") evaluationScore;
-  @ViewChild("notes") notes;
+  @ViewChild("evaluationScore", { static: true }) evaluationScore;
+  @ViewChild("notes", { static: true }) notes;
 
   CriteriaWeighting = CriteriaWeighting;
   EvaluationScore = EvaluationScore;
