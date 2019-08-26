@@ -23,6 +23,7 @@ export class MydarsComponent implements OnInit, OnDestroy {
   darStatuses: Kvp[];
   screenTrace: firebase.performance.Trace;
 
+
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
