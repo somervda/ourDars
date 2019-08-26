@@ -35,8 +35,8 @@ import {
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatTabsModule,
-  MatDialogModule
+  MatTabsModule
+  // MatDialogModule
   // MatGridListModule
 } from "@angular/material";
 
@@ -140,7 +140,7 @@ import { NotauthorizedComponent } from './notauthorized/notauthorized.component'
     //MatDividerModule,
     MatTabsModule,
     // MatTableModule,
-    MatDialogModule,
+    // MatDialogModule,
     MatDatepickerModule,
     // MatMomentDateModule,
     AppRoutingModule,

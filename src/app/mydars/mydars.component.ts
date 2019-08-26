@@ -8,6 +8,7 @@ import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import * as firebase from "firebase/app";
 
+
 @Component({
   selector: "app-mydars",
   templateUrl: "./mydars.component.html",
@@ -25,8 +26,8 @@ export class MydarsComponent implements OnInit, OnDestroy {
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.screenTrace = perf.trace("myDars");
-    this.screenTrace.start();
+    // this.screenTrace = perf.trace("myDars");
+    // this.screenTrace.start();
     console.log("mydars   ngOnInit");
     this.selectedDarStatus.value = "";
     this.selectedRole.value = "";
@@ -62,6 +63,6 @@ export class MydarsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.screenTrace.stop();
+    // this.screenTrace.stop();
   }
 }
