@@ -7,7 +7,6 @@ import { AuthService } from "../services/auth.service";
 import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import * as firebase from "firebase/app";
-//const perf = firebase.performance();
 
 @Component({
   selector: "app-mydars",
@@ -22,12 +21,13 @@ export class MydarsComponent implements OnInit, OnDestroy {
   darStatus = DarStatus;
   darStatuses: Kvp[];
   screenTrace: firebase.performance.Trace;
+  private perf = firebase.performance();
 
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
-    // this.screenTrace = perf.trace("myDars");
-    // this.screenTrace.start();
+    this.screenTrace = this.perf.trace("myDars");
+    this.screenTrace.start();
     console.log("mydars   ngOnInit");
     this.selectedDarStatus.value = "";
     this.selectedRole.value = "";
@@ -63,6 +63,6 @@ export class MydarsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.screenTrace.stop();
+    this.screenTrace.stop();
   }
 }
