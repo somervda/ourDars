@@ -81,13 +81,14 @@
     </button>
 
     <div class="filler"></div>
-    ourDARs
-    <div *ngIf="!isConnected">
+    <div *ngIf="!isConnected" style="margin-right: 20px">
       <mat-chip-list>
-        <mat-chip class="offline-indicator" title="Application is offline and may have limited functionality.">Offline!
+        <mat-chip  class="offline-indicator" 
+        title="Application is offline and will have more limited functionality.">Offline
         </mat-chip>
       </mat-chip-list>
     </div>
+    ourDARs
     &nbsp;
     <ng-container *ngIf="auth.user$ | async as user">
       <img *ngIf="user.isActivated" class="user-avatar" [src]="user.photoURL" [matTooltip]="user.displayName" />

@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "./services/auth.service";
 import { SwUpdate } from "@angular/service-worker";
 import { MatSnackBar } from "@angular/material";
+import { Observable, fromEvent, Subscription} from 'rxjs';
+
 
 @Component({
   selector: "app-root",
@@ -11,6 +13,11 @@ import { MatSnackBar } from "@angular/material";
 export class AppComponent implements OnInit {
   title = "ourDars";
   isConnected = true;
+  onlineEvent$: Observable<Event>;
+  offlineEvent$: Observable<Event>;
+  subscriptions$$: Subscription[] = [];
+
+
 
   constructor(
     public auth: AuthService,
@@ -19,6 +26,21 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Determine if we are connected
+    // See https://robinraju.dev/developer/2018-07-26-detecting-user-offline-in-angular/
+   this.onlineEvent$ = fromEvent(window, 'online');
+   this.offlineEvent$ = fromEvent(window, 'offline');
+
+   this.subscriptions$$.push(this.onlineEvent$.subscribe(e => {
+     this.isConnected=true;
+   }));
+
+   this.subscriptions$$.push(this.offlineEvent$.subscribe(e => {
+     this.isConnected=false;
+   }));
+
+
+
     // Track PWA version
     if (this.swUpdate.isEnabled) {
       this.swUpdate.available.subscribe(() => {
@@ -45,5 +67,12 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.auth.signOut();
+  }
+
+  ngOnDestroy(): void {
+    /**
+    * Unsubscribe all subscriptions to avoid memory leak
+    */
+    this.subscriptions$$.forEach(subscription => subscription.unsubscribe());
   }
 }
