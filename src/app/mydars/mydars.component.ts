@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  AfterViewInit
+} from "@angular/core";
 import { DarStatus, Dar } from "../models/dar.model";
 import { DarService } from "../services/dar.service";
 import { switchMap } from "rxjs/operators";
@@ -13,7 +19,7 @@ import * as firebase from "firebase/app";
   templateUrl: "./mydars.component.html",
   styleUrls: ["./mydars.component.scss"]
 })
-export class MydarsComponent implements OnInit, OnDestroy {
+export class MydarsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
   @ViewChild("selectedRole", { static: true }) selectedRole;
   dars$: Observable<Dar[]>;
@@ -26,13 +32,17 @@ export class MydarsComponent implements OnInit, OnDestroy {
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.screenTrace = this.perf.trace("myDars");
+    this.screenTrace = this.perf.trace("myDars Page Load");
     this.screenTrace.start();
     console.log("mydars   ngOnInit");
     this.selectedDarStatus.value = "";
     this.selectedRole.value = "";
     this.updateQuery();
     this.darStatuses = enumToMap(DarStatus);
+  }
+
+  ngAfterViewInit(): void {
+    this.screenTrace.stop();
   }
 
   updateQuery() {
@@ -62,7 +72,5 @@ export class MydarsComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.screenTrace.stop();
-  }
+  ngOnDestroy() {}
 }
