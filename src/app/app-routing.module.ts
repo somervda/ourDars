@@ -25,6 +25,7 @@ import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
+import { IsStakeholderGuard } from './guards/isStakeholder.guard';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -82,7 +83,7 @@ const routes: Routes = [
   {
     path: "darconfirm/:id",
     component: DarconfirmComponent,
-    canActivate: [IsActivatedGuard],
+    canActivate: [IsStakeholderGuard],
     resolve: { dar: DarResolver }
   },
   {

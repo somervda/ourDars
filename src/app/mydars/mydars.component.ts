@@ -42,6 +42,9 @@ export class MydarsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      console.log('ngAfterViewInit');
+  }, 2000);
     this.screenTrace.stop();
   }
 
