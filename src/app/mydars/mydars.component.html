@@ -94,6 +94,14 @@
             </i>
           </button>
         </span>
+        <!--  enable to test isRole route guard
+        <span>
+          <button mat-button class="actionButton" matTooltip="Test" routerLink="/darconfirm/{{ element.id }}">
+            <i class="material-icons-outlined" style="color: blueviolet">
+              done_all
+            </i>
+          </button>
+        </span> -->
         <span *ngIf="element.darUserIndexes.isOwner.includes(auth.currentUser.uid)">
           <button mat-button class="actionButton" matTooltip="Edit the DAR" routerLink="/darfolder/{{ element.id }}">
             <i class="material-icons-outlined">

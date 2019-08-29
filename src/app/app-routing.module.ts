@@ -25,7 +25,7 @@ import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
-import { IsStakeholderGuard } from './guards/isStakeholder.guard';
+import { IsDarRoleGuard } from "./guards/isDarRole.guard";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -72,18 +72,22 @@ const routes: Routes = [
   {
     path: "darview/:id",
     component: DarviewComponent,
-    resolve: { dar: DarResolver }
+    resolve: { dar: DarResolver },
+    canActivate: [IsDarRoleGuard],
+    data: { role: "reader", adminOverride: true }
   },
   {
     path: "darvote/:id",
     component: DarvoteComponent,
-    canActivate: [IsActivatedGuard],
+    canActivate: [IsDarRoleGuard],
+    data: { role: "voter" },
     resolve: { dar: DarResolver }
   },
   {
     path: "darconfirm/:id",
     component: DarconfirmComponent,
-    canActivate: [IsStakeholderGuard],
+    canActivate: [IsDarRoleGuard],
+    data: { role: "stakeholder" },
     resolve: { dar: DarResolver }
   },
   {
@@ -100,7 +104,8 @@ const routes: Routes = [
     path: "darfolder/:id",
     component: DarfolderComponent,
     resolve: { dar: DarResolver },
-    canActivate: [IsAdminGuard]
+    canActivate: [IsDarRoleGuard],
+    data: { role: "owner", adminOverride: true }
   },
   {
     path: "darfolder/delete/:id",
@@ -111,7 +116,9 @@ const routes: Routes = [
   {
     path: "darevaluations/:id",
     component: DarevaluationsComponent,
-    resolve: { dar: DarResolver }
+    resolve: { dar: DarResolver },
+    canActivate: [IsDarRoleGuard],
+    data: { role: "evaluator" }
   },
 
   {
