@@ -19,33 +19,26 @@ import * as firebase from "firebase/app";
   templateUrl: "./mydars.component.html",
   styleUrls: ["./mydars.component.scss"]
 })
-export class MydarsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MydarsComponent implements OnInit, OnDestroy {
   @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
   @ViewChild("selectedRole", { static: true }) selectedRole;
   dars$: Observable<Dar[]>;
   displayedColumns = ["title", "darStatus", "roles", "actions"];
   darStatus = DarStatus;
   darStatuses: Kvp[];
-  screenTrace: firebase.performance.Trace;
+  perfTrace: firebase.performance.Trace;
   private perf = firebase.performance();
 
   constructor(private darService: DarService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.screenTrace = this.perf.trace("myDars Page Load");
-    this.screenTrace.start();
+    this.perfTrace = this.perf.trace("myDars");
+    this.perfTrace.start();
     console.log("mydars   ngOnInit");
     this.selectedDarStatus.value = "";
     this.selectedRole.value = "";
     this.updateQuery();
     this.darStatuses = enumToMap(DarStatus);
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      console.log('ngAfterViewInit');
-  }, 2000);
-    this.screenTrace.stop();
   }
 
   updateQuery() {
@@ -75,5 +68,7 @@ export class MydarsComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.perfTrace.stop();
+  }
 }
