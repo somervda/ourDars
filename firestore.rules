@@ -18,6 +18,14 @@ service cloud.firestore {
           get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isActivated == true;
      }
 
+    function isDarRole(did , role)  {
+      darUserIndexes = get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes;
+      if (darUserIndexes.isStakeholder.includes($(request.auth.uid))) return true;
+
+      return false;
+
+     }
+
 
     // ****** Document Access functionsnp
 
@@ -73,6 +81,9 @@ service cloud.firestore {
     // 
         match /dars/{dar}/darUsers/{duid} {
           allow read:  if isAuthenticated();
+          allow update: if (isDarRole(dar,"owner") ||
+                             isAdmin()  ||
+                            ( request.resource.data.confirmed != resource.data.confirmed && isDarRole(dar,"stakeholder")))  
           allow write:  if isAdmin() ;
         }
 

@@ -11,6 +11,7 @@
     "fastserve": "ng serve --source-map=false",
     "fastdeploy": "ng build --prod --source-map=false && firebase deploy --only hosting",
     "functiondeploy": "firebase deploy --only functions ",
+    "ruledeploy": "firebase deploy --only firestore:rules ",
     "deploy": "ng build --prod && firebase deploy --only firestore:indexes && firebase deploy --only hosting && firebase deploy --only firestore:rules && firebase deploy --only functions "
   },
   "private": true,
