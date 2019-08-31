@@ -25,6 +25,24 @@ service cloud.firestore {
     function isDarOwner(did)  {
       return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isOwner   ;
      }
+     
+    function updatingField(field) {
+      return (field in request.resource.data) && resource.data[field] != request.resource.data[field]
+    }
+
+     function isDarUserConfirmationUpdate() {
+       // Check that only confirmation related properties are being updated
+       return ((updatingField("confirmed") || updatingField("confirmComment") )
+       && !updatingField("email") 
+       && !updatingField("displayName") 
+       && !updatingField("solutionVote") 
+       && !updatingField("isEvaluator") 
+       && !updatingField("isReader") 
+       && !updatingField("isOwner") 
+       && !updatingField("isStakeholder") 
+       && !updatingField("isVoter") 
+       ) ;
+     }
 
 
     // ****** Document Access functionsnp
@@ -83,8 +101,7 @@ service cloud.firestore {
           allow read:  if isAuthenticated();
           allow update: if (isDarOwner(dar) ||
                              isAdmin()  ||
-                            (request.resource.data.confirmed != resource.data.confirmed
-                            &&  isDarStakeholder(dar)))  
+                            (isDarUserConfirmationUpdate() &&  isDarStakeholder(dar)))  
           allow write:  if isAdmin() ;
         }
 
