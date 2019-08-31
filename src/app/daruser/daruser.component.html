@@ -7,31 +7,31 @@
       </mat-card-title>
     </div>
     <div *ngIf="_crudAction == Crud.Create">
-      <mat-card >
-      <mat-form-field class="half-width">
-        <mat-label>Filter user selection by Team</mat-label>
-        <mat-select (selectionChange)="onFilterChange()" #tidFilter>
-          <mat-option value="">No Filter</mat-option>
-          <mat-option *ngFor="let team of team$ | async" [value]="team.id">
-            {{ team.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <mat-card>
+        <mat-form-field class="half-width">
+          <mat-label>Filter user selection by Team</mat-label>
+          <mat-select (selectionChange)="onFilterChange()" #tidFilter>
+            <mat-option value="">No Filter</mat-option>
+            <mat-option *ngFor="let team of team$ | async" [value]="team.id">
+              {{ team.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="half-width">
-        <mat-label>Filter user selection by eMail</mat-label>
-        <input matInput (change)="onFilterChange()" #emailFilter />
-      </mat-form-field>
+        <mat-form-field class="half-width">
+          <mat-label>Filter user selection by eMail (Enter the initial characters to be matched)</mat-label>
+          <input matInput (change)="onFilterChange()" #emailFilter />
+        </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <mat-label>Choose new user</mat-label>
-        <mat-select [(value)]="selectedUser" #userSelect>
-          <mat-option *ngFor="let user of createUserOptions" [value]="user.uid">
-            {{ user.email }}<span *ngIf="user.displayName"> ({{ user.displayName }})</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card>
+        <mat-form-field class="full-width">
+          <mat-label>Choose new user</mat-label>
+          <mat-select [(value)]="selectedUser" #userSelect>
+            <mat-option *ngFor="let user of createUserOptions" [value]="user.uid">
+              {{ user.email }}<span *ngIf="user.displayName"> ({{ user.displayName }})</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card>
 
     </div>
 
