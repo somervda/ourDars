@@ -13,11 +13,71 @@ service cloud.firestore {
           get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
      }
 
+    function isDarCreator() {
+       return isAuthenticated() &&
+          get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isDarCreator == true;
+     }
+
     function isActivated() {
        return isAuthenticated() &&
           get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isActivated == true;
      }
 
+    function isDarStakeholder(did)  {
+      return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isStakeholder ;
+     }
+
+    function isDarOwner(did)  {
+      return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isOwner   ;
+     }
+
+    function isDarEvaluator(did)  {
+      return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isEvaluator   ;
+     }
+
+    function isDarReader(did)  {
+      return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isReader   ;
+     }
+
+    function isDarVoter(did)  {
+      return request.auth.uid in  get( /databases/$(database)/documents/dars/$(did)).data.darUserIndexes.isVoter   ;
+     }
+
+     function isDarStatus(did,darStatus) {
+        return get( /databases/$(database)/documents/dars/$(did)).data.darStatus == darStatus;  
+     }
+
+     
+    function updatingField(field) {
+      return (field in request.resource.data) && resource.data[field] != request.resource.data[field]
+    }
+
+     function isDarUserConfirmationUpdate() {
+       // Check that only confirmation  properties are being updated
+       return (!updatingField("email") 
+        && !updatingField("displayName") 
+        && !updatingField("solutionVote") 
+        && !updatingField("isEvaluator") 
+        && !updatingField("isReader") 
+        && !updatingField("isOwner") 
+        && !updatingField("isStakeholder") 
+        && !updatingField("isVoter") 
+       ) ;
+     }
+
+     function isDarUserVoteUpdate() {
+       // Check that only confirmation  properties are being updated
+       return (!updatingField("email") 
+        && !updatingField("displayName") 
+        && !updatingField("confirmed") 
+        && !updatingField("confirmComment") 
+        && !updatingField("isEvaluator") 
+        && !updatingField("isReader") 
+        && !updatingField("isOwner") 
+        && !updatingField("isStakeholder") 
+        && !updatingField("isVoter") 
+       ) ;
+     }
 
     // ****** Document Access functionsnp
 
@@ -35,8 +95,10 @@ service cloud.firestore {
     }
 
     // 2 isAdmin :  Other user documents  can read and write 
+    // Note: Stonger read security may be needed if the user information
+    // is to be locked down (i.e. only let users who are dar owners in the system to do reads.)
         match /users/{user} {
-          allow read:  if isAdmin();
+          allow read:  if isAuthenticated();
           allow write:  if isAdmin() &&
                              user!=request.auth.uid ;
         }
@@ -71,10 +133,16 @@ service cloud.firestore {
 
     // darUsers document rules
     // 
-        match /dars/{dar}/darUsers/{duid} {
-          allow read:  if isAuthenticated();
-          allow write:  if isAdmin() ;
-        }
+    match /dars/{dar}/darUsers/{duid} {
+      allow read:  if isAuthenticated();
+      allow update: if (isDarOwner(dar) ||
+                        isAdmin()  ||
+                        (isDarUserConfirmationUpdate() &&  isDarStakeholder(dar) && isDarStatus(dar,3)) ||
+                        (isDarUserVoteUpdate() &&  isDarVoter(dar) && isDarStatus(dar,2)) 
+                        )  
+      allow create:  if isDarOwner(dar) || isAdmin();
+      allow delete: if isDarOwner(dar) || isAdmin(); 
+    }
 
     // darEvaluations document rules
     // 

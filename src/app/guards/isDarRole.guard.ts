@@ -25,8 +25,15 @@ export class IsDarRoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
+    if (!route.params.id)
+      return observableOf(false);
     const id = route.params.id;
+    if (!route.data.role)
+      return observableOf(false);
     const role = route.data.role;
+    // adminOverride is an optional parameter to  force
+    // the guard to return true independent of the users Dar Role
+    // if they are an administrator
     const adminOverride = route.data.adminOverride;
     // console.log("IsStakeholderGuard id:", id, " role:", role);
 
