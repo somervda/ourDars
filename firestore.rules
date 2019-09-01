@@ -112,24 +112,24 @@ service cloud.firestore {
 
     // Dars document rules
     // 
-        match /dars/{dar} {
-          allow read:  if isAuthenticated();
-          allow write:  if isAdmin() ;
-        }
+    match /dars/{dar} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin() ;
+    }
         
     // darsolutions document rules
     // 
-        match /dars/{dar}/darSolutions/{dsid} {
-          allow read:  if isAuthenticated();
-          allow write:  if isAdmin() ;
-        }
+    match /dars/{dar}/darSolutions/{dsid} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin() ;
+    }
         
     // darCriteria document rules
     // 
-        match /dars/{dar}/darCriteria/{dcid} {
-          allow read:  if isAuthenticated();
-          allow write:  if isAdmin() ;
-        }
+    match /dars/{dar}/darCriteria/{dcid} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin() ;
+    }
 
     // darUsers document rules
     // 
