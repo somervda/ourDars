@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
-import { Dar, DarStatus } from "../models/dar.model";
+import { Dar, DarStatus, DarMethod } from "../models/dar.model";
 import { Observable } from "rxjs";
 import { map, first } from "rxjs/operators";
 import { convertSnaps, dbFieldUpdate, convertSnap } from "./db-utils";
@@ -128,5 +128,31 @@ export class DarService {
       .collection("dars")
       .doc(id)
       .delete();
+  }
+
+  getNextDarStatus(darStatus: DarStatus, darMethod: DarMethod): DarStatus[] {
+    // Return an array of next valid owner darstatus values based on workflow
+    // Create
+    if (darStatus === DarStatus.create) {
+      if (darMethod === DarMethod.Vote) {
+        return [DarStatus.vote];
+      }
+      else return [DarStatus.evaluate];
+    }
+    // Vote
+    if (darStatus === DarStatus.vote) {
+      return [DarStatus.confirm,DarStatus.create];
+    }
+    // Evaluate
+    if (darStatus === DarStatus.evaluate) {
+      if (darMethod === DarMethod.Hybrid) {
+        return [DarStatus.vote,,DarStatus.create];
+      }
+      else return [DarStatus.confirm,,DarStatus.create];
+    }
+    // Confirm
+    if (darStatus === DarStatus.confirm) {
+      return [DarStatus.closed,DarStatus.create];
+    }
   }
 }

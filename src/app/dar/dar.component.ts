@@ -56,6 +56,7 @@ export class DarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.darMethods = enumToMap(DarMethod);
     this.darStatuses = enumToMap(DarStatus);
+
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
 
     console.log("dar onInit", this.crudAction);
@@ -66,8 +67,20 @@ export class DarComponent implements OnInit, OnDestroy {
         darStatus: DarStatus.create,
         darMethod: DarMethod.Process
       };
+      // Create is the only valid next status
+      this.darStatuses = this.darStatuses.filter(s => s.key == DarStatus.create);
     } else {
       this.dar = this.route.snapshot.data["dar"];
+
+      // For DarOwners only allow next status based on the standard workflow
+      // Otherwise admin users can set any status
+      // Note: still need some code to cover owners who are also admins
+      if (this.dar.darUserIndexes.isOwner.includes(this.auth.currentUser.uid) ) {
+        console.log("isOwner");
+        const nextValidStatus = this.darService.getNextDarStatus(this.dar.darStatus,this.dar.darMethod);
+        this.darStatuses = this.darStatuses.filter(s => nextValidStatus.includes(s.key) || s.key == this.dar.darStatus);
+      }
+
 
       // Subscribe to dar to keep getting realtime updates
       this.dar$$ = this.darService

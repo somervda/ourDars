@@ -84,20 +84,20 @@ service cloud.firestore {
 
     function isDarStatusUpdate() {
        // Check that only dar status is being updated
-       return true;
-      //  return (!updatingField("title") && 
-      //   !updatingField("description") && 
-      //   !updatingField("dateCreated") && 
-      //   !updatingField("dateTargeted") && 
-      //   !updatingField("dateClosed") && 
-      //   !updatingField("tid") && 
-      //   !updatingField("cause") && 
-      //   !updatingField("darMethod") && 
-      //   !updatingField("risks") && 
-      //   !updatingField("constraints") && 
-      //   !updatingField("dsid") && 
-      //   !updatingField("darUserIndexes")
-      //  ) ;
+      // return true;
+       return (!updatingField("title") && 
+        !updatingField("description") && 
+        !updatingField("dateCreated") && 
+        !updatingField("dateTargeted") && 
+        !updatingField("dateClosed") && 
+        !updatingField("tid") && 
+        !updatingField("cause") && 
+        !updatingField("darMethod") && 
+        !updatingField("risks") && 
+        !updatingField("constraints") && 
+        !updatingField("dsid") && 
+        !updatingField("darUserIndexes")
+       ) ;
      }
 
     // Dar status rules
