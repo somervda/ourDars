@@ -235,6 +235,11 @@ export class DarComponent implements OnInit, OnDestroy {
         console.log("Blankable", this.form.get(fieldName).value);
         newValue = "";
       }
+      // Status change check
+      // if (this.dar.darStatus === DarStatus.create) {
+      //   if (this.dar.)
+      // }
+
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
   }
