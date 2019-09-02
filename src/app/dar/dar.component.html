@@ -30,7 +30,7 @@
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
       <mat-select formControlName="darStatus" (selectionChange)="onFieldUpdate('darStatus')">
-        <mat-option *ngFor="let item of darStatuses" [value]="item.key">
+        <mat-option *ngFor="let item of nextDarStatuses" [value]="item.key">
           {{ item.value | titlecase }}
         </mat-option>
       </mat-select>

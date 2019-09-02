@@ -1,4 +1,4 @@
-import { DarsolutionService } from './../services/darsolution.service';
+import { DarsolutionService } from "./../services/darsolution.service";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
 import { Dar, DarStatus, DarMethod } from "../models/dar.model";
@@ -18,7 +18,9 @@ import { TeamService } from "../services/team.service";
 import { Subscription, Observable } from "rxjs";
 import { disableDebugTools } from "@angular/platform-browser";
 import { DaruserService } from "../services/daruser.service";
-import { Darsolution } from '../models/darsolution.model';
+import { Darsolution } from "../models/darsolution.model";
+import { switchMap, toArray } from "rxjs/operators";
+import { from } from "rxjs";
 
 @Component({
   selector: "app-dar",
@@ -33,7 +35,8 @@ export class DarComponent implements OnInit, OnDestroy {
   DarMethod = DarMethod;
   darMethods: Kvp[];
   darStatuses: Kvp[];
-  darSolutions$ : Observable<Darsolution[]>;
+  nextDarStatuses: Kvp[];
+  darSolutions$: Observable<Darsolution[]>;
   form: FormGroup;
   team$;
   dar$$: Subscription;
@@ -50,7 +53,7 @@ export class DarComponent implements OnInit, OnDestroy {
     private teamService: TeamService,
     private daruserService: DaruserService,
     private auth: AuthService,
-    private darsolutionService : DarsolutionService
+    private darsolutionService: DarsolutionService
   ) {}
 
   ngOnInit() {
@@ -68,36 +71,31 @@ export class DarComponent implements OnInit, OnDestroy {
         darMethod: DarMethod.Process
       };
       // Create is the only valid next status
-      this.darStatuses = this.darStatuses.filter(s => s.key == DarStatus.create);
+      this.nextDarStatuses = this.darStatuses.filter(
+        s => s.key == DarStatus.create
+      );
     } else {
       this.dar = this.route.snapshot.data["dar"];
 
-      // For DarOwners only allow next status based on the standard workflow
-      // Otherwise admin users can set any status
-      // Note: still need some code to cover owners who are also admins
-      if (this.dar.darUserIndexes.isOwner.includes(this.auth.currentUser.uid) ) {
-        console.log("isOwner");
-        const nextValidStatus = this.darService.getNextDarStatus(this.dar.darStatus,this.dar.darMethod);
-        this.darStatuses = this.darStatuses.filter(s => nextValidStatus.includes(s.key) || s.key == this.dar.darStatus);
-      }
-
-
       // Subscribe to dar to keep getting realtime updates
-      this.dar$$ = this.darService
-        .findById(this.dar.id)
-        .subscribe(dar => {
-          this.dar = dar;
-          this.darSolutions$ = this.darsolutionService.findAllDarsolutions(this.dar.id,100);
-          // console.log("subscribed dar", this.dar);
-          this.form.patchValue(this.dar);
-          // Also need to patch the dateTargeted individually to apply
-          // the toDate() transformation
-          if (this.dar.dateTargeted) {
-            this.form.controls["dateTargeted"].patchValue(
-              this.dar.dateTargeted.toDate()
-            );
-          }
-        });
+      this.dar$$ = this.darService.findById(this.dar.id).subscribe(dar => {
+        this.dar = dar;
+
+        this.getNextStatus();
+        this.darSolutions$ = this.darsolutionService.findAllDarsolutions(
+          this.dar.id,
+          100
+        );
+        // console.log("subscribed dar", this.dar);
+        this.form.patchValue(this.dar);
+        // Also need to patch the dateTargeted individually to apply
+        // the toDate() transformation
+        if (this.dar.dateTargeted) {
+          this.form.controls["dateTargeted"].patchValue(
+            this.dar.dateTargeted.toDate()
+          );
+        }
+      });
     }
 
     // Create form group and initialize with team values
@@ -127,7 +125,7 @@ export class DarComponent implements OnInit, OnDestroy {
       risks: [this.dar.risks, [Validators.maxLength(10000)]],
       constraints: [this.dar.constraints, [Validators.maxLength(10000)]],
       cause: [this.dar.cause, [Validators.maxLength(10000)]],
-      dsid: [this.dar.dsid],
+      dsid: [this.dar.dsid]
     });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
@@ -136,6 +134,26 @@ export class DarComponent implements OnInit, OnDestroy {
         this.form.get(field).markAsTouched();
       }
     }
+  }
+
+  getNextStatus() {
+    // For DarOwners only allow next status based on the standard workflow
+    // Otherwise admin users can set any status
+    console.log("getNextStatus", this.dar, this.auth.currentUser);
+    if (this.dar.darUserIndexes.isOwner.includes(this.auth.currentUser.uid)) {
+      console.log("isOwner");
+      const nextValidStatus = this.darService.getNextDarStatus(
+        this.dar.darStatus,
+        this.dar.darMethod
+      );
+      console.log("nextValidStatus", nextValidStatus);
+      this.nextDarStatuses = this.darStatuses.filter(
+        s => nextValidStatus.includes(s.key) || s.key == this.dar.darStatus
+      );
+    }
+
+    if (this.auth.currentUser.isAdmin)
+      this.nextDarStatuses = [...this.darStatuses];
   }
 
   // Updaters
@@ -213,10 +231,10 @@ export class DarComponent implements OnInit, OnDestroy {
       // Do any type conversions before storing value
       if (toType && toType == "Timestamp")
         newValue = firestore.Timestamp.fromDate(this.form.get(fieldName).value);
-      if (toType && toType == "Blankable" && !this.form.get(fieldName).value ) {
+      if (toType && toType == "Blankable" && !this.form.get(fieldName).value) {
         console.log("Blankable", this.form.get(fieldName).value);
-        newValue = "";    
-      } 
+        newValue = "";
+      }
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
   }

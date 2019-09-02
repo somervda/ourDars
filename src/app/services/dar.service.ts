@@ -133,26 +133,27 @@ export class DarService {
   getNextDarStatus(darStatus: DarStatus, darMethod: DarMethod): DarStatus[] {
     // Return an array of next valid owner darstatus values based on workflow
     // Create
+    console.log({ darStatus, darMethod });
     if (darStatus === DarStatus.create) {
       if (darMethod === DarMethod.Vote) {
         return [DarStatus.vote];
-      }
-      else return [DarStatus.evaluate];
+      } else return [DarStatus.evaluate];
     }
     // Vote
     if (darStatus === DarStatus.vote) {
-      return [DarStatus.confirm,DarStatus.create];
+      return [DarStatus.confirm, DarStatus.create];
     }
     // Evaluate
     if (darStatus === DarStatus.evaluate) {
       if (darMethod === DarMethod.Hybrid) {
-        return [DarStatus.vote,,DarStatus.create];
-      }
-      else return [DarStatus.confirm,,DarStatus.create];
+        return [DarStatus.vote, , DarStatus.create];
+      } else return [DarStatus.confirm, , DarStatus.create];
     }
     // Confirm
     if (darStatus === DarStatus.confirm) {
-      return [DarStatus.closed,DarStatus.create];
+      return [DarStatus.closed, DarStatus.create];
     }
+
+    return [];
   }
 }

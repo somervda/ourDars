@@ -54,16 +54,15 @@ export class MydarsComponent implements OnInit, OnDestroy {
     // Use switchMap to wait for uid to be available before
     // creating dars$ observable - needed when doing a browser refresh (auth gets delayed)
     this.dars$ = this.auth.user$.pipe(
-      switchMap(
-        u =>
-          (this.dars$ = this.darService.findMyDars(
-            u.uid,
-            this.selectedRole.value,
-            this.selectedDarStatus.value == ""
-              ? undefined
-              : this.selectedDarStatus.value,
-            100
-          ))
+      switchMap(u =>
+        this.darService.findMyDars(
+          u.uid,
+          this.selectedRole.value,
+          this.selectedDarStatus.value == ""
+            ? undefined
+            : this.selectedDarStatus.value,
+          100
+        )
       )
     );
   }
