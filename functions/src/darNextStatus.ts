@@ -15,7 +15,7 @@ export const getNextDarStatus = functions.https.onRequest(
     // Use to test the onGetNextDarStatus function
     // https://us-central1-ourdars-7b9e2.cloudfunctions.net/getNextDarStatus/s32tXhTTmAO3OiCgkpVK
     console.log("request.params", request.params["0"]);
-    let pathParam = <string>request.params["0"];
+    let pathParam = request.params["0"];
     if (pathParam.slice(0, 1) === "/") pathParam = pathParam.substr(1);
     let x: DarNextStatusInfo;
 
