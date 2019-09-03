@@ -150,12 +150,58 @@ export const OnUpdateDarCESUInfo = functions.firestore
 export const OnWriteDarSolutionsDarCESUInfo = functions.firestore
   .document("dars/{did}/darSolutions/{dsid}")
   .onWrite(async (snap, context) => {
+    if (snap.before.exists && snap.after.exists)
+    {
+      console.log("Exiting, updates do not change solutionCounts");
+      return null;
+    }
     const darRef = snap.before.ref.parent.parent;
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
 
-    console.log(context.params.did, " - ", darCESUInfo);
+    if (darRef) {
+      return darRef.set(
+        {
+          darCESUInfo: darCESUInfo
+        },
+        { merge: true }
+      );
+    }
+    return null;
+  });
 
-    console.log("Updating DAR");
+  export const OnWriteDarCriteriaDarCESUInfo = functions.firestore
+  .document("dars/{did}/darCriteria/{dcid}")
+  .onWrite(async (snap, context) => {
+    if (snap.before.exists && snap.after.exists)
+    {
+      console.log("Exiting, updates do not change criteriaCounts");
+      return null;
+    }
+    const darRef = snap.before.ref.parent.parent;
+    const darCESUInfo = await onGetDarCESUInfo(context.params.did);
+    if (darRef) {
+      return darRef.set(
+        {
+          darCESUInfo: darCESUInfo
+        },
+        { merge: true }
+      );
+    }
+    return null;
+  });
+
+  export const OnWriteDarEvaluationsDarCESUInfo = functions.firestore
+  .document("dars/{did}/darSolutions/{dsid}/darEvaluations/{dcid}")
+  .onWrite(async (snap, context) => {
+    if (snap.before.exists && snap.after.exists)
+    {
+      console.log("Exiting, updates do not change evaluationCounts");
+      return null;
+    }
+    const darRef = <FirebaseFirestore.DocumentReference>db
+      .collection("dars")
+      .doc(context.params.did);
+    const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
       return darRef.set(
         {
