@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "x": "firebase  deploy --only functions:getDarCESUInfo"
+    "x": "firebase  deploy --only functions:OnUpdateDarCESUInfo"
   },
   "main": "lib/index.js",
   "dependencies": {

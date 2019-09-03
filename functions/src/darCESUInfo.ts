@@ -108,7 +108,6 @@ export async function onGetDarCESUInfo(did: string): Promise<DarCESUInfo> {
     .get()
     .then(snaps => {
       darCESUInfo.evaluationCount = snaps.docs.length;
-      console.log("snaps", snaps);
     })
     .catch(function(error: any) {
       console.error("Error getting darEvaluations:", error);
@@ -116,3 +115,54 @@ export async function onGetDarCESUInfo(did: string): Promise<DarCESUInfo> {
 
   return darCESUInfo;
 }
+
+//********** Database Triggers that drive nextStatus updates*/
+// Update when dar is updated, a darSolutions write, or a darcriteria write
+// Note: darUsers already trigger a dar update so no additional trigger needed
+
+export const OnUpdateDarCESUInfo = functions.firestore
+  .document("dars/{did}")
+  .onUpdate(async (snap, context) => {
+    const darCESUInfo = await onGetDarCESUInfo(context.params.did);
+    console.log(context.params.did, " - ", darCESUInfo);
+    const deepEqual = require("deep-equal");
+
+    const after = snap.after.data();
+
+    // Exit without updating if no changes (stop update loops)
+    if (after) {
+      console.log("after.darCESUInfo", after.darCESUInfo);
+      console.log("darCESUInfo", darCESUInfo);
+      if (deepEqual(after.darCESUInfo, darCESUInfo)) {
+        console.log("Matching - no update!");
+        return null;
+      }
+    }
+    console.log("Updating DAR darCESUInfo");
+    return snap.after.ref.set(
+      {
+        darCESUInfo: darCESUInfo
+      },
+      { merge: true }
+    );
+  });
+
+export const OnWriteDarSolutionsDarCESUInfo = functions.firestore
+  .document("dars/{did}/darSolutions/{dsid}")
+  .onWrite(async (snap, context) => {
+    const darRef = snap.before.ref.parent.parent;
+    const darCESUInfo = await onGetDarCESUInfo(context.params.did);
+
+    console.log(context.params.did, " - ", darCESUInfo);
+
+    console.log("Updating DAR");
+    if (darRef) {
+      return darRef.set(
+        {
+          darCESUInfo: darCESUInfo
+        },
+        { merge: true }
+      );
+    }
+    return null;
+  });

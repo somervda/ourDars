@@ -36,11 +36,14 @@ export interface Dar {
     isReader?: [string];
     isVoter?: [string];
   };
-  // Information about the next valid dar status and how it was decided
-  darNextStatusInfo?: {
-    nextDarStatus?: DarStatus | null;
-    nextDarStatusExplanation?: string;
-    comments?: string;
+  // Information about sub collections documents under the dar
+  darCESUInfo?: {
+    solutionCount?: number;
+    criteriaCount?: number;
+    evaluationCount?: number;
+    evaluatorCount?: number;
+    voterCount?: number;
+    stakeholderCount?: number;
   };
 }
 
