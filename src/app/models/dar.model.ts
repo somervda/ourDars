@@ -44,6 +44,8 @@ export interface Dar {
     evaluatorCount?: number;
     voterCount?: number;
     stakeholderCount?: number;
+    confirmedCount?: number;
+    voteCount?: number;
   };
 }
 

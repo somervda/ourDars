@@ -50,5 +50,7 @@ export {
   onGetDarCESUInfo,
   OnUpdateDarCESUInfo,
   OnWriteDarSolutionsDarCESUInfo,
-  OnWriteDarEvaluationsDarCESUInfo
+  OnWriteDarEvaluationsDarCESUInfo,
+  OnWriteDarUsersDarCESUInfo,
+  OnWriteDarCriteriaDarCESUInfo
 } from "./darCESUInfo";
