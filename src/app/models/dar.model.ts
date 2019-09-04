@@ -37,6 +37,7 @@ export interface Dar {
     isVoter?: [string];
   };
   // Information about sub collections documents under the dar
+  // this is updated by cloud functions 
   darCESUInfo?: {
     solutionCount?: number;
     criteriaCount?: number;
@@ -70,4 +71,11 @@ export enum DarMethod {
   // Hybrid : A process of scoring is used but final decision is still based on a vote, highest
   // scored solution may not be chosen
   Hybrid = 3
+}
+
+// Returned by getNextDarStatus in the darService
+export interface DarNextStatus {
+  darStatus : DarStatus[];
+  comment: string;
+  explanation: string;
 }

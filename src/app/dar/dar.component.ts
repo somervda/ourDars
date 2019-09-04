@@ -142,13 +142,10 @@ export class DarComponent implements OnInit, OnDestroy {
     console.log("getNextStatus", this.dar, this.auth.currentUser);
     if (this.dar.darUserIndexes.isOwner.includes(this.auth.currentUser.uid)) {
       console.log("isOwner");
-      const nextValidStatus = this.darService.getNextDarStatus(
-        this.dar.darStatus,
-        this.dar.darMethod
-      );
-      console.log("nextValidStatus", nextValidStatus);
+      const darNextStatus = this.darService.getDarNextStatus(this.dar);
+      console.log("nextValidStatus", darNextStatus);
       this.nextDarStatuses = this.darStatuses.filter(
-        s => nextValidStatus.includes(s.key) || s.key == this.dar.darStatus
+        s => darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
       );
     }
 
