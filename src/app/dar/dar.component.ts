@@ -40,6 +40,7 @@ export class DarComponent implements OnInit, OnDestroy {
   form: FormGroup;
   team$;
   dar$$: Subscription;
+  isStatusShown = false;
 
   // testDate: Date;
 
@@ -53,7 +54,8 @@ export class DarComponent implements OnInit, OnDestroy {
     private teamService: TeamService,
     private daruserService: DaruserService,
     private auth: AuthService,
-    private darsolutionService: DarsolutionService
+    private darsolutionService: DarsolutionService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -93,6 +95,22 @@ export class DarComponent implements OnInit, OnDestroy {
         if (this.dar.dateTargeted) {
           this.form.controls["dateTargeted"].patchValue(
             this.dar.dateTargeted.toDate()
+          );
+        }
+
+        const darNextStatus = this.darService.getDarNextStatus(this.dar);
+        if (
+          darNextStatus.comment &&
+          darNextStatus.comment != "" &&
+          !this.isStatusShown
+        ) {
+          this.isStatusShown = true;
+          let statusInfoSnackBarRef = this.snackBar.open(
+            darNextStatus.comment + " " + darNextStatus.explanation,
+            "Close",
+            {
+              duration: 15000
+            }
           );
         }
       });
@@ -145,7 +163,8 @@ export class DarComponent implements OnInit, OnDestroy {
       const darNextStatus = this.darService.getDarNextStatus(this.dar);
       console.log("nextValidStatus", darNextStatus);
       this.nextDarStatuses = this.darStatuses.filter(
-        s => darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
+        s =>
+          darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
       );
     }
 
