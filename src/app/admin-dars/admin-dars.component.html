@@ -34,7 +34,14 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="export">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell class="exportDar" *matCellDef="let dar">
+        <mat-icon matTooltip="Export DAR document" [routerLink]="['/darexport/', dar.id]">cloud_download</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell class="deleteRow" *matCellDef="let dar">
         <mat-icon matTooltip="Delete DAR document" [routerLink]="['/darfolder/delete/', dar.id]">clear</mat-icon>

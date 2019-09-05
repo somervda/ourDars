@@ -14,7 +14,7 @@ export class DarfolderComponent implements OnInit {
   dar: Dar;
   Crud = Crud;
 
-  constructor(    private route : ActivatedRoute) { 
+  constructor(private route : ActivatedRoute) { 
 
 
 

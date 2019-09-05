@@ -12,7 +12,7 @@ import { DarStatus } from "../models/dar.model";
 })
 export class AdminDarsComponent implements OnInit, AfterViewInit {
   dataSource: DarsDataSource;
-  displayedColumns = ["title", "darStatus", "description", "id"];
+  displayedColumns = ["title", "darStatus", "description","export", "delete"];
   darStatus = DarStatus;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;

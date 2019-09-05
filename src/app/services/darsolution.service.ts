@@ -31,7 +31,7 @@ export class DarsolutionService {
     did : string,
     pageSize
   ): Observable<Darsolution[]> {
-    // console.log("findDarsolutions", did,  pageSize);
+    console.log("findDarsolutions", did,  pageSize);
     return this.afs
     .collection("dars").doc(did).collection("darSolutions", ref =>
       ref.limit(pageSize)
@@ -39,7 +39,7 @@ export class DarsolutionService {
       .snapshotChanges()
       .pipe(
         map(snaps => {
-          // console.log("findDarsolutions", convertSnaps<Darsolution>(snaps));
+          console.log("findDarsolutions", convertSnaps<Darsolution>(snaps));
           return convertSnaps<Darsolution>(snaps);
         })
       );

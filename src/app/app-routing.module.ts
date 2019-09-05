@@ -26,6 +26,7 @@ import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
 import { IsDarRoleGuard } from "./guards/isDarRole.guard";
+import { DarexportComponent } from './darexport/darexport.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -110,6 +111,12 @@ const routes: Routes = [
   {
     path: "darfolder/delete/:id",
     component: DarfolderComponent,
+    resolve: { dar: DarResolver },
+    canActivate: [IsAdminGuard]
+  },
+  {
+    path: "darexport/:id",
+    component: DarexportComponent,
     resolve: { dar: DarResolver },
     canActivate: [IsAdminGuard]
   },
