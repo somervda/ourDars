@@ -1,21 +1,6 @@
-dar : {{ dar | json }}, 
-<ng-container *ngIf="(darSolutions$ | async) as darSolutions">
-    <span *ngIf="darSolutions.length>0">
-    , darSolutions:{{ darSolutions | json }}
-    </span>
-</ng-container>
-<ng-container *ngIf="(darUsers$ | async) as darUsers">
-    <span *ngIf="darUsers.length>0">
-    , darUsers:{{ darUsers | json }}
-    </span>
-</ng-container>
-<ng-container *ngIf="(darCriteria$ | async) as darCriteria">
-    <span *ngIf="darCriteria.length>0">
-    , darCriteria:{{ darCriteria | json }}
-    </span>
-</ng-container>
-<ng-container *ngIf="(darEvaluations$ | async) as darEvaluations">
-    <span *ngIf="darEvaluations.length>0">
-    , darEvaluations {{ darEvaluations | json }}
-    </span>
-</ng-container>
+dar : {{ dar | json }}
+, darSolutions : {{ darSolutions$ | async | json }}
+, darUsers : {{ darUsers$ | async  | json }}
+, darCriteria : {{ darCriteria$ | async  | json }}
+, darEvaluations : {{ darEvaluations$ | async  | json }}
+
