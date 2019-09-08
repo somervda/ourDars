@@ -38,12 +38,6 @@ export {
 
 export { onCreateDarEvaluations } from "./darEvaluations";
 
-// export {
-//   getNextDarStatus,
-//   OnUpdateDarNextStatus,
-//   OnWriteDarCriteriaNextStatus,
-//   OnWriteDarSolutionsNextStatus
-// } from "./darNextStatus";
 
 export {
   getDarCESUInfo,
@@ -54,3 +48,5 @@ export {
   OnWriteDarUsersDarCESUInfo,
   OnWriteDarCriteriaDarCESUInfo
 } from "./darCESUInfo";
+
+export {onDarDelete } from "./darDelete";
