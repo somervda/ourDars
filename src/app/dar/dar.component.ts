@@ -221,20 +221,17 @@ export class DarComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    // console.log("delete", this.dar.id);
+    console.log("delete", this.dar.id);
 
-    this.darService
-      .deleteDar(this.dar.id)
-      .then(() => {
-        this.snackBar.open("DAR '" + this.dar.title + "' deleted!", "", {
-          duration: 2000
-        });
-        // Only administrators can delete DARs
-        this.ngZone.run(() => this.router.navigateByUrl("/adminDars"));
-      })
-      .catch(function(error) {
-        console.error("Error deleting dar: ", error);
-      });
+    // Only logical deletes performed (darStatus set to deleted)
+    this.darService.fieldUpdate(this.dar.id, "darStatus", DarStatus.deleted)
+
+    this.snackBar.open("DAR '" + this.dar.title + "' deleted!", "", {
+      duration: 2000
+    });
+    // Only administrators can delete DARs so return to the adminDar page
+    this.ngZone.run(() => this.router.navigateByUrl("/adminDars"));
+
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {
