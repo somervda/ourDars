@@ -1,13 +1,13 @@
 <app-subheading title="Import DAR from JSON"></app-subheading>
 <div class="page-container">
-    <textarea class="full-width" matInput #txtJSON minRows="10"  maxRows="30"
-        placeholder="DAR JSON"></textarea>
+  <textarea class="full-width" matInput #txtJSON rows="10" placeholder="DAR JSON"></textarea>
 
 
-    <button mat-raised-button color="primary" 
-        (click)="onImport()" >
-        <mat-icon>add</mat-icon>
-        Import
-    </button>
+  <button mat-raised-button color="primary" (click)="onImport()">
+    <mat-icon>add</mat-icon>
+    Import
+  </button>
+
+  <p>New Dar Id : <a href="darview/{{ did?.new }}">{{ did?.new }}</a></p>
 
 </div>

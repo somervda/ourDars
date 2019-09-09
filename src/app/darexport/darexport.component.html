@@ -1,6 +1,9 @@
-dar : {{ dar | json }}
-, darSolutions : {{ darSolutions$ | async | json }}
-, darUsers : {{ darUsers$ | async  | json }}
-, darCriteria : {{ darCriteria$ | async  | json }}
-, darEvaluations : {{ darEvaluations$ | async  | json }}
-
+<app-subheading title="Export DAR as JSON"></app-subheading>
+<div class="page-container">
+  &#123;"dar" : {{ dar | json }}
+  , "darSolutions" : {{ darSolutions$ | async | json }}
+  , "darUsers" : {{ darUsers$ | async  | json }}
+  , "darCriteria" : {{ darCriteria$ | async  | json }}
+  , "darEvaluations" : {{ darEvaluations$ | async  | json }}
+  &#125;
+</div>
