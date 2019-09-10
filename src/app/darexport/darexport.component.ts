@@ -1,7 +1,7 @@
 import { DarevaluationService } from "./../services/darevaluation.service";
 import { Darcriteria } from "./../models/darcriteria.model";
 import { DaruserService } from "./../services/daruser.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Dar } from "../models/dar.model";
 import { Observable } from "rxjs";
@@ -10,6 +10,7 @@ import { DarsolutionService } from "../services/darsolution.service";
 import { Daruser } from "../models/daruser.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { Darevaluation } from "../models/darevaluation.model";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-darexport",
@@ -17,6 +18,7 @@ import { Darevaluation } from "../models/darevaluation.model";
   styleUrls: ["./darexport.component.scss"]
 })
 export class DarexportComponent implements OnInit {
+  @ViewChild("txtJSON", { static: true }) txtJSON;
   dar: Dar;
   darSolutions$: Observable<Darsolution[]>;
   darUsers$: Observable<Daruser[]>;
@@ -27,7 +29,8 @@ export class DarexportComponent implements OnInit {
     private darsolutionService: DarsolutionService,
     private daruserService: DaruserService,
     private darcriteriaService: DarcriteriaService,
-    private darevaluationsService: DarevaluationService
+    private darevaluationsService: DarevaluationService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -44,5 +47,22 @@ export class DarexportComponent implements OnInit {
     this.darEvaluations$ = this.darevaluationsService.findAllForDar(
       this.dar.id
     );
+  }
+
+  onCopy() {
+    console.log(this.txtJSON.nativeElement);
+    /* Select the text field */
+    this.txtJSON.nativeElement.select();
+    this.txtJSON.nativeElement.setSelectionRange(
+      0,
+      99999
+    ); /*For mobile devices*/
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    this.snackbar.open("DAR JSON copied to clipboard.", "", {
+      duration: 2000
+    });
   }
 }
