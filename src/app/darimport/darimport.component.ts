@@ -24,14 +24,14 @@ export class DarimportComponent implements OnInit {
 
   ngOnInit() {}
 
-  async onImport() {
+  onImport() {
     console.log("JSON:", this.txtJSON.nativeElement.value);
     try {
       const darJson = JSON.parse(this.txtJSON.nativeElement.value);
 
       console.log("darJson:", darJson);
 
-      await this.importDar(darJson)
+      this.importDar(darJson)
         .then(s => (this.log = s))
         .catch(error => console.error("Error importing dar:", error));
     } catch (error) {
@@ -51,7 +51,7 @@ export class DarimportComponent implements OnInit {
     await this.darService
       .createDar(darJson.dar)
       .then(darRef => {
-        console.log("darRef", darRef);
+        console.log("Added darDocument darRef", darRef);
         did.new = darRef.id;
         log += " Added dar:" + did.new.toString();
       })
@@ -61,9 +61,10 @@ export class DarimportComponent implements OnInit {
         return log;
       });
 
-    // Create criteria
-    await darJson.darCriteria.forEach(async darCriteria => {
+    // Create criteria (Note: don't use await inside a forEach)
+    for (const darCriteria of darJson.darCriteria) {
       let dcid: oldNew = { old: darCriteria.id, new: "" };
+      log += " Create new DARcriteria document:" + dcid.old ;
       delete darCriteria.id;
       await this.darcriteriaService
         .createDarcriteria(did.new, darCriteria)
@@ -79,9 +80,12 @@ export class DarimportComponent implements OnInit {
           log += " Failed creating new DARcriteria document:" + error;
           return log;
         });
-    });
+    };
+
+   
 
     // Create solutions
+    console.log("Create Solutions start");
     await darJson.darSolutions.forEach(async darSolution => {
       let dsid: oldNew = { old: darSolution.id, new: "" };
       delete darSolution.id;
@@ -102,6 +106,7 @@ export class DarimportComponent implements OnInit {
     });
 
     // Create darUsers, no changes to the darUser.id
+    console.log("Create darusers start");
     await darJson.darUsers.forEach(async darUser => {
       // update the vote dsid if matches one of the imported solution ids
       if (dsids.find(s => s.old == darUser.solutionVote.dsid)) {
@@ -123,6 +128,7 @@ export class DarimportComponent implements OnInit {
     });
 
     // Create evaluations
+    console.log("Create darevaluations start");
     await darJson.darEvaluations.forEach(async darEvaluation => {
       const dsid = dsids.find(e => e.old == darEvaluation.dsid).new;
       const dcid = dcids.find(e => e.old == darEvaluation.dcid).new;
@@ -147,6 +153,7 @@ export class DarimportComponent implements OnInit {
     });
 
     //Final cleanup, update dsid if it matches one of the solutions imported
+    console.log("Clean up start");
     if (dsids.find(s => s.old == darJson.dar.dsid)) {
       this.darService.fieldUpdate(
         did.new,
