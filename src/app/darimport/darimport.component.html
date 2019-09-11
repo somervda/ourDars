@@ -1,17 +1,16 @@
 <app-subheading title="Import DAR from JSON"></app-subheading>
 <div class="page-container">
-  <textarea
-    class="full-width"
-    matInput
-    #txtJSON
-    rows="10"
-    placeholder="DAR JSON"
-  ></textarea>
+  <textarea class="full-width" matInput #txtJSON rows="10" placeholder="DAR JSON"></textarea>
 
   <button mat-raised-button color="primary" (click)="onImport()">
     <mat-icon>add</mat-icon>
     Import
   </button>
 
-  <div *ngFor="let logLine of log">{{ logLine }}</div>
+  <br>
+  <br>
+  <div *ngIf="importDarResult.did">New Dar Id : <a
+      routerLink="/darview/{{ importDarResult.did }}">{{ importDarResult.did }}</a></div>
+  <br>
+  <div *ngFor="let line of importDarResult.log" class="logline">{{ line }}</div>
 </div>

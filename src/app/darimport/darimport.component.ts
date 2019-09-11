@@ -12,7 +12,7 @@ import { DarcriteriaService } from "../services/darcriteria.service";
 })
 export class DarimportComponent implements OnInit {
   @ViewChild("txtJSON", { static: true }) txtJSON;
-  log = [] as string[];
+  importDarResult = { did: "", log: [] } as ImportDarResult;
 
   constructor(
     private darService: DarService,
@@ -32,19 +32,19 @@ export class DarimportComponent implements OnInit {
       console.log("darJson:", darJson);
 
       this.importDar(darJson)
-        .then(s => (this.log = s))
+        .then(r => (this.importDarResult = r))
         .catch(error => console.error("Error importing dar:", error));
     } catch (error) {
-      this.log.push(" Error reading DAR JSON:" + error);
+      this.importDarResult.log.push(" Error reading DAR JSON:" + error);
     }
   }
 
-  async importDar(darJson): Promise<string[]> {
+  async importDar(darJson): Promise<ImportDarResult> {
     let did = {} as oldNew;
     let dcids = [] as oldNew[];
     let dsids = [] as oldNew[];
 
-    let log = [] as string[];
+    let result = { did: "", log: [] } as ImportDarResult;
     // Create the dar
     did.old = darJson.dar.id;
     delete darJson.dar.id;
@@ -54,12 +54,13 @@ export class DarimportComponent implements OnInit {
       .then(darRef => {
         console.log("Added darDocument darRef", darRef);
         did.new = darRef.id;
-        log.push("Added dar:" + did.new.toString());
+        result.did = darRef.id;
+        result.log.push("Added dar:" + did.new.toString());
       })
       .catch(error => {
         console.error("Error creating Dar:", error);
-        log.push("Failed creating new DAR document:" + error);
-        return log;
+        result.log.push("Failed creating new DAR document:" + error);
+        return result;
       });
 
     // Create criteria (Note: don't use await inside a forEach)
@@ -72,14 +73,14 @@ export class DarimportComponent implements OnInit {
           console.log("darcriteriaRef", darcriteriaRef);
           dcid.new = darcriteriaRef.id;
           dcids.push(dcid);
-          log.push(
+          result.log.push(
             "Created new DARcriteria document:" + dcid.old + "-" + dcid.new
           );
         })
         .catch(error => {
           console.error("Error creating Darcriteria:", error);
-          log.push("Failed creating new DARcriteria document:" + error);
-          return log;
+          result.log.push("Failed creating new DARcriteria document:" + error);
+          return result;
         });
     }
 
@@ -94,14 +95,14 @@ export class DarimportComponent implements OnInit {
           console.log("darsolutionRef", darsolutionRef);
           dsid.new = darsolutionRef.id;
           dsids.push(dsid);
-          log.push(
+          result.log.push(
             "Created new Darsolution document:" + dsid.old + "-" + dsid.new
           );
         })
         .catch(error => {
           console.error("Error creating Darsolution:", error);
-          log.push("Failed creating new DARsolution document:" + error);
-          return log;
+          result.log.push("Failed creating new DARsolution document:" + error);
+          return result;
         });
     }
 
@@ -121,13 +122,13 @@ export class DarimportComponent implements OnInit {
       await this.daruserService
         .createDaruser(did.new, darUser.id, darUser)
         .then(() => {
-          log.push("Created new Daruser document:" + darUser.id);
+          result.log.push("Created new Daruser document:" + darUser.id);
           console.log("daruserRef", darUser);
         })
         .catch(error => {
           console.error("Error creating Daruser:", error);
-          log.push("Failed creating new DARuser document:" + darUser);
-          return log;
+          result.log.push("Failed creating new DARuser document:" + darUser);
+          return result;
         });
     }
 
@@ -143,7 +144,7 @@ export class DarimportComponent implements OnInit {
         await this.darevaluationService
           .setEvaluation(did.new, dsid, dcid, darEvaluation)
           .then(() => {
-            log.push(
+            result.log.push(
               "Created new Darevaluation document, dsid:" +
                 dsid +
                 " dcid:" +
@@ -153,11 +154,13 @@ export class DarimportComponent implements OnInit {
           })
           .catch(error => {
             console.error("Error creating Darevaluation:", error);
-            log.push("Failed creating new Darevaluation document:" + error);
-            return log;
+            result.log.push(
+              "Failed creating new Darevaluation document:" + error
+            );
+            return result;
           });
       } else {
-        log.push(
+        result.log.push(
           "Failed creating new Darevaluation document (missing data) dsid:" +
             darEvaluation.dsid +
             " dcid:" +
@@ -174,15 +177,19 @@ export class DarimportComponent implements OnInit {
         "dsid",
         dsids.find(s => s.old == darJson.dar.dsid).new
       );
-      log.push("Cleaned up dar dsid value");
+      result.log.push("Cleaned up dar dsid value");
     }
 
-    console.log("end of dar import", log);
-    return log;
+    return result;
   }
 }
 
 interface oldNew {
   old: string;
   new: string;
+}
+
+interface ImportDarResult {
+  did: string;
+  log: string[];
 }
