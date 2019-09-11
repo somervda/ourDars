@@ -165,12 +165,9 @@ export const OnUpdateDarCESUInfo = functions.firestore
       }
     }
     console.log("Updating DAR darCESUInfo");
-    return snap.after.ref.set(
-      {
-        darCESUInfo: darCESUInfo
-      },
-      { merge: true }
-    );
+    return snap.after.ref.update({
+      darCESUInfo: darCESUInfo
+    });
   });
 
 export const OnWriteDarSolutionsDarCESUInfo = functions.firestore
@@ -184,12 +181,9 @@ export const OnWriteDarSolutionsDarCESUInfo = functions.firestore
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
 
     if (darRef) {
-      return darRef.set(
-        {
-          darCESUInfo: darCESUInfo
-        },
-        { merge: true }
-      );
+      return darRef.update({
+        darCESUInfo: darCESUInfo
+      });
     }
     return null;
   });
@@ -204,12 +198,9 @@ export const OnWriteDarCriteriaDarCESUInfo = functions.firestore
     const darRef = snap.before.ref.parent.parent;
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
-      return darRef.set(
-        {
-          darCESUInfo: darCESUInfo
-        },
-        { merge: true }
-      );
+      return darRef.update({
+        darCESUInfo: darCESUInfo
+      });
     }
     return null;
   });
@@ -220,12 +211,9 @@ export const OnWriteDarUsersDarCESUInfo = functions.firestore
     const darRef = snap.before.ref.parent.parent;
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
-      return darRef.set(
-        {
-          darCESUInfo: darCESUInfo
-        },
-        { merge: true }
-      );
+      return darRef.update({
+        darCESUInfo: darCESUInfo
+      });
     }
     return null;
   });
@@ -242,12 +230,9 @@ export const OnWriteDarEvaluationsDarCESUInfo = functions.firestore
     );
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
-      return darRef.set(
-        {
-          darCESUInfo: darCESUInfo
-        },
-        { merge: true }
-      );
+      return darRef.update({
+        darCESUInfo: darCESUInfo
+      });
     }
     return null;
   });
