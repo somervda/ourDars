@@ -91,4 +91,8 @@ export class DarviewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.dar$$) this.dar$$.unsubscribe();
   }
+
+  toType(obj) {
+    return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+  }
 }

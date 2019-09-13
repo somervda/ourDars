@@ -60,7 +60,7 @@
         Created
       </td>
       <td class="rowcontent">
-        {{ dar.dateCreated ? dar.dateCreated.toDate().toDateString() : "" }}
+        {{ dar.dateCreated && dar.dateCreated.seconds && dar.dateCreated.nanoseconds ? dar.dateCreated.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -69,7 +69,7 @@
         Target Date
       </td>
       <td class="rowcontent">
-        {{ dar.dateTargeted ? dar.dateTargeted.toDate().toDateString() : "" }}
+        {{ dar.dateTargeted  && dar.dateTargeted.seconds && dar.dateTargeted.nanoseconds ? dar.dateTargeted.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -78,7 +78,7 @@
         Closed
       </td>
       <td class="rowcontent">
-        {{ dar.dateClosed ? dar.dateClosed.toDate().toDateString() : "" }}
+        {{ dar.dateClosed  && dar.dateClosed.seconds && dar.dateClosed.nanoseconds ? dar.dateClosed.toDate().toDateString() : "" }}
       </td>
     </tr>
 
