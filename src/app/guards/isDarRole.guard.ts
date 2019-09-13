@@ -25,11 +25,9 @@ export class IsDarRoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    if (!route.params.id)
-      return observableOf(false);
+    if (!route.params.id) return observableOf(false);
     const id = route.params.id;
-    if (!route.data.role)
-      return observableOf(false);
+    if (!route.data.role) return observableOf(false);
     const role = route.data.role;
     // adminOverride is an optional parameter to  force
     // the guard to return true independent of the users Dar Role
@@ -62,6 +60,11 @@ export class IsDarRoleGuard implements CanActivate {
             );
             break;
           case "reader":
+            result = d.darUserIndexes.isReader.includes(
+              this.auth.currentUser.uid
+            );
+            break;
+          case "user":
             result = d.darUserIndexes.isDarUser.includes(
               this.auth.currentUser.uid
             );

@@ -26,8 +26,8 @@ import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
 import { DarauditComponent } from "./daraudit/daraudit.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
 import { IsDarRoleGuard } from "./guards/isDarRole.guard";
-import { DarexportComponent } from './darexport/darexport.component';
-import { DarimportComponent } from './darimport/darimport.component';
+import { DarexportComponent } from "./darexport/darexport.component";
+import { DarimportComponent } from "./darimport/darimport.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -76,7 +76,7 @@ const routes: Routes = [
     component: DarviewComponent,
     resolve: { dar: DarResolver },
     canActivate: [IsDarRoleGuard],
-    data: { role: "reader", adminOverride: true }
+    data: { role: "user", adminOverride: true }
   },
   {
     path: "darvote/:id",
