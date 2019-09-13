@@ -59,10 +59,12 @@ export class UserService {
         // to support this query
         if (tid  && tid != '')
           retVal = retVal.where("team.tid", "==", tid);
-        if (email  && email != '')
+        if (email  && email != '') {
           retVal = retVal.where("email", ">=", email);
           retVal = retVal.where("email", "<=", email + "z");
+        }
         retVal = retVal.limit(pageSize);
+        retVal = retVal.orderBy("email")
         return retVal;
         }
       )
