@@ -4,7 +4,8 @@ import {
   CanActivate,
   Router,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot
+  RouterStateSnapshot,
+  UrlTree
 } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 import { Observable, of as observableOf } from "rxjs";
@@ -24,7 +25,7 @@ export class IsDarRoleGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> {
+  ): Observable<boolean | UrlTree> {
     if (!route.params.id) return observableOf(false);
     const id = route.params.id;
     if (!route.data.role) return observableOf(false);
@@ -35,47 +36,54 @@ export class IsDarRoleGuard implements CanActivate {
     const adminOverride = route.data.adminOverride;
     // console.log("IsStakeholderGuard id:", id, " role:", role);
 
-    let hasRole$: Observable<boolean> = this.darService.findById(id).pipe(
-      map(d => {
-        let result = false;
-        switch (role) {
-          case "stakeholder":
-            result = d.darUserIndexes.isStakeholder.includes(
-              this.auth.currentUser.uid
+    let hasRole$: Observable<boolean | UrlTree> = this.darService
+      .findById(id)
+      .pipe(
+        map(d => {
+          let result = false;
+          switch (role) {
+            case "stakeholder":
+              result = d.darUserIndexes.isStakeholder.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            case "owner":
+              result = d.darUserIndexes.isOwner.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            case "voter":
+              result = d.darUserIndexes.isVoter.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            case "evaluator":
+              result = d.darUserIndexes.isEvaluator.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            case "reader":
+              result = d.darUserIndexes.isReader.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            case "user":
+              result = d.darUserIndexes.isDarUser.includes(
+                this.auth.currentUser.uid
+              );
+              break;
+            default:
+              result = false;
+              break;
+          }
+          // See https://juristr.com/blog/2018/11/better-route-guard-redirects/
+          if (result) return <boolean>true;
+          else
+            return this.router.parseUrl(
+              "/notAuthorized?path='" + state.url + "'"
             );
-            break;
-          case "owner":
-            result = d.darUserIndexes.isOwner.includes(
-              this.auth.currentUser.uid
-            );
-            break;
-          case "voter":
-            result = d.darUserIndexes.isVoter.includes(
-              this.auth.currentUser.uid
-            );
-            break;
-          case "evaluator":
-            result = d.darUserIndexes.isEvaluator.includes(
-              this.auth.currentUser.uid
-            );
-            break;
-          case "reader":
-            result = d.darUserIndexes.isReader.includes(
-              this.auth.currentUser.uid
-            );
-            break;
-          case "user":
-            result = d.darUserIndexes.isDarUser.includes(
-              this.auth.currentUser.uid
-            );
-            break;
-          default:
-            result = false;
-            break;
-        }
-        return <boolean>result;
-      })
-    );
+        })
+      );
 
     return this.auth.user$.pipe(
       take(1),
@@ -83,8 +91,6 @@ export class IsDarRoleGuard implements CanActivate {
         // If the user does not have required access then redirect
         // console.log("u tap:", u);
         if (!u) this.router.navigateByUrl("login");
-        if (!u.isDarCreator)
-          this.router.navigateByUrl("notAuthorized?path='" + state.url + "'");
       }),
       // Return true if we make it past the tap
       switchMap(u => {
