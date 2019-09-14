@@ -100,6 +100,24 @@ service cloud.firestore {
        ) ;
      }
 
+    function isDarDSIDUpdate() {
+      // Check that only dar dsid is being updated
+      // return true;
+       return (!updatingField("title") && 
+        !updatingField("description") && 
+        !updatingField("dateCreated") && 
+        !updatingField("dateTargeted") && 
+        !updatingField("dateClosed") && 
+        !updatingField("tid") && 
+        !updatingField("cause") && 
+        !updatingField("darMethod") && 
+        !updatingField("risks") && 
+        !updatingField("constraints") && 
+        !updatingField("darStatus") && 
+        !updatingField("darUserIndexes")
+       ) ;
+     }
+
     // Dar status rules
         // evaluate = 1,
         // vote = 2,
@@ -158,6 +176,7 @@ service cloud.firestore {
       allow read:  if isAuthenticated();
       allow update:  if isAdmin() || 
           (isDarOwner(dar) && isDarStatus(dar,5)) ||
+          (isDarOwner(dar) && isDarDSIDUpdate() && isDarStatus(dar,1)) ||
           (isDarOwner(dar) && isDarStatusUpdate() && isValidNextDarStatus()) ;
       allow create:  if isAdmin() || isDarCreator();
       allow delete: if isAdmin(); 

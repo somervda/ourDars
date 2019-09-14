@@ -181,7 +181,15 @@ export class DarService {
     }
     // Confirm
     if (dar.darStatus === DarStatus.confirm) {
-      nextDarStatus.darStatus =  [DarStatus.closed, DarStatus.create];
+      const isClosedReady = this.isClosedReady(dar);
+      if (isClosedReady.isReady) {
+        nextDarStatus.darStatus = [DarStatus.closed, DarStatus.create];
+      }
+      else {
+        nextDarStatus.comment = isClosedReady.comment;
+        nextDarStatus.explanation = isClosedReady.explanation;
+        nextDarStatus.darStatus = [DarStatus.create];
+      }
     }
 
     return nextDarStatus;
@@ -218,7 +226,7 @@ export class DarService {
   // Check that the DAR is in a state where it can move on to the next status
   isConfirmReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
     let returnValue = {isReady: false, comment: "Not ready to move on to Confirm status.",explanation: ""};
-    if (dar.dsid == "") {
+    if (dar.dsid == "" || dar.dsid == null) {
       returnValue.explanation += "The chosen solution must entered in before the decision can be confirmed . ";
     }
 
@@ -230,4 +238,20 @@ export class DarService {
 
     return returnValue;
   }
+
+  isClosedReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
+      let returnValue = {isReady: false, comment: "Not ready to move on to Closed status.",explanation: ""};
+      // Check that all confirmations have been performed
+      if (dar.darCESUInfo.stakeholderCount != dar.darCESUInfo.confirmedCount) {
+        returnValue.explanation += "This DAR can only be closed when all stakeholders have confirmed the chosen solution. ";
+      }
+  
+  
+      if (returnValue.explanation == "") {
+        returnValue.isReady = true;
+        returnValue.comment = "";
+      }
+  
+      return returnValue;
+    }
 }
