@@ -34,7 +34,7 @@
     <ng-container matColumnDef="darStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let dar" style="min-width: 60px">
-        {{ darStatus[dar.darStatus] | titlecase }}
+        {{ DarStatus[dar.darStatus] | titlecase }}
       </td>
     </ng-container>
 
@@ -67,7 +67,8 @@
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
         <span *ngIf="
-            element.darUserIndexes.isEvaluator.includes(auth.currentUser.uid)
+            element.darUserIndexes.isEvaluator.includes(auth.currentUser.uid) &&
+            element.darStatus == DarStatus.evaluate
           ">
           <button mat-button class="actionButton" matTooltip="Perform evaluation of the solutions against criteria"
             routerLink="/darevaluations/{{ element.id }}">
@@ -76,7 +77,9 @@
             </i>
           </button>
         </span>
-        <span *ngIf="element.darUserIndexes.isVoter.includes(auth.currentUser.uid)">
+        <span *ngIf="element.darUserIndexes.isVoter.includes(auth.currentUser.uid) &&
+          element.darStatus == DarStatus.vote
+          ">
           <button mat-button class="actionButton" matTooltip="Vote for the solution"
             routerLink="/darvote/{{ element.id }}">
             <i class="material-icons-outlined">
@@ -85,7 +88,8 @@
           </button>
         </span>
         <span *ngIf="
-            element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid)
+            element.darUserIndexes.isStakeholder.includes(auth.currentUser.uid) &&
+            element.darStatus == DarStatus.confirm
           ">
           <button mat-button class="actionButton" matTooltip="Stakeholder confirms the solution decision"
             routerLink="/darconfirm/{{ element.id }}">

@@ -64,7 +64,7 @@ export class DarComponent implements OnInit, OnDestroy {
 
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
 
-    console.log("dar onInit", this.crudAction);
+    // console.log("dar onInit", this.crudAction);
     if (this.crudAction == Crud.Create) {
       this.dar = {
         title: "",
@@ -207,8 +207,9 @@ export class DarComponent implements OnInit, OnDestroy {
             this.snackBar.open("DAR '" + this.dar.title + "' created.", "", {
               duration: 2000
             });
+            // Return to myDars to give backend functions time to build user indexes
             this.ngZone.run(() =>
-              this.router.navigateByUrl("/darfolder/" + did)
+              this.router.navigateByUrl("/mydars")
             );
           })
           .catch(function(error) {

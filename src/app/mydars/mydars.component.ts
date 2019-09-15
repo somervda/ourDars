@@ -24,7 +24,7 @@ export class MydarsComponent implements OnInit, OnDestroy {
   @ViewChild("selectedRole", { static: true }) selectedRole;
   dars$: Observable<Dar[]>;
   displayedColumns = ["title", "darStatus", "roles", "actions"];
-  darStatus = DarStatus;
+  DarStatus = DarStatus;
   darStatuses: Kvp[];
   perfTrace: firebase.performance.Trace;
   private perf = firebase.performance();

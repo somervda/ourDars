@@ -201,8 +201,8 @@ export class DarService {
     if (dar.darCESUInfo.stakeholderCount == 0) {
       returnValue.explanation += "At least one stakeholder is required. ";
     }
-    if (dar.darCESUInfo.solutionCount < 2) {
-      returnValue.explanation += "At least two solutions are required for any decision. ";
+    if (dar.darCESUInfo.solutionCount < 1) {
+      returnValue.explanation += "At least one solution is required for any decision. ";
     }
     if (dar.darCESUInfo.criteriaCount == 0) {
       returnValue.explanation += "At least one criteria is required for any decision. ";
