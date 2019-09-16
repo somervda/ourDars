@@ -1,6 +1,6 @@
 import { DarService } from "./../services/dar.service";
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Dar, DarStatus, DarMethod } from "../models/dar.model";
+import { Dar, DarStatus, DarMethod, DarNextStatus } from "../models/dar.model";
 import { ActivatedRoute } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Observable, Subscription } from "rxjs";
@@ -31,6 +31,7 @@ export class DarviewComponent implements OnInit, OnDestroy {
   darSolution$: Observable<Darsolution>;
   darCriterias$: Observable<Darcriteria[]>;
   CriteriaWeighting = CriteriaWeighting;
+  darNextStatus = {} as DarNextStatus;
 
   sm = false;
 
@@ -47,6 +48,9 @@ export class DarviewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dar = this.route.snapshot.data["dar"];
     this.did = this.dar.id;
+    // Get the darNextStatus information
+    this.darNextStatus = this.darService.getDarNextStatus(this.dar);
+
 
     // Get the indow width to use when displaying long text on small screen devices (<740 px)
     // It should result in full text being able to be shown in devices that are iPad mini or larger screens
