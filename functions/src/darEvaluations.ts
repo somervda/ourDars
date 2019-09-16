@@ -6,6 +6,11 @@ export const onCreateDarEvaluations = functions.firestore
   .onCreate(async (snap, context) => {
     // Add dar id and solution id to document
     // to use in collection group query
+    console.log(
+      context.params["did"],
+      context.params["dsid"],
+      context.params["dcid"]
+    );
     return snap.ref.update({
       dateCreated: admin.firestore.FieldValue.serverTimestamp(),
       did: context.params["did"],

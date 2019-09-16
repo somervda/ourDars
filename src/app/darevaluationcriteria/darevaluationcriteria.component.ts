@@ -53,6 +53,8 @@ export class DarevaluationcriteriaComponent implements OnInit, OnDestroy {
       delete this.darevaluation["evaluationScore"];
     else this.darevaluation["evaluationScore"] = this.evaluationScore.value;
     this.darevaluation["notes"] = this.notes.nativeElement.value;
+    this.darevaluation["did"] = this.dar.id;
+    this.darevaluation["dsid"] = this.darsolution.id;
     this.darevaluationService
       .setEvaluation(
         this.dar.id,
