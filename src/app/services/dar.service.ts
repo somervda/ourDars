@@ -197,7 +197,7 @@ export class DarService {
 
   // Check that the DAR is in a state where it can move on to the next status
   isCreateComplete (dar: Dar): {isComplete: boolean, comment: string,explanation: string} {
-    let returnValue = {isComplete: false, comment: "Not ready to move on from Create status.",explanation: ""};
+    let returnValue = {isComplete: false, comment: "Not ready to move on from CREATE status.",explanation: ""};
     if (dar.darCESUInfo.stakeholderCount == 0) {
       returnValue.explanation += "At least one stakeholder is required. ";
     }
@@ -225,9 +225,9 @@ export class DarService {
 
   // Check that the DAR is in a state where it can move on to the next status
   isConfirmReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
-    let returnValue = {isReady: false, comment: "Not ready to move on to Confirm status.",explanation: ""};
+    let returnValue = {isReady: false, comment: "Not ready to move on from EVALUATE status to to CONFIRM status.",explanation: ""};
     if (dar.dsid == "" || dar.dsid == null) {
-      returnValue.explanation += "The chosen solution must entered in before the decision can be confirmed . ";
+      returnValue.explanation += "The chosen solution must selected before the decision can be confirmed . ";
     }
 
 
@@ -240,7 +240,7 @@ export class DarService {
   }
 
   isClosedReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
-      let returnValue = {isReady: false, comment: "Not ready to move on to Closed status.",explanation: ""};
+      let returnValue = {isReady: false, comment: "Not ready to move from CONFIRM status to CLOSED status.",explanation: ""};
       // Check that all confirmations have been performed
       if (dar.darCESUInfo.stakeholderCount != dar.darCESUInfo.confirmedCount) {
         returnValue.explanation += "This DAR can only be closed when all stakeholders have confirmed the chosen solution. ";

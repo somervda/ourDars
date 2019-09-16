@@ -23,7 +23,6 @@ import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
-import { DarauditComponent } from "./daraudit/daraudit.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
 import { IsDarRoleGuard } from "./guards/isDarRole.guard";
 import { DarexportComponent } from "./darexport/darexport.component";
@@ -90,11 +89,6 @@ const routes: Routes = [
     component: DarconfirmComponent,
     canActivate: [IsDarRoleGuard],
     data: { role: "stakeholder" },
-    resolve: { dar: DarResolver }
-  },
-  {
-    path: "daraudit/:id",
-    component: DarauditComponent,
     resolve: { dar: DarResolver }
   },
   {

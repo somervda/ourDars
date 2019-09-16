@@ -67,7 +67,6 @@ import { MydarsComponent } from "./mydars/mydars.component";
 import { DarviewComponent } from "./darview/darview.component";
 import { DarvoteComponent } from "./darvote/darvote.component";
 import { DarconfirmComponent } from "./darconfirm/darconfirm.component";
-import { DarauditComponent } from "./daraudit/daraudit.component";
 import { DarevaluationsComponent } from "./darevaluations/darevaluations.component";
 import { SubheadingComponent } from "./subheading/subheading.component";
 import { DarevaluationcriteriaComponent } from "./darevaluationcriteria/darevaluationcriteria.component";
@@ -103,7 +102,6 @@ import { DarimportComponent } from './darimport/darimport.component';
     DarviewComponent,
     DarvoteComponent,
     DarconfirmComponent,
-    DarauditComponent,
     DarevaluationsComponent,
     SubheadingComponent,
     DarevaluationcriteriaComponent,
