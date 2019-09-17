@@ -1,3 +1,4 @@
+import { DarNextStatus } from './../models/dar.model';
 import { DarsolutionService } from "./../services/darsolution.service";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
@@ -33,6 +34,7 @@ export class DarComponent implements OnInit, OnDestroy {
   @Input() dar: Dar;
   Crud = Crud;
   DarMethod = DarMethod;
+  DarStatus = DarStatus;
   darMethods: Kvp[];
   darStatuses: Kvp[];
   nextDarStatuses: Kvp[];
@@ -40,7 +42,7 @@ export class DarComponent implements OnInit, OnDestroy {
   form: FormGroup;
   team$;
   dar$$: Subscription;
-  isStatusShown = false;
+  darNextStatus = {} as  DarNextStatus;
 
   // testDate: Date;
 
@@ -98,21 +100,6 @@ export class DarComponent implements OnInit, OnDestroy {
           );
         }
 
-        const darNextStatus = this.darService.getDarNextStatus(this.dar);
-        if (
-          darNextStatus.comment &&
-          darNextStatus.comment != "" &&
-          !this.isStatusShown
-        ) {
-          this.isStatusShown = true;
-          let statusInfoSnackBarRef = this.snackBar.open(
-            darNextStatus.comment + " " + darNextStatus.explanation,
-            "Close",
-            {
-              duration: 15000
-            }
-          );
-        }
       });
     }
 
@@ -160,11 +147,11 @@ export class DarComponent implements OnInit, OnDestroy {
     console.log("getNextStatus", this.dar, this.auth.currentUser);
     if (this.dar.darUserIndexes.isOwner.includes(this.auth.currentUser.uid)) {
       console.log("isOwner");
-      const darNextStatus = this.darService.getDarNextStatus(this.dar);
-      console.log("nextValidStatus", darNextStatus);
+      this.darNextStatus = this.darService.getDarNextStatus(this.dar);
+      console.log("nextValidStatus", this.darNextStatus);
       this.nextDarStatuses = this.darStatuses.filter(
         s =>
-          darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
+        this.darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
       );
     }
 

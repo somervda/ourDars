@@ -27,6 +27,21 @@
       </mat-error>
     </mat-form-field>
 
+    <div class="full-width next-status-block" 
+          matTooltip="Information about the next available status(s) for this DAR and suggested next actions"
+          *ngIf="darNextStatus.darStatus.length != 0">
+        <mat-label>Next Available Status(s): </mat-label>
+        <ng-container *ngFor="let status of darNextStatus.darStatus">
+          {{ DarStatus[status] | titlecase }}
+        </ng-container>
+        <!-- Show the next status information if present -->
+        <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
+          <div>
+          {{ darNextStatus.comment }}<br><i>{{darNextStatus.explanation}}</i>
+          </div>
+        </ng-container>
+      </div>
+
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
       <mat-select formControlName="darStatus" (selectionChange)="onFieldUpdate('darStatus')">
@@ -52,6 +67,8 @@
       <mat-hint>How the solution will be decided.</mat-hint>
     </mat-form-field>
 
+
+
     <mat-form-field class="half-width">
       <input matInput placeholder="Target Date" formControlName="dateTargeted" [matDatepicker]="myDatepicker"
         (dateChange)="onFieldUpdate('dateTargeted','Timestamp')" />
@@ -70,6 +87,10 @@
       </mat-select>
       <mat-hint>Team associated with this decision</mat-hint>
     </mat-form-field>
+
+   
+  
+      
 
     <mat-form-field class="full-width">
       <mat-label>Chosen Solution</mat-label>
