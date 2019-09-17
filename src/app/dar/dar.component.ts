@@ -208,9 +208,7 @@ export class DarComponent implements OnInit, OnDestroy {
               duration: 2000
             });
             // Return to myDars to give backend functions time to build user indexes
-            this.ngZone.run(() =>
-              this.router.navigateByUrl("/mydars")
-            );
+            this.ngZone.run(() => this.router.navigateByUrl("/mydars"));
           })
           .catch(function(error) {
             console.error("Error creating DARuser: ", error);
@@ -225,14 +223,13 @@ export class DarComponent implements OnInit, OnDestroy {
     console.log("delete", this.dar.id);
 
     // Only logical deletes performed (darStatus set to deleted)
-    this.darService.fieldUpdate(this.dar.id, "darStatus", DarStatus.deleted)
+    this.darService.fieldUpdate(this.dar.id, "darStatus", DarStatus.deleted);
 
     this.snackBar.open("DAR '" + this.dar.title + "' deleted!", "", {
       duration: 2000
     });
     // Only administrators can delete DARs so return to the adminDar page
     this.ngZone.run(() => this.router.navigateByUrl("/adminDars"));
-
   }
 
   onFieldUpdate(fieldName: string, toType?: string) {
@@ -249,10 +246,6 @@ export class DarComponent implements OnInit, OnDestroy {
         console.log("Blankable", this.form.get(fieldName).value);
         newValue = "";
       }
-      // Status change check
-      // if (this.dar.darStatus === DarStatus.create) {
-      //   if (this.dar.)
-      // }
 
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }

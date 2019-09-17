@@ -139,13 +139,12 @@ export class DarService {
     // Create
     if (dar.darStatus === DarStatus.create) {
       const createComplete = this.isCreateComplete(dar);
-      if (createComplete.isComplete){
+      if (createComplete.isComplete) {
         // Populate the next statuses
         if (dar.darMethod === DarMethod.Vote) {
           nextDarStatus.darStatus = [DarStatus.vote];
-        } else nextDarStatus.darStatus =  [DarStatus.evaluate];
-      }
-      else {
+        } else nextDarStatus.darStatus = [DarStatus.evaluate];
+      } else {
         nextDarStatus.comment = createComplete.comment;
         nextDarStatus.explanation = createComplete.explanation;
       }
@@ -156,8 +155,7 @@ export class DarService {
       const isConfirmReady = this.isConfirmReady(dar);
       if (isConfirmReady.isReady) {
         nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.create];
-      }
-      else {
+      } else {
         nextDarStatus.comment = isConfirmReady.comment;
         nextDarStatus.explanation = isConfirmReady.explanation;
         nextDarStatus.darStatus = [DarStatus.create];
@@ -166,13 +164,12 @@ export class DarService {
     // Evaluate
     if (dar.darStatus === DarStatus.evaluate) {
       if (dar.darMethod === DarMethod.Hybrid) {
-        nextDarStatus.darStatus =  [DarStatus.vote, , DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.vote, , DarStatus.create];
       } else {
         const isConfirmReady = this.isConfirmReady(dar);
         if (isConfirmReady.isReady) {
           nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.create];
-        }
-        else {
+        } else {
           nextDarStatus.comment = isConfirmReady.comment;
           nextDarStatus.explanation = isConfirmReady.explanation;
           nextDarStatus.darStatus = [DarStatus.create];
@@ -184,8 +181,7 @@ export class DarService {
       const isClosedReady = this.isClosedReady(dar);
       if (isClosedReady.isReady) {
         nextDarStatus.darStatus = [DarStatus.closed, DarStatus.create];
-      }
-      else {
+      } else {
         nextDarStatus.comment = isClosedReady.comment;
         nextDarStatus.explanation = isClosedReady.explanation;
         nextDarStatus.darStatus = [DarStatus.create];
@@ -196,22 +192,39 @@ export class DarService {
   }
 
   // Check that the DAR is in a state where it can move on to the next status
-  isCreateComplete (dar: Dar): {isComplete: boolean, comment: string,explanation: string} {
-    let returnValue = {isComplete: false, comment: "Not ready to move on from CREATE status.",explanation: ""};
+  isCreateComplete(
+    dar: Dar
+  ): { isComplete: boolean; comment: string; explanation: string } {
+    let returnValue = {
+      isComplete: false,
+      comment: "Not ready to move on from CREATE status.",
+      explanation: ""
+    };
     if (dar.darCESUInfo.stakeholderCount == 0) {
       returnValue.explanation += "At least one stakeholder is required. ";
     }
     if (dar.darCESUInfo.solutionCount < 1) {
-      returnValue.explanation += "At least one solution is required for any decision. ";
+      returnValue.explanation +=
+        "At least one solution is required for any decision. ";
     }
     if (dar.darCESUInfo.criteriaCount == 0) {
-      returnValue.explanation += "At least one criteria is required for any decision. ";
+      returnValue.explanation +=
+        "At least one criteria is required for any decision. ";
     }
-    if (dar.darCESUInfo.voterCount == 0 && (dar.darMethod === DarMethod.Vote || dar.darMethod === DarMethod.Hybrid) ) {
-      returnValue.explanation += "At least one voter is required for decisions using VOTE or HYBRID methodology. ";
+    if (
+      dar.darCESUInfo.voterCount == 0 &&
+      (dar.darMethod === DarMethod.Vote || dar.darMethod === DarMethod.Hybrid)
+    ) {
+      returnValue.explanation +=
+        "At least one voter is required for decisions using VOTE or HYBRID methodology. ";
     }
-    if (dar.darCESUInfo.evaluatorCount == 0 && (dar.darMethod === DarMethod.Process || dar.darMethod === DarMethod.Hybrid) ) {
-      returnValue.explanation += "At least one evaluator is required for decisions using PROCESS or HYBRID methodology. ";
+    if (
+      dar.darCESUInfo.evaluatorCount == 0 &&
+      (dar.darMethod === DarMethod.Process ||
+        dar.darMethod === DarMethod.Hybrid)
+    ) {
+      returnValue.explanation +=
+        "At least one evaluator is required for decisions using PROCESS or HYBRID methodology. ";
     }
 
     if (returnValue.explanation == "") {
@@ -222,14 +235,20 @@ export class DarService {
     return returnValue;
   }
 
-
   // Check that the DAR is in a state where it can move on to the next status
-  isConfirmReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
-    let returnValue = {isReady: false, comment: "Not ready to move on from EVALUATE status to to CONFIRM status.",explanation: ""};
+  isConfirmReady(
+    dar: Dar
+  ): { isReady: boolean; comment: string; explanation: string } {
+    let returnValue = {
+      isReady: false,
+      comment:
+        "Not ready to move on from EVALUATE status to to CONFIRM status.",
+      explanation: ""
+    };
     if (dar.dsid == "" || dar.dsid == null) {
-      returnValue.explanation += "The chosen solution must selected before the decision can be confirmed . ";
+      returnValue.explanation +=
+        "A chosen solution must selected before the DAR can be confirmed. ";
     }
-
 
     if (returnValue.explanation == "") {
       returnValue.isReady = true;
@@ -239,19 +258,25 @@ export class DarService {
     return returnValue;
   }
 
-  isClosedReady (dar: Dar): {isReady: boolean, comment: string,explanation: string} {
-      let returnValue = {isReady: false, comment: "Not ready to move from CONFIRM status to CLOSED status.",explanation: ""};
-      // Check that all confirmations have been performed
-      if (dar.darCESUInfo.stakeholderCount != dar.darCESUInfo.confirmedCount) {
-        returnValue.explanation += "This DAR can only be closed when all stakeholders have confirmed the chosen solution. ";
-      }
-  
-  
-      if (returnValue.explanation == "") {
-        returnValue.isReady = true;
-        returnValue.comment = "";
-      }
-  
-      return returnValue;
+  isClosedReady(
+    dar: Dar
+  ): { isReady: boolean; comment: string; explanation: string } {
+    let returnValue = {
+      isReady: false,
+      comment: "Not ready to move from CONFIRM status to CLOSED status.",
+      explanation: ""
+    };
+    // Check that all confirmations have been performed
+    if (dar.darCESUInfo.stakeholderCount != dar.darCESUInfo.confirmedCount) {
+      returnValue.explanation +=
+        "This DAR can only be closed when all stakeholders have confirmed the chosen solution. ";
     }
+
+    if (returnValue.explanation == "") {
+      returnValue.isReady = true;
+      returnValue.comment = "";
+    }
+
+    return returnValue;
+  }
 }
