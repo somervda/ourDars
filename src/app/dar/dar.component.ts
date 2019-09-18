@@ -71,12 +71,12 @@ export class DarComponent implements OnInit, OnDestroy {
       this.dar = {
         title: "",
         description: "",
-        darStatus: DarStatus.create,
+        darStatus: DarStatus.design,
         darMethod: DarMethod.Process
       };
       // Create is the only valid next status
       this.nextDarStatuses = this.darStatuses.filter(
-        s => s.key == DarStatus.create
+        s => s.key == DarStatus.design
       );
     } else {
       this.dar = this.route.snapshot.data["dar"];

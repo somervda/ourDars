@@ -29,10 +29,12 @@
 
     <div class="full-width next-status-block" 
           matTooltip="Information about the next available status(s) for this DAR and suggested next actions"
-          *ngIf="darNextStatus.darStatus.length != 0">
-        <mat-label>Next Available Status(s): </mat-label>
-        <ng-container *ngFor="let status of darNextStatus.darStatus">
-          {{ DarStatus[status] | titlecase }}
+          >
+        <ng-container *ngIf="darNextStatus?.darStatus?.length != 0">
+          <mat-label>Next Available Status(s): </mat-label>
+          <ng-container *ngFor="let status of darNextStatus.darStatus">
+            {{ DarStatus[status] | titlecase }}
+          </ng-container>
         </ng-container>
         <!-- Show the next status information if present -->
         <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">

@@ -123,13 +123,13 @@ service cloud.firestore {
         // vote = 2,
         // confirm = 3,
         // closed = 4,
-        // create = 5,
+        // design = 5,
         // deleted = 6
      function isValidNextDarStatus() {
-       // create -> vote or evaluate
-       // vote -> confirm or create
-       // evaluate -> confirm or vote  or create
-       // confirm -> close  or create
+       // design -> vote or evaluate
+       // vote -> confirm or design
+       // evaluate -> confirm or vote  or design
+       // confirm -> close  or design
        //return true;
        // Note: Could also tighten up by using methodology but probably overkill (You have to be dar owner at least to do any weird workflows)
 

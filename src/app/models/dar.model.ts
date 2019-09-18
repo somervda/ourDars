@@ -58,7 +58,7 @@ export enum DarStatus {
   vote = 2,
   confirm = 3,
   closed = 4,
-  create = 5,
+  design = 5,
   deleted = 6
 }
 

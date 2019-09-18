@@ -136,9 +136,9 @@ export class DarService {
     // Return an array of next valid owner darStatus values based on workflow
     let nextDarStatus = {} as DarNextStatus;
     nextDarStatus.darStatus = [];
-    // Create
-    if (dar.darStatus === DarStatus.create) {
-      const createComplete = this.isCreateComplete(dar);
+    // DEsign
+    if (dar.darStatus === DarStatus.design) {
+      const createComplete = this.isDesignComplete(dar);
       if (createComplete.isComplete) {
         // Populate the next statuses
         if (dar.darMethod === DarMethod.Vote) {
@@ -154,25 +154,25 @@ export class DarService {
     if (dar.darStatus === DarStatus.vote) {
       const isConfirmReady = this.isConfirmReady(dar);
       if (isConfirmReady.isReady) {
-        nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.design];
       } else {
         nextDarStatus.comment = isConfirmReady.comment;
         nextDarStatus.explanation = isConfirmReady.explanation;
-        nextDarStatus.darStatus = [DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.design];
       }
     }
     // Evaluate
     if (dar.darStatus === DarStatus.evaluate) {
       if (dar.darMethod === DarMethod.Hybrid) {
-        nextDarStatus.darStatus = [DarStatus.vote, , DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.vote, , DarStatus.design];
       } else {
         const isConfirmReady = this.isConfirmReady(dar);
         if (isConfirmReady.isReady) {
-          nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.create];
+          nextDarStatus.darStatus = [DarStatus.confirm, DarStatus.design];
         } else {
           nextDarStatus.comment = isConfirmReady.comment;
           nextDarStatus.explanation = isConfirmReady.explanation;
-          nextDarStatus.darStatus = [DarStatus.create];
+          nextDarStatus.darStatus = [DarStatus.design];
         }
       }
     }
@@ -180,11 +180,11 @@ export class DarService {
     if (dar.darStatus === DarStatus.confirm) {
       const isClosedReady = this.isClosedReady(dar);
       if (isClosedReady.isReady) {
-        nextDarStatus.darStatus = [DarStatus.closed, DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.closed, DarStatus.design];
       } else {
         nextDarStatus.comment = isClosedReady.comment;
         nextDarStatus.explanation = isClosedReady.explanation;
-        nextDarStatus.darStatus = [DarStatus.create];
+        nextDarStatus.darStatus = [DarStatus.design];
       }
     }
 
@@ -192,12 +192,12 @@ export class DarService {
   }
 
   // Check that the DAR is in a state where it can move on to the next status
-  isCreateComplete(
+  isDesignComplete(
     dar: Dar
   ): { isComplete: boolean; comment: string; explanation: string } {
     let returnValue = {
       isComplete: false,
-      comment: "Not ready to move on from CREATE status.",
+      comment: "Not ready to move on from DESIGN status.",
       explanation: ""
     };
     if (dar.darCESUInfo.stakeholderCount == 0) {
