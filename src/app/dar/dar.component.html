@@ -27,22 +27,26 @@
       </mat-error>
     </mat-form-field>
 
-    <div class="full-width next-status-block" 
-          matTooltip="Information about the next available status(s) for this DAR and suggested next actions"
-          >
-        <ng-container *ngIf="darNextStatus?.darStatus?.length != 0">
-          <mat-label>Next Available Status(s): </mat-label>
-          <ng-container *ngFor="let status of darNextStatus.darStatus">
-            {{ DarStatus[status] | titlecase }}
-          </ng-container>
-        </ng-container>
-        <!-- Show the next status information if present -->
-        <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
-          <div>
-          {{ darNextStatus.comment }}<br><i>{{darNextStatus.explanation}}</i>
-          </div>
-        </ng-container>
+    <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
+      <div class="full-width next-status-block"
+        matTooltip="Information about the next available status(s) for this DAR and suggested next actions">
+        <table>
+          <tr>
+
+            <td>
+              <i class="material-icons-outlined" style="padding-left: 10px; padding-right: 10px;">
+                info
+              </i>
+            </td>
+            <td width="100%">
+              <div>
+                {{ darNextStatus.comment }}<br><i>{{darNextStatus.explanation}}</i>
+              </div>
+            </td>
+          </tr>
+        </table>
       </div>
+    </ng-container>
 
     <mat-form-field class="half-width">
       <mat-label>Status</mat-label>
@@ -90,9 +94,9 @@
       <mat-hint>Team associated with this decision</mat-hint>
     </mat-form-field>
 
-   
-  
-      
+
+
+
 
     <mat-form-field class="full-width">
       <mat-label>Chosen Solution</mat-label>

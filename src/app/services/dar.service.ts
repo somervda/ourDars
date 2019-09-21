@@ -197,7 +197,7 @@ export class DarService {
   ): { isComplete: boolean; comment: string; explanation: string } {
     let returnValue = {
       isComplete: false,
-      comment: "Not ready to move on from DESIGN status.",
+      comment: "Not ready to move from DESIGN stage.",
       explanation: ""
     };
     if (dar.darCESUInfo.stakeholderCount == 0) {
@@ -241,13 +241,12 @@ export class DarService {
   ): { isReady: boolean; comment: string; explanation: string } {
     let returnValue = {
       isReady: false,
-      comment:
-        "Not ready to move on from EVALUATE status to to CONFIRM status.",
+      comment: "Not ready to move from EVALUATE stage to to CONFIRM stage.",
       explanation: ""
     };
     if (dar.dsid == "" || dar.dsid == null) {
       returnValue.explanation +=
-        "A chosen solution must selected before the DAR can be confirmed. ";
+        "A solution must entered on the DAR form before the DAR can be confirmed. ";
     }
 
     if (returnValue.explanation == "") {
@@ -263,7 +262,7 @@ export class DarService {
   ): { isReady: boolean; comment: string; explanation: string } {
     let returnValue = {
       isReady: false,
-      comment: "Not ready to move from CONFIRM status to CLOSED status.",
+      comment: "Not ready to move from CONFIRM stage to CLOSED status.",
       explanation: ""
     };
     // Check that all confirmations have been performed
