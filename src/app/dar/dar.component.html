@@ -29,22 +29,15 @@
 
     <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
       <div class="full-width page-hint"
-        matTooltip="Information about the next available status(s) for this DAR and suggested next actions">
-        <table>
-          <tr>
+        matTooltip="Information about the next available status for this DAR and suggested actions">
 
-            <td>
-              <i class="material-icons-outlined" style="padding-left: 10px; padding-right: 10px;color: #d5aa46">
-                emoji_objects
-              </i>
-            </td>
-            <td width="100%">
-              <div>
-                {{ darNextStatus.comment }}<br><i>{{darNextStatus.explanation}}</i>
-              </div>
-            </td>
-          </tr>
-        </table>
+        <i class="material-icons-outlined" style="color: #d5aa46">
+          emoji_objects
+        </i>
+
+        {{ darNextStatus.comment }} <i>{{darNextStatus.explanation}}</i>
+
+
       </div>
     </ng-container>
 

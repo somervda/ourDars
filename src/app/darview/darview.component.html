@@ -43,6 +43,20 @@
       </td>
       <td class="rowcontent">
         {{ DarStatus[dar.darStatus] | titlecase }}
+        <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
+          <div class="full-width page-hint"
+            matTooltip="Information about the next available status for this DAR and suggested actions">
+
+            <i class="material-icons-outlined" style="color: #d5aa46">
+              emoji_objects
+            </i>
+
+            {{ darNextStatus.comment }} <i>{{darNextStatus.explanation}}</i>
+
+
+          </div>
+
+        </ng-container>
       </td>
     </tr>
 
@@ -119,27 +133,6 @@
         {{ dar?.cause }}
       </td>
     </tr>
-
-    <ng-container *ngIf="darNextStatus.darStatus.length != 0">
-
-      <tr>
-        <td class="rowprompt" matTooltip="Valid next status(s) for this DAR and next actions">
-          Next Status
-        </td>
-        <td class="rowcontent">
-          <ng-container *ngFor="let status of darNextStatus.darStatus">
-            {{ DarStatus[status] | titlecase }}
-          </ng-container>
-          <!-- Show the next status information if present -->
-          <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
-            <br>
-            {{ darNextStatus.comment }}<br><i>{{darNextStatus.explanation}}</i>
-
-          </ng-container>
-        </td>
-      </tr>
-    </ng-container>
-
 
     <!-- darUsers$ -->
 

@@ -241,7 +241,7 @@ export class DarService {
   ): { isReady: boolean; comment: string; explanation: string } {
     let returnValue = {
       isReady: false,
-      comment: "Not ready to move from EVALUATE stage to to CONFIRM stage.",
+      comment: "Not ready to move from EVALUATE to to CONFIRM stage.",
       explanation: ""
     };
     if (dar.dsid == "" || dar.dsid == null) {
@@ -262,13 +262,13 @@ export class DarService {
   ): { isReady: boolean; comment: string; explanation: string } {
     let returnValue = {
       isReady: false,
-      comment: "Not ready to move from CONFIRM stage to CLOSED status.",
+      comment: "Not ready to move from CONFIRM to CLOSED status.",
       explanation: ""
     };
     // Check that all confirmations have been performed
     if (dar.darCESUInfo.stakeholderCount != dar.darCESUInfo.confirmedCount) {
       returnValue.explanation +=
-        "This DAR can only be closed when all stakeholders have confirmed the chosen solution. ";
+        "This DAR can only be closed when all stakeholders have agreed that the DAR process; has been followed correctly, and confirmed the solution chosen for the DAR. ";
     }
 
     if (returnValue.explanation == "") {
