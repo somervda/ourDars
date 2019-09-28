@@ -140,5 +140,12 @@
       <mat-icon>clear</mat-icon>
       Delete
     </button>
+
+
+    <button mat-raised-button color="primary" *ngIf="crudAction == Crud.Update" (click)="onView()" id="btnView">
+      <mat-icon>
+        menu_book
+      </mat-icon> View DAR
+    </button>
   </form>
 </div>

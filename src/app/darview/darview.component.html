@@ -145,7 +145,9 @@
               <th>Email</th>
               <th>Display Name</th>
               <th>Roles</th>
-              <th>Vote</th>
+              <ng-container *ngIf="dar.darMethod != DarMethod.Process">
+                <th>Vote</th>
+              </ng-container>
               <th>Confirmed</th>
             </tr>
             <ng-container *ngFor="let darUser of darUsers$ | async">
@@ -159,11 +161,13 @@
                   <span *ngIf="darUser.isVoter">Voter </span>
                   <span *ngIf="darUser.isReader">Reader </span>
                 </td>
-                <td>
-                  <ng-container *ngIf="darUser.isVoter">
-                    {{ darUser?.solutionVote ? darUser?.solutionVote?.name : '-'}}
-                  </ng-container>
-                </td>
+                <ng-container *ngIf="dar.darMethod != DarMethod.Process">
+                  <td>
+                    <ng-container *ngIf="darUser.isVoter">
+                      {{ darUser?.solutionVote ? darUser?.solutionVote?.name : '-'}}
+                    </ng-container>
+                  </td>
+                </ng-container>
                 <td style="text-align: center">
                   <i class="material-icons" *ngIf="darUser.isStakeholder && darUser?.confirmed">
                     done

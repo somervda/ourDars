@@ -34,7 +34,7 @@ Cypress.Commands.add("verifyAboutComponent", () => {
   cy.get("#mainMenuAbout").click();
   // Verify component was rendered
   cy.url().should("include", "about");
-  cy.get(".mat-card-title").contains("About");
+  cy.get('h2').contains("About");
 });
 
 Cypress.Commands.add("verifyHomeComponent", () => {
@@ -48,40 +48,40 @@ Cypress.Commands.add("verifyMyProfileComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuMyProfile").click();
   // Verify component was rendered
-  cy.get("h1").contains("User Profile");
+  cy.get('app-subheading > .mat-toolbar').contains("User:");
 });
 
 Cypress.Commands.add("verifyAdminUserComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuAdministration").click();
-  cy.get("h1").contains("Administration");
+  cy.get('app-subheading > .mat-toolbar').contains("Administration");
   cy.get('[routerlink="/users"]').click();
-  cy.get("h1").contains("Users");
+  cy.get('app-subheading > .mat-toolbar').contains("Users");
   cy.contains(Cypress.env("nonAdminUser").toLowerCase()).click();
   cy.url().should("include", "user/");
-  cy.get("h1").contains("User Profile");
+  cy.get('app-subheading > .mat-toolbar').contains("User:");
 });
 
 Cypress.Commands.add("verifyAdminTeamComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuAdministration").click();
-  cy.get("h1").contains("Administration");
+  cy.get('app-subheading > .mat-toolbar').contains("Administration");
   cy.get('[routerlink="/teams"]').click();
-  cy.get("h1").contains("Teams");
+  cy.get('app-subheading > .mat-toolbar').contains("Teams");
   cy.contains("e2eTeam").click();
   cy.url().should("include", "team/");
-  cy.get("h1").contains("Team");
+  cy.get('app-subheading > .mat-toolbar').contains("Team");
 });
 
 Cypress.Commands.add("verifyAdminDarComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuAdministration").click();
-  cy.get("h1").contains("Administration");
+  cy.get('app-subheading > .mat-toolbar').contains("Administration");
   cy.get('[routerlink="/adminDars"]').click();
-  cy.get("h1").contains("DAR Administration");
+  cy.get('app-subheading > .mat-toolbar').contains("DAR Administration");
   cy.contains("e2eTestDAR").click();
-  cy.url().should("include", "dar/");
-  cy.get("h1").contains("Decision (DAR)");
+  cy.url().should("include", "darfolder/");
+  cy.get('app-subheading > .mat-toolbar').contains("e2eTestDAR");
 });
 
 Cypress.Commands.add("verifyLogout", () => {
@@ -116,4 +116,5 @@ Cypress.Commands.add("logonEmail", (usercode, password) => {
   cy.get(".firebaseui-id-submit").click();
   cy.get(":nth-child(3) > .mdl-textfield__input").type(password);
   cy.get(".firebaseui-id-submit").click();
+  cy.get('.user-avatar').should("exist");
 });

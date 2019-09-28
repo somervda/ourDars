@@ -1,4 +1,4 @@
-import { DarNextStatus } from './../models/dar.model';
+import { DarNextStatus } from "./../models/dar.model";
 import { DarsolutionService } from "./../services/darsolution.service";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, NgZone, OnDestroy, Input } from "@angular/core";
@@ -42,7 +42,7 @@ export class DarComponent implements OnInit, OnDestroy {
   form: FormGroup;
   team$;
   dar$$: Subscription;
-  darNextStatus = {} as  DarNextStatus;
+  darNextStatus = {} as DarNextStatus;
 
   // testDate: Date;
 
@@ -99,7 +99,6 @@ export class DarComponent implements OnInit, OnDestroy {
             this.dar.dateTargeted.toDate()
           );
         }
-
       });
     }
 
@@ -151,7 +150,8 @@ export class DarComponent implements OnInit, OnDestroy {
       console.log("nextValidStatus", this.darNextStatus);
       this.nextDarStatuses = this.darStatuses.filter(
         s =>
-        this.darNextStatus.darStatus.includes(s.key) || s.key == this.dar.darStatus
+          this.darNextStatus.darStatus.includes(s.key) ||
+          s.key == this.dar.darStatus
       );
     }
 
@@ -236,6 +236,10 @@ export class DarComponent implements OnInit, OnDestroy {
 
       this.darService.fieldUpdate(this.dar.id, fieldName, newValue);
     }
+  }
+
+  onView() {
+    this.ngZone.run(() => this.router.navigateByUrl("/darview/" + this.dar.id));
   }
 
   ngOnDestroy() {
