@@ -241,9 +241,13 @@ export class DarService {
   ): { isReady: boolean; comment: string; explanation: string } {
     let returnValue = {
       isReady: false,
-      comment: "Not ready to move from EVALUATE to to CONFIRM stage.",
+      comment:
+        "Not ready to move from the " +
+        DarStatus[dar.darStatus].toUpperCase() +
+        " status to the CONFIRM status.",
       explanation: ""
     };
+
     if (dar.dsid == "" || dar.dsid == null) {
       returnValue.explanation +=
         "A solution must entered on the DAR form before the DAR can be confirmed. ";

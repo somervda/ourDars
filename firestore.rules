@@ -176,7 +176,7 @@ service cloud.firestore {
       allow read:  if isAuthenticated();
       allow update:  if isAdmin() || 
           (isDarOwner(dar) && isDarStatus(dar,5)) ||
-          (isDarOwner(dar) && isDarDSIDUpdate() && isDarStatus(dar,1)) ||
+          (isDarOwner(dar) && isDarDSIDUpdate() && (isDarStatus(dar,1) || isDarStatus(dar,2))) ||
           (isDarOwner(dar) && isDarStatusUpdate() && isValidNextDarStatus()) ;
       allow create:  if isAdmin() || isDarCreator();
       allow delete: if isAdmin(); 
