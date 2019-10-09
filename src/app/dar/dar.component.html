@@ -1,7 +1,8 @@
 <div class="page-container">
   <form class="standard-form" [formGroup]="form">
     <mat-form-field class="full-width">
-      <input matInput formControlName="title" (change)="onFieldUpdate('title')" placeholder="Title" required />
+      <input matInput formControlName="title" (change)="onFieldUpdate('title')" placeholder="Title"
+       required [disableControl]="!allowUpdate"/>
       <mat-error *ngIf="form.controls['title'].hasError('required')">
         Title is required.
       </mat-error>
@@ -15,7 +16,7 @@
 
     <mat-form-field class="full-width">
       <textarea matInput formControlName="description" (change)="onFieldUpdate('description')" matAutosizeMinRows="7"
-        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Description" required></textarea>
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Description" required [disableControl]="!allowUpdate"></textarea>
       <mat-error *ngIf="form.controls['description'].hasError('required')">
         Description is required.
       </mat-error>
@@ -55,7 +56,7 @@
 
     <mat-form-field class="half-width">
       <mat-label>Methodology</mat-label>
-      <mat-select formControlName="darMethod" (selectionChange)="onFieldUpdate('darMethod')">
+      <mat-select formControlName="darMethod" (selectionChange)="onFieldUpdate('darMethod')" [disableControl]="!allowUpdate">
         <mat-option *ngFor="let item of darMethods" [value]="item.key">
           {{ item.value }}
         </mat-option>
@@ -70,15 +71,15 @@
 
     <mat-form-field class="half-width">
       <input matInput placeholder="Target Date" formControlName="dateTargeted" [matDatepicker]="myDatepicker"
-        (dateChange)="onFieldUpdate('dateTargeted','Timestamp')" />
+        (dateChange)="onFieldUpdate('dateTargeted','Timestamp')" [disableControl]="!allowUpdate"/>
       <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #myDatepicker></mat-datepicker>
-      <mat-hint>When the decision should be complete</mat-hint>
+      <mat-hint>When the decision should be complete</mat-hint> 
     </mat-form-field>
 
     <mat-form-field class="half-width">
       <mat-label>Team</mat-label>
-      <mat-select (selectionChange)="onFieldUpdate('tid')" formControlName="tid">
+      <mat-select (selectionChange)="onFieldUpdate('tid')" formControlName="tid" [disableControl]="!allowUpdate">
         <mat-option value="NA">N/A</mat-option>
         <mat-option *ngFor="let team of team$ | async" [value]="team.id">
           {{ team.name }}
@@ -103,7 +104,7 @@
 
     <mat-form-field class="full-width">
       <textarea matInput formControlName="risks" (change)="onFieldUpdate('risks')" matAutosizeMinRows="4"
-        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Risks"></textarea>
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Risks" [disableControl]="!allowUpdate"></textarea>
       <mat-error *ngIf="form.controls['risks'].hasError('maxlength')">
         Risks must be less than 10000 characters long.
       </mat-error>
@@ -112,7 +113,7 @@
 
     <mat-form-field class="full-width">
       <textarea matInput formControlName="constraints" (change)="onFieldUpdate('constraints')" matAutosizeMinRows="4"
-        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Constraints"></textarea>
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Constraints" [disableControl]="!allowUpdate"></textarea>
       <mat-error *ngIf="form.controls['constraints'].hasError('maxlength')">
         Constraints must be less than 10000 characters long.
       </mat-error>
@@ -121,7 +122,7 @@
 
     <mat-form-field class="full-width">
       <textarea matInput formControlName="cause" (change)="onFieldUpdate('cause')" matAutosizeMinRows="4"
-        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Cause"></textarea>
+        matAutosizeMaxRows="20" matTextareaAutosize placeholder="Cause" [disableControl]="!allowUpdate"></textarea>
       <mat-error *ngIf="form.controls['cause'].hasError('maxlength')">
         Cause must be less than 10000 characters long.
       </mat-error>

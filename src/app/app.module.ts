@@ -73,8 +73,9 @@ import { DarevaluationcriteriaComponent } from "./darevaluationcriteria/darevalu
 import { DarviewevaluationComponent } from "./darviewevaluation/darviewevaluation.component";
 import { DarviewevaluationdetailsComponent } from "./darviewevaluationdetails/darviewevaluationdetails.component";
 import { NotauthorizedComponent } from "./notauthorized/notauthorized.component";
-import { DarexportComponent } from './darexport/darexport.component';
-import { DarimportComponent } from './darimport/darimport.component';
+import { DarexportComponent } from "./darexport/darexport.component";
+import { DarimportComponent } from "./darimport/darimport.component";
+import { DisableControlDirective } from "./shared/disablecontrol.directive";
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { DarimportComponent } from './darimport/darimport.component';
     DarviewevaluationdetailsComponent,
     NotauthorizedComponent,
     DarexportComponent,
-    DarimportComponent
+    DarimportComponent,
+    DisableControlDirective
   ],
   imports: [
     BrowserModule,

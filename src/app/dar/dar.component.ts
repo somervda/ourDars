@@ -43,6 +43,7 @@ export class DarComponent implements OnInit, OnDestroy {
   team$;
   dar$$: Subscription;
   darNextStatus = {} as DarNextStatus;
+  allowUpdate = false;
 
   // testDate: Date;
 
@@ -85,6 +86,15 @@ export class DarComponent implements OnInit, OnDestroy {
       this.dar$$ = this.darService.findById(this.dar.id).subscribe(dar => {
         this.dar = dar;
 
+        if (
+          this.dar.darStatus == DarStatus.design ||
+          this.auth.currentUser.isAdmin
+        ) {
+          this.allowUpdate = true;
+        } else {
+          this.allowUpdate = false;
+        }
+
         this.getNextStatus();
         this.darSolutions$ = this.darsolutionService.findAllDarsolutions(
           this.dar.id,
@@ -92,6 +102,7 @@ export class DarComponent implements OnInit, OnDestroy {
         );
         // console.log("subscribed dar", this.dar);
         this.form.patchValue(this.dar);
+
         // Also need to patch the dateTargeted individually to apply
         // the toDate() transformation
         if (this.dar.dateTargeted) {
