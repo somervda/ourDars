@@ -16,6 +16,7 @@ import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
 import { map } from "rxjs/operators";
 import { TeamService } from "../services/team.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-daruser",
@@ -60,6 +61,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     private daruserService: DaruserService,
     private snackBar: MatSnackBar,
     private userService: UserService,
+    private auth: AuthService,
     private teamService: TeamService
   ) {}
 
@@ -75,7 +77,7 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
     this.users = [];
     this.team$ = this.teamService.findTeams("", "name", "asc", 100);
     if (this._crudAction == Crud.Create) {
-      // When in create mode build a list of users who are notalready assigned
+      // When in create mode build a list of users who are not already assigned
       // to the DAR
       this.users$$ = this.userService
         .findMatchingUsers(undefined, undefined, 100)

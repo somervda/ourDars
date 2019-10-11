@@ -19,45 +19,84 @@
         </mat-form-field>
 
         <mat-form-field class="half-width">
-          <mat-label>Filter user selection by eMail (Enter the initial characters to be matched)</mat-label>
+          <mat-label
+            >Filter user selection by eMail (Enter the initial characters to be
+            matched)</mat-label
+          >
           <input matInput (change)="onFilterChange()" #emailFilter />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Choose new user</mat-label>
           <mat-select [(value)]="selectedUser" #userSelect>
-            <mat-option *ngFor="let user of createUserOptions" [value]="user.uid">
-              {{ user.email }}<span *ngIf="user.displayName"> ({{ user.displayName }})</span>
+            <mat-option
+              *ngFor="let user of createUserOptions"
+              [value]="user.uid"
+            >
+              {{ user.email
+              }}<span *ngIf="user.displayName"> ({{ user.displayName }})</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
       </mat-card>
-
     </div>
 
     <p class="roles">
       <b>Roles:&nbsp; </b>
-      <mat-checkbox formControlName="isOwner" (change)="onFieldUpdate('isOwner')">Owner
+      <mat-checkbox
+        formControlName="isOwner"
+        (change)="onFieldUpdate('isOwner')"
+        [disableControl]="auth.currentUser.uid == _duid"
+        [matTooltip]="
+          auth.currentUser.uid == _duid
+            ? 'Owners can not remove their own ownership role. Hint: Create a new owner who can then remove the old owner.'
+            : ''
+        "
+        >Owner
       </mat-checkbox>
-      <mat-checkbox formControlName="isStakeholder" (change)="onFieldUpdate('isStakeholder')">Stakeholder
+      <mat-checkbox
+        formControlName="isStakeholder"
+        (change)="onFieldUpdate('isStakeholder')"
+        >Stakeholder
       </mat-checkbox>
-      <mat-checkbox formControlName="isEvaluator" (change)="onFieldUpdate('isEvaluator')">Evaluator
+      <mat-checkbox
+        formControlName="isEvaluator"
+        (change)="onFieldUpdate('isEvaluator')"
+        >Evaluator
       </mat-checkbox>
-      <mat-checkbox formControlName="isReader" (change)="onFieldUpdate('isReader')">Reader
+      <mat-checkbox
+        formControlName="isReader"
+        (change)="onFieldUpdate('isReader')"
+        >Reader
       </mat-checkbox>
-      <mat-checkbox formControlName="isVoter" (change)="onFieldUpdate('isVoter')">Voter
+      <mat-checkbox
+        formControlName="isVoter"
+        (change)="onFieldUpdate('isVoter')"
+        >Voter
       </mat-checkbox>
     </p>
   </form>
 
-  <button mat-raised-button *ngIf="_crudAction == Crud.Create" color="primary" (click)="onCreate()" id="btnCreate"
-    [disabled]="!selectedUser">
+  <button
+    mat-raised-button
+    *ngIf="_crudAction == Crud.Create"
+    color="primary"
+    (click)="onCreate()"
+    id="btnCreate"
+    [disabled]="!selectedUser"
+  >
     <mat-icon>add</mat-icon>
     Create
   </button>
-  {{selectEmail}}
+  {{ selectEmail }}
 
-  <button mat-raised-button color="primary" *ngIf="_crudAction == Crud.Delete" (click)="onDelete()" id="btnDelete">
+  <button
+    mat-raised-button
+    color="primary"
+    *ngIf="_crudAction == Crud.Delete"
+    (click)="onDelete()"
+    id="btnDelete"
+  >
     <mat-icon>clear</mat-icon>
     Delete
   </button>

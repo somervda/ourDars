@@ -75,7 +75,8 @@ export class DarComponent implements OnInit, OnDestroy {
         darStatus: DarStatus.design,
         darMethod: DarMethod.Process
       };
-      // Create is the only valid next status
+      this.allowUpdate = true;
+      // DEsign is the only valid next status
       this.nextDarStatuses = this.darStatuses.filter(
         s => s.key == DarStatus.design
       );

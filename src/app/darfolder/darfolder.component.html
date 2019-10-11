@@ -1,8 +1,31 @@
 <!-- <mat-toolbar ><mat-toolbar-row>{{title}}</mat-toolbar-row></mat-toolbar> -->
-<app-subheading [title]="dar.title" *ngIf="crudAction == Crud.Update"></app-subheading>
-<app-subheading title="Create New DAR" *ngIf="crudAction == Crud.Create"></app-subheading>
-<app-subheading [title]="'Delete: ' + dar.title" *ngIf="crudAction == Crud.Delete"></app-subheading>
+<app-subheading
+  [title]="dar.title"
+  *ngIf="crudAction == Crud.Update"
+></app-subheading>
+<app-subheading
+  title="Create New DAR"
+  *ngIf="crudAction == Crud.Create"
+></app-subheading>
+<app-subheading
+  [title]="'Delete: ' + dar.title"
+  *ngIf="crudAction == Crud.Delete"
+></app-subheading>
 <div class="page-container">
+  <ng-container *ngIf="!allowUpdate && crudAction == Crud.Update">
+    <div class="full-width page-hint" matTooltip="Restricted access!">
+      <i class="material-icons-outlined" style="color: #d5aa46">
+        emoji_objects
+      </i>
+      <b>Restricted Update Mode.</b>
+      <i>
+        Full DAR update functionality only available when this DAR has a status
+        of DESIGN. To update, change the status back to DESIGN. Note: The
+        "Status" and the "Chosen Solution" properties can be updated in the
+        restricted update mode.</i
+      >
+    </div>
+  </ng-container>
 
   <mat-tab-group>
     <mat-tab label="DAR">
@@ -15,7 +38,7 @@
         <app-dar [dar]="dar" [crudAction]="crudAction"></app-dar>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Users" [disabled]="crudAction != Crud.Update">
+    <mat-tab label="Users" [disabled]="!allowUpdate">
       <ng-template matTabLabel>
         <div matTooltip="DAR Participants.">
           <mat-icon>people</mat-icon> Participants
@@ -25,7 +48,7 @@
         <app-darusers [dar]="dar"></app-darusers>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Criteria" [disabled]="crudAction != Crud.Update">
+    <mat-tab label="Criteria" [disabled]="!allowUpdate">
       <ng-template matTabLabel>
         <div matTooltip="Selection Criteria.">
           <mat-icon>check_circle</mat-icon> Criteria
@@ -35,7 +58,7 @@
         <app-darcriterias [dar]="dar"></app-darcriterias>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Solutions" [disabled]="crudAction != Crud.Update">
+    <mat-tab label="Solutions" [disabled]="!allowUpdate">
       <ng-template matTabLabel>
         <div matTooltip="Possible solutions.">
           <mat-icon>list_alt</mat-icon> Solutions
