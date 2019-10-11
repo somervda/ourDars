@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { DaruserService } from "../services/daruser.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-darusers",
@@ -27,6 +28,7 @@ export class DarusersComponent implements OnInit {
     private snackBar: MatSnackBar,
     private ngZone: NgZone,
     private router: Router,
+    private auth: AuthService,
     private daruserservice: DaruserService
   ) {}
 
