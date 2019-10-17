@@ -3,6 +3,8 @@ rules_version='2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+
+
     // **************  Reusable functions ********************
     function isAuthenticated() {
       return request.auth.uid !=null;
@@ -117,6 +119,14 @@ service cloud.firestore {
         !updatingField("darUserIndexes")
        ) ;
      }
+    
+    // Dar status values
+    function dsEvaluate() {return 1}
+    function dsVote() {return 2}
+    function dsConfirm() {return 3}
+    function dsClosed() {return 4}
+    function dsDesign() {return 5}
+    function dsDeleted() {return 6}
 
     // Dar status rules
         // evaluate = 1,
@@ -133,10 +143,10 @@ service cloud.firestore {
        //return true;
        // Note: Could also tighten up by using methodology but probably overkill (You have to be dar owner at least to do any weird workflows)
 
-         return  (resource.data.darStatus == 5 && (request.resource.data.darStatus == 1 || request.resource.data.darStatus == 2)) ||
-            (resource.data.darStatus == 2 && (request.resource.data.darStatus == 3 || request.resource.data.darStatus == 5)) ||
-             (resource.data.darStatus == 1 && (request.resource.data.darStatus == 2 || request.resource.data.darStatus == 3 || request.resource.data.darStatus == 5)) ||
-            (resource.data.darStatus == 3 && (request.resource.data.darStatus == 4 || request.resource.data.darStatus == 5)) ;
+         return  (resource.data.darStatus == dsDesign() && (request.resource.data.darStatus == dsEvaluate() || request.resource.data.darStatus == dsVote() )) ||
+            (resource.data.darStatus == dsVote() && (request.resource.data.darStatus == dsConfirm() || request.resource.data.darStatus == dsDesign() )) ||
+             (resource.data.darStatus == dsEvaluate() && (request.resource.data.darStatus == dsVote() || request.resource.data.darStatus == dsConfirm() || request.resource.data.darStatus == dsDesign())) ||
+            (resource.data.darStatus == dsConfirm && (request.resource.data.darStatus == dsClosed() || request.resource.data.darStatus == dsDesign() )) ;
      }
 
     // ****** Document Access Rules
@@ -175,8 +185,8 @@ service cloud.firestore {
     match /dars/{dar} {
       allow read:  if isAuthenticated();
       allow update:  if isAdmin() || 
-          (isDarOwner(dar) && isDarStatus(dar,5)) ||
-          (isDarOwner(dar) && isDarDSIDUpdate() && (isDarStatus(dar,1) || isDarStatus(dar,2))) ||
+          (isDarOwner(dar) && isDarStatus(dar,dsDesign())) ||
+          (isDarOwner(dar) && isDarDSIDUpdate() && (isDarStatus(dar,dsEvaluate()) || isDarStatus(dar,dsVote()))) ||
           (isDarOwner(dar) && isDarStatusUpdate() && isValidNextDarStatus()) ;
       allow create:  if isAdmin() || isDarCreator();
       allow delete: if isAdmin(); 
@@ -202,8 +212,8 @@ service cloud.firestore {
       allow read:  if isAuthenticated();
       allow update: if (isDarOwner(dar) ||
                         isAdmin()  ||
-                        (isDarUserConfirmationUpdate() &&  isDarStakeholder(dar) && isDarStatus(dar,3)) ||
-                        (isDarUserVoteUpdate() &&  isDarVoter(dar) && isDarStatus(dar,2)) 
+                        (isDarUserConfirmationUpdate() &&  isDarStakeholder(dar) && isDarStatus(dar,dsConfirm())) ||
+                        (isDarUserVoteUpdate() &&  isDarVoter(dar) && isDarStatus(dar,dsVote())) 
                         )  
       allow create:  if isDarOwner(dar) || isAdmin() || isDarCreator();
       allow delete: if isDarOwner(dar) || isAdmin(); 
@@ -213,8 +223,8 @@ service cloud.firestore {
     // 
     match /dars/{dar}/darSolutions/{dsid}/darEvaluations/{dcid} {
       allow read:  if isAuthenticated();
-      allow update: if  isAdmin() || (isDarEvaluator(dar) && isDarStatus(dar,1)) ;
-      allow create: if  isAdmin() || (isDarEvaluator(dar) && isDarStatus(dar,1)) ;
+      allow update: if  isAdmin() || (isDarEvaluator(dar) && isDarStatus(dar,dsEvaluate())) ;
+      allow create: if  isAdmin() || (isDarEvaluator(dar) && isDarStatus(dar,dsEvaluate())) ;
       allow delete: if  isAdmin() ;
     }
 
