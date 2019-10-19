@@ -2,11 +2,11 @@
 // "Active" dars for a user are given values less than 5
 // create and delete have restricted viewing rights
 export enum DarStatus {
-  evaluate = 1,
-  vote = 2,
-  confirm = 3,
-  closed = 4,
-  design = 5,
+  design = 1,
+  evaluate = 2,
+  vote = 3,
+  confirm = 4,
+  closed = 5,
   deleted = 6
 }
 

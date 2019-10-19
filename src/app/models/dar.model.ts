@@ -37,7 +37,7 @@ export interface Dar {
     isVoter?: [string];
   };
   // Information about sub collections documents under the dar
-  // this is updated by cloud functions 
+  // this is updated by cloud functions
   darCESUInfo?: {
     solutionCount?: number;
     criteriaCount?: number;
@@ -54,11 +54,11 @@ export interface Dar {
 // "Active" dars for a user are given values less than 5
 // create and delete have restricted viewing rights
 export enum DarStatus {
-  evaluate = 1,
-  vote = 2,
-  confirm = 3,
-  closed = 4,
-  design = 5,
+  design = 1,
+  evaluate = 2,
+  vote = 3,
+  confirm = 4,
+  closed = 5,
   deleted = 6
 }
 
@@ -75,7 +75,7 @@ export enum DarMethod {
 
 // Returned by getNextDarStatus in the darService
 export interface DarNextStatus {
-  darStatus : DarStatus[];
+  darStatus: DarStatus[];
   comment: string;
   explanation: string;
 }

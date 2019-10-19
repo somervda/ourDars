@@ -121,20 +121,13 @@ service cloud.firestore {
      }
     
     // Dar status values
-    function dsEvaluate() {return 1}
-    function dsVote() {return 2}
-    function dsConfirm() {return 3}
-    function dsClosed() {return 4}
-    function dsDesign() {return 5}
+    function dsDesign() {return 1}
+    function dsEvaluate() {return 2}
+    function dsVote() {return 3}
+    function dsConfirm() {return 4}
+    function dsClosed() {return 5}
     function dsDeleted() {return 6}
 
-    // Dar status rules
-        // evaluate = 1,
-        // vote = 2,
-        // confirm = 3,
-        // closed = 4,
-        // design = 5,
-        // deleted = 6
      function isValidNextDarStatus() {
        // design -> vote or evaluate
        // vote -> confirm or design
