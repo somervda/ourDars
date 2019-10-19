@@ -139,7 +139,7 @@ service cloud.firestore {
          return  (resource.data.darStatus == dsDesign() && (request.resource.data.darStatus == dsEvaluate() || request.resource.data.darStatus == dsVote() )) ||
             (resource.data.darStatus == dsVote() && (request.resource.data.darStatus == dsConfirm() || request.resource.data.darStatus == dsDesign() )) ||
              (resource.data.darStatus == dsEvaluate() && (request.resource.data.darStatus == dsVote() || request.resource.data.darStatus == dsConfirm() || request.resource.data.darStatus == dsDesign())) ||
-            (resource.data.darStatus == dsConfirm && (request.resource.data.darStatus == dsClosed() || request.resource.data.darStatus == dsDesign() )) ;
+            (resource.data.darStatus == dsConfirm() && (request.resource.data.darStatus == dsClosed() || request.resource.data.darStatus == dsDesign() )) ;
      }
 
     // ****** Document Access Rules

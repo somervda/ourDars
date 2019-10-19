@@ -97,8 +97,8 @@ export class DarService {
           retVal = retVal.where("darStatus", "==", status);
           retVal = retVal.orderBy("title");
         } else {
-          // Don't show deleted dars on MyDars
-          retVal = retVal.where("darStatus", "<", DarStatus.deleted);
+          // Don't show closed or deleted dars on MyDars by default
+          retVal = retVal.where("darStatus", "<", DarStatus.closed);
           retVal = retVal.orderBy("darStatus").orderBy("title");
         }
 
