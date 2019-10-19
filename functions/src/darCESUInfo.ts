@@ -164,7 +164,7 @@ export const OnUpdateDarCESUInfo = functions.firestore
         return null;
       }
     }
-    console.log("Updating DAR darCESUInfo");
+    console.log("* Updating DAR darCESUInfo");
     return snap.after.ref.update({
       darCESUInfo: darCESUInfo
     });
@@ -181,6 +181,7 @@ export const OnWriteDarSolutionsDarCESUInfo = functions.firestore
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
 
     if (darRef) {
+      console.log("* Updating DAR darCESUInfo");
       return darRef.update({
         darCESUInfo: darCESUInfo
       });
@@ -198,6 +199,7 @@ export const OnWriteDarCriteriaDarCESUInfo = functions.firestore
     const darRef = snap.before.ref.parent.parent;
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
+      console.log("* Updating DAR darCESUInfo");
       return darRef.update({
         darCESUInfo: darCESUInfo
       });
@@ -211,6 +213,7 @@ export const OnWriteDarUsersDarCESUInfo = functions.firestore
     const darRef = snap.before.ref.parent.parent;
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
+      console.log("* Updating DAR darCESUInfo");
       return darRef.update({
         darCESUInfo: darCESUInfo
       });
@@ -230,6 +233,7 @@ export const OnWriteDarEvaluationsDarCESUInfo = functions.firestore
     );
     const darCESUInfo = await onGetDarCESUInfo(context.params.did);
     if (darRef) {
+      console.log("* Updating DAR darCESUInfo");
       return darRef.update({
         darCESUInfo: darCESUInfo
       });

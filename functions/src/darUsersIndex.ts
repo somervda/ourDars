@@ -66,6 +66,7 @@ function darUserTransaction(
 
     console.log("darUserTransaction", darUserIndexes);
 
+    console.log("* Updating DAR darUserIndexes");
     transaction.update(darRef, { darUserIndexes: darUserIndexes });
   });
 }
