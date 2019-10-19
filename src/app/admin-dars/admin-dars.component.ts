@@ -1,51 +1,43 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { DarService } from "../services/dar.service";
 import { DarsDataSource } from "../services/dars.datasource";
 import { MatSort } from "@angular/material";
 import { tap } from "rxjs/operators";
-import { DarStatus } from "../models/dar.model";
+import { DarStatus, Dar } from "../models/dar.model";
+import { Kvp } from "../models/global.model";
+import { enumToMap } from "../shared/utilities";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-admin-dars",
   templateUrl: "./admin-dars.component.html",
   styleUrls: ["./admin-dars.component.scss"]
 })
-export class AdminDarsComponent implements OnInit, AfterViewInit {
+export class AdminDarsComponent implements OnInit {
+  @ViewChild("titleFilter", { static: false }) titleFilter;
+  @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
   dataSource: DarsDataSource;
-  displayedColumns = ["title", "darStatus", "description","export", "delete"];
-  darStatus = DarStatus;
-
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  displayedColumns = ["title", "darStatus", "description", "export", "delete"];
+  DarStatus = DarStatus;
+  darStatuses: Kvp[];
+  dars$: Observable<Dar[]>;
 
   constructor(private darService: DarService) {}
 
   ngOnInit() {
-    this.dataSource = new DarsDataSource(this.darService);
-
-    this.dataSource.loadDars("", "title", "asc", 100);
+    this.darStatuses = enumToMap(DarStatus);
+    this.refreshList();
   }
 
-  ngAfterViewInit(): void {
-    this.sort.sortChange
-      .pipe(
-        tap(() => {
-          console.log("sort", this.sort);
-          this.loadDarsPage();
-        })
-      )
-      .subscribe(() => {
-        console.log("admin-dars ngOnInit subscribe to sort change");
-      });
-  }
-
-  loadDarsPage() {
-    this.dataSource.loadDars(
+  refreshList() {
+    this.dars$ = this.darService.findAllDars(
       "",
-      this.sort.active,
-      this.sort.direction == "" ? "asc" : this.sort.direction,
+      this.selectedDarStatus.value == undefined
+        ? 0
+        : this.selectedDarStatus.value,
+      // this.titleFilter.value,
+      // this.selectedDarStatus.value,
       100
     );
   }
-
-  
 }

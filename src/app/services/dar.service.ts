@@ -23,6 +23,37 @@ export class DarService {
       );
   }
 
+  findAllDars(
+    title: string,
+    status: DarStatus,
+    pageSize: number
+  ): Observable<Dar[]> {
+    console.log("findAllDars", title, status, pageSize);
+    return this.afs
+      .collection("dars", ref => {
+        let retVal = ref as any;
+        if (title != "") {
+          retVal = retVal.where("title", "<", title);
+        }
+        if (status != 0) {
+          retVal = retVal.where("darStatus", "==", status);
+        }
+
+        retVal = retVal.orderBy("title");
+
+        retVal = retVal.limit(pageSize);
+        return retVal;
+      })
+      .snapshotChanges()
+      .pipe(
+        map(snaps => {
+          // console.log("findDars", convertSnaps<Dar>(snaps));
+          return convertSnaps<Dar>(snaps);
+        }),
+        first()
+      );
+  }
+
   findDars(
     filter = "",
     sortField,
@@ -31,9 +62,17 @@ export class DarService {
   ): Observable<Dar[]> {
     // console.log("findDars", sortField, sortOrder, pageSize);
     return this.afs
-      .collection("dars", ref =>
-        ref.orderBy(sortField, sortOrder).limit(pageSize)
-      )
+      .collection("dars", ref => {
+        let retVal = ref as any;
+        if (filter != "") {
+          retVal = retVal.where("title", "<", filter);
+          retVal = retVal.orderBy("title", sortOrder);
+        } else {
+          retVal = retVal.orderBy(sortField, sortOrder);
+        }
+        retVal = retVal.limit(pageSize);
+        return retVal;
+      })
       .snapshotChanges()
       .pipe(
         map(snaps => {
