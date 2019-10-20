@@ -5,8 +5,8 @@ export interface Daruser {
   solutionVote?: {
     dsid: string;
     name: string;
-    comment?: string;
   };
+  voteComment?: string;
   confirmed?: boolean;
   confirmComment?: string;
   isEvaluator?: boolean;

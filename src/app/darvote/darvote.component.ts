@@ -15,6 +15,7 @@ import { Daruser } from "../models/daruser.model";
   styleUrls: ["./darvote.component.scss"]
 })
 export class DarvoteComponent implements OnInit, OnDestroy {
+  @ViewChild("voteComment", { static: true }) voteComment;
   darsolutions: Darsolution[];
   darsolutions$$: Subscription;
   dar: Dar;
@@ -33,7 +34,7 @@ export class DarvoteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dar = this.route.snapshot.data["dar"];
     console.log("DarvoteComponent", this.dar);
-    
+
     this.darsolutions$$ = this.darsolutionService
       .findAllDarsolutions(this.dar.id, 1000)
       .subscribe(s => (this.darsolutions = s));
@@ -60,6 +61,16 @@ export class DarvoteComponent implements OnInit, OnDestroy {
       this.auth.currentUser.uid,
       "solutionVote",
       solutionVote
+    );
+  }
+
+  onCommentUpdate() {
+    console.log("onCommentUpdate", this.voteComment.nativeElement.value);
+    this.daruserService.fieldUpdate(
+      this.dar.id,
+      this.auth.currentUser.uid,
+      "voteComment",
+      this.voteComment.nativeElement.value
     );
   }
 
