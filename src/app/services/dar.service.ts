@@ -4,7 +4,6 @@ import { Dar, DarStatus, DarMethod, DarNextStatus } from "../models/dar.model";
 import { Observable } from "rxjs";
 import { map, first } from "rxjs/operators";
 import { convertSnaps, dbFieldUpdate, convertSnap } from "./db-utils";
-import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
   providedIn: "root"
@@ -33,7 +32,8 @@ export class DarService {
       .collection("dars", ref => {
         let retVal = ref as any;
         if (title != "") {
-          retVal = retVal.where("title", "<", title);
+          retVal = retVal.where("title", ">=", title);
+          retVal = retVal.where("title", "<=", title + "z");
         }
         if (status != 0) {
           retVal = retVal.where("darStatus", "==", status);
@@ -41,35 +41,6 @@ export class DarService {
 
         retVal = retVal.orderBy("title");
 
-        retVal = retVal.limit(pageSize);
-        return retVal;
-      })
-      .snapshotChanges()
-      .pipe(
-        map(snaps => {
-          // console.log("findDars", convertSnaps<Dar>(snaps));
-          return convertSnaps<Dar>(snaps);
-        }),
-        first()
-      );
-  }
-
-  findDars(
-    filter = "",
-    sortField,
-    sortOrder: OrderByDirection,
-    pageSize
-  ): Observable<Dar[]> {
-    // console.log("findDars", sortField, sortOrder, pageSize);
-    return this.afs
-      .collection("dars", ref => {
-        let retVal = ref as any;
-        if (filter != "") {
-          retVal = retVal.where("title", "<", filter);
-          retVal = retVal.orderBy("title", sortOrder);
-        } else {
-          retVal = retVal.orderBy(sortField, sortOrder);
-        }
         retVal = retVal.limit(pageSize);
         return retVal;
       })

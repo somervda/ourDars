@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DarService } from "../services/dar.service";
-import { DarsDataSource } from "../services/dars.datasource";
-import { MatSort } from "@angular/material";
-import { tap } from "rxjs/operators";
 import { DarStatus, Dar } from "../models/dar.model";
 import { Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
@@ -16,7 +13,6 @@ import { Observable } from "rxjs";
 export class AdminDarsComponent implements OnInit {
   @ViewChild("titleFilter", { static: false }) titleFilter;
   @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
-  dataSource: DarsDataSource;
   displayedColumns = ["title", "darStatus", "description", "export", "delete"];
   DarStatus = DarStatus;
   darStatuses: Kvp[];
@@ -26,18 +22,21 @@ export class AdminDarsComponent implements OnInit {
 
   ngOnInit() {
     this.darStatuses = enumToMap(DarStatus);
-    this.refreshList();
+    this.refreshList("", 0);
   }
 
-  refreshList() {
-    this.dars$ = this.darService.findAllDars(
-      "",
+  onFilterChange() {
+    this.refreshList(
+      this.titleFilter.nativeElement.value == undefined
+        ? ""
+        : this.titleFilter.nativeElement.value,
       this.selectedDarStatus.value == undefined
         ? 0
-        : this.selectedDarStatus.value,
-      // this.titleFilter.value,
-      // this.selectedDarStatus.value,
-      100
+        : this.selectedDarStatus.value
     );
+  }
+
+  refreshList(title: string, darStatus: number) {
+    this.dars$ = this.darService.findAllDars(title, darStatus, 100);
   }
 }

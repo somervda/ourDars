@@ -2,8 +2,8 @@
 <div class="page-container">
   <mat-form-field class="half-width">
     <mat-label>Filter By Status</mat-label>
-    <mat-select (selectionChange)="refreshList()" #selectedDarStatus>
-      <mat-option value="">All [Active]</mat-option>
+    <mat-select (selectionChange)="onFilterChange()" #selectedDarStatus>
+      <mat-option value="">All</mat-option>
       <mat-option *ngFor="let item of darStatuses" [value]="item.key">
         {{ item.value | titlecase }}
       </mat-option>
@@ -14,7 +14,7 @@
     <mat-label
       >Filter by title (Enter the initial characters to be matched)</mat-label
     >
-    <input matInput (change)="refreshList()" #titleFilter />
+    <input matInput (keyup)="onFilterChange()" #titleFilter />
   </mat-form-field>
 
   <table
