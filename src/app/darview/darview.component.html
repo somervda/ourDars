@@ -182,6 +182,24 @@
       </td>
     </tr>
 
+    <!-- user comments -->
+    <tr>
+      <td colspan="2">
+        <div class="rowprompt">Comments</div>
+        <mat-card >
+        <ng-container *ngFor="let darUser of darUsers$ | async">
+        <div *ngIf="darUser.voteComment && darUser.voteComment != ''">
+          {{darUser.displayName}} (Vote): {{darUser?.voteComment}}
+        </div>
+        <div *ngIf="darUser.confirmComment && darUser.confirmComment != ''">
+            {{darUser.displayName}} (Confirmation) : {{darUser?.confirmComment}}
+        </div>
+      </ng-container>
+    </mat-card>
+      </td>
+    </tr>
+        
+
     <!-- darSolutions$ -->
     <tr>
       <td colspan="2">

@@ -1,35 +1,43 @@
 <app-subheading title="Vote for  the Solution"></app-subheading>
 <div class="page-container">
-  <mat-radio-group
-    aria-labelledby="example-radio-group-label"
-    class="radioGroup"
-    [value]="daruser?.solutionVote.dsid"
-  >
-    <mat-radio-button value="" (change)="onVote('')"
-      >[No Vote]</mat-radio-button
+  <mat-label>Vote</mat-label>
+  <div class="vote-indent">
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="radioGroup"
+      style="width:100%"
+      [value]="daruser?.solutionVote.dsid"
     >
-    <ng-container *ngFor="let darsolution of darsolutions">
-      <mat-radio-button
-        [value]="darsolution.id"
-        (change)="onVote(darsolution.id)"
+      <mat-radio-button value="" (change)="onVote('')"
+        >[No Vote]</mat-radio-button
       >
-        {{ darsolution.name }}
-      </mat-radio-button>
-      <div class="solutionDescription">{{ darsolution.description }}</div>
-    </ng-container>
-  </mat-radio-group>
+      <ng-container *ngFor="let darsolution of darsolutions">
+        <mat-radio-button
+          [value]="darsolution.id"
+          (change)="onVote(darsolution.id)"
+        >
+          {{ darsolution.name }}
+        </mat-radio-button>
+        <div class="solutionDescription">{{ darsolution.description }}</div>
+      </ng-container>
+    </mat-radio-group>
+  </div>
 
-  <textarea
-    class="full-width"
-    matInput
-    (change)="onCommentUpdate()"
-    matAutosizeMaxRows="20"
-    matAutosizeMinRows="4"
-    matTextareaAutosize
-    placeholder="Vote Comments"
-    #voteComment
-    >{{ daruser?.voteComment }}</textarea
-  >
+  <mat-label>Comment</mat-label>
+  <div class="vote-indent">
+    <textarea
+      class="vote-comment"
+      style="width: 100%;"
+      matInput
+      (change)="onCommentUpdate()"
+      matAutosizeMaxRows="20"
+      matAutosizeMinRows="4"
+      matTextareaAutosize
+      placeholder="Vote Comments"
+      #voteComment
+      >{{ daruser?.voteComment }}</textarea
+    >
+  </div>
 
   <div *ngIf="dar.darMethod == DarMethod.Hybrid">
     <app-subheading title="Evaluation Information"></app-subheading>
