@@ -1,9 +1,10 @@
 .about-card {
-  flex-basis: 500px;
+  flex-basis: 600px;
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 100px;
-  max-width: 500px;
+  max-width: 600px;
+  min-width: 400px;
 }
 
 .card-header {
