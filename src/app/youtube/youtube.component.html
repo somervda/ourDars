@@ -1,0 +1,19 @@
+<div style="display: flex; flex-direction: row;flex-wrap: wrap;">
+  <ng-container *ngFor="let youtubevideo of youtubevideos$ | async">
+    <div [style.width]="isMedium ? '100%' : '50%'" class="card-container">
+      <mat-card class="video-card">
+        <div class="aspect-ratio">
+          <iframe
+            height="300px"
+            width="200px"
+            [src]="youtubevideo.safeURL"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        {{ youtubevideo.description }}
+      </mat-card>
+    </div>
+  </ng-container>
+</div>

@@ -27,10 +27,12 @@ import { NotauthorizedComponent } from "./notauthorized/notauthorized.component"
 import { IsDarRoleGuard } from "./guards/isDarRole.guard";
 import { DarexportComponent } from "./darexport/darexport.component";
 import { DarimportComponent } from "./darimport/darimport.component";
+import { HelpComponent } from "./help/help.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "about", component: AboutComponent },
+  { path: "help", component: HelpComponent },
   { path: "login", component: LoginComponent },
   { path: "notAuthorized", component: NotauthorizedComponent },
   {

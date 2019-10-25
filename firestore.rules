@@ -225,6 +225,11 @@ service cloud.firestore {
     match /{path=**}/darEvaluations/{dcid} {
       allow read:  if isAuthenticated();
     }
+
+    // Let anyone read the youtubevideos documents (Used to populate the help component)
+    match /YouTubeVideos/{youtubevideo} {
+          allow read:  if true ;
+        }
         
 
         

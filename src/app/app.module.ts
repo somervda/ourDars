@@ -76,6 +76,8 @@ import { NotauthorizedComponent } from "./notauthorized/notauthorized.component"
 import { DarexportComponent } from "./darexport/darexport.component";
 import { DarimportComponent } from "./darimport/darimport.component";
 import { DisableControlDirective } from "./shared/disablecontrol.directive";
+import { HelpComponent } from './help/help.component';
+import { YoutubeComponent } from './youtube/youtube.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +113,9 @@ import { DisableControlDirective } from "./shared/disablecontrol.directive";
     NotauthorizedComponent,
     DarexportComponent,
     DarimportComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    HelpComponent,
+    YoutubeComponent
   ],
   imports: [
     BrowserModule,

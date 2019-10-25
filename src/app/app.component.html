@@ -10,15 +10,21 @@
       </a>
       <a mat-list-item routerLink="about">
         <i class="material-icons-outlined">
-          question_answer
-        </i>&nbsp;
+          question_answer </i
+        >&nbsp;
         <span id="mainMenuAbout">About</span>
+      </a>
+      <a mat-list-item routerLink="help">
+        <i class="material-icons-outlined">
+          help_outline </i
+        >&nbsp;
+        <span id="mainMenuHelp">Help</span>
       </a>
 
       <!-- Logged in and activated options -->
-      <span *ngIf="(auth.loggedIn$ | async) && (auth.user$ | async)?.isActivated">
-
-
+      <span
+        *ngIf="(auth.loggedIn$ | async) && (auth.user$ | async)?.isActivated"
+      >
         <!-- User functions  -->
         <a mat-list-item routerLink="mydars">
           <i class="material-icons-outlined">
@@ -27,14 +33,21 @@
           <span id="mainMenuMyDars">My DARs</span>
         </a>
 
-        <a mat-list-item routerLink="/darfolder/create" *ngIf="(auth.user$ | async)?.isDarCreator">
+        <a
+          mat-list-item
+          routerLink="/darfolder/create"
+          *ngIf="(auth.user$ | async)?.isDarCreator"
+        >
           <i class="material-icons-outlined">
             add
           </i>
           <span id="mainMenuCreateDar">Create DAR</span>
         </a>
 
-        <a mat-list-item [routerLink]="['user/', (auth.user$ | async)?.uid || '']">
+        <a
+          mat-list-item
+          [routerLink]="['user/', (auth.user$ | async)?.uid || '']"
+        >
           <i class="material-icons-outlined">
             person
           </i>
@@ -42,7 +55,12 @@
         </a>
 
         <!-- Administrator Functions -->
-        <a mat-list-item *ngIf="(auth.user$ | async)?.isAdmin" mat-list-item routerLink="administration">
+        <a
+          mat-list-item
+          *ngIf="(auth.user$ | async)?.isAdmin"
+          mat-list-item
+          routerLink="administration"
+        >
           <i class="material-icons-outlined">
             security
           </i>
@@ -52,7 +70,12 @@
       <!-- Logged in options -->
       <span *ngIf="auth.loggedIn$ | async">
         <mat-divider></mat-divider>
-        <a mat-list-item routerLink="logout" (click)="logout()" *ngIf="auth.loggedIn$ | async">
+        <a
+          mat-list-item
+          routerLink="logout"
+          (click)="logout()"
+          *ngIf="auth.loggedIn$ | async"
+        >
           <i class="material-icons-outlined">
             exit_to_app
           </i>
@@ -74,7 +97,12 @@
   </mat-sidenav>
 
   <mat-toolbar color="primary" class="no-print">
-    <button mat-icon-button class="noOutline" (click)="sidenav.open('mouse')" id="mainMenu">
+    <button
+      mat-icon-button
+      class="noOutline"
+      (click)="sidenav.open('mouse')"
+      id="mainMenu"
+    >
       <i class="material-icons-outlined">
         menu
       </i>
@@ -83,17 +111,27 @@
     <div class="filler"></div>
     <div *ngIf="!isConnected" style="margin-right: 20px">
       <mat-chip-list>
-        <mat-chip  class="offline-indicator" 
-        title="Application is offline and will have more limited functionality.">Offline
+        <mat-chip
+          class="offline-indicator"
+          title="Application is offline and will have more limited functionality."
+          >Offline
         </mat-chip>
       </mat-chip-list>
     </div>
-    ourDARs
-    &nbsp;
+    ourDARs &nbsp;
     <ng-container *ngIf="auth.user$ | async as user">
-      <img *ngIf="user.isActivated" class="user-avatar" [src]="user.photoURL" [matTooltip]="user.displayName" />
-      <img *ngIf="!user.isActivated" class="user-avatar" src="../../assets/images/Block_user_pic.png"
-        matTooltip="You are not activated, contact an administrator to have your account activated to use this system." />
+      <img
+        *ngIf="user.isActivated"
+        class="user-avatar"
+        [src]="user.photoURL"
+        [matTooltip]="user.displayName"
+      />
+      <img
+        *ngIf="!user.isActivated"
+        class="user-avatar"
+        src="../../assets/images/Block_user_pic.png"
+        matTooltip="You are not activated, contact an administrator to have your account activated to use this system."
+      />
     </ng-container>
   </mat-toolbar>
   <router-outlet></router-outlet>
