@@ -139,7 +139,7 @@ export class DarcriteriaComponent implements OnInit, OnDestroy, OnChanges {
         this.darcriteria.name,
         [
           Validators.required,
-          Validators.minLength(10),
+          Validators.minLength(8),
           Validators.maxLength(40)
         ]
       ],

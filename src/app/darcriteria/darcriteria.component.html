@@ -6,7 +6,7 @@
         Criteria name is required.
       </mat-error>
       <mat-error *ngIf="form.controls['name'].hasError('minlength')">
-        Criteria name must be at least 10 characters long.
+        Criteria name must be at least 8 characters long.
       </mat-error>
       <mat-error *ngIf="form.controls['name'].hasError('maxlength')">
         Criteria name must be no more than 40 characters long.
