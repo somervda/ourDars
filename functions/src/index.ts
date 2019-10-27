@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import * as models from "./models";
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -30,6 +31,31 @@ exports.darsDateCreated = functions.firestore
     );
   });
 
+exports.darsDateClosed = functions.firestore
+  .document("dars/{did}")
+  .onUpdate((snap, context) => {
+    const after = snap.after.data();
+    const before = snap.before.data();
+    console.log("darsDateClosed before:", before, " after:", after);
+    if (before && after && before.darStatus == after.darStatus) return null;
+    if (after && after.darStatus == models.DarStatus.closed) {
+      // Update dateClosed
+      console.log("darsDateClosed set date");
+      return snap.after.ref.set(
+        {
+          dateClosed: admin.firestore.FieldValue.serverTimestamp()
+        },
+        { merge: true }
+      );
+    } else {
+      // reset date closed
+      console.log("darsDateClosed reset date");
+      return snap.after.ref.update({
+        dateClosed: admin.firestore.FieldValue.delete()
+      });
+    }
+  });
+
 export {
   onCreateDarUser,
   onDeleteDarUser,
@@ -37,7 +63,6 @@ export {
 } from "./darUsersIndex";
 
 export { onCreateDarEvaluations } from "./darEvaluations";
-
 
 export {
   getDarCESUInfo,
@@ -48,5 +73,3 @@ export {
   OnWriteDarUsersDarCESUInfo,
   OnWriteDarCriteriaDarCESUInfo
 } from "./darCESUInfo";
-
-

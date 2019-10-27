@@ -32,9 +32,11 @@
       <td class="rowprompt" matTooltip="Chosen solution for this DAR">
         Solution
       </td>
-      <td class="rowcontent"><u>
-          {{ (darSolution$ | async)?.name}}
-        </u></td>
+      <td class="rowcontent">
+        <u>
+          {{ (darSolution$ | async)?.name }}
+        </u>
+      </td>
     </tr>
 
     <tr>
@@ -43,25 +45,22 @@
       </td>
       <td class="rowcontent">
         {{ DarStatus[dar.darStatus] | titlecase }}
-        <ng-container *ngIf="darNextStatus.comment && darNextStatus.comment != ''">
-          <div class="full-width page-hint"
-            matTooltip="Information about the next available status for this DAR and suggested actions">
-
+        <ng-container
+          *ngIf="darNextStatus.comment && darNextStatus.comment != ''"
+        >
+          <div
+            class="full-width page-hint"
+            matTooltip="Information about the next available status for this DAR and suggested actions"
+          >
             <i class="material-icons-outlined" style="color: #d5aa46">
               emoji_objects
             </i>
 
-            {{ darNextStatus.comment }} <i>{{darNextStatus.explanation}}</i>
-
-
+            {{ darNextStatus.comment }} <i>{{ darNextStatus.explanation }}</i>
           </div>
-
         </ng-container>
       </td>
     </tr>
-
-
-
 
     <tr>
       <td class="rowprompt">
@@ -77,7 +76,13 @@
         Created
       </td>
       <td class="rowcontent">
-        {{ dar.dateCreated && dar.dateCreated.seconds && dar.dateCreated.nanoseconds ? dar.dateCreated.toDate().toDateString() : "" }}
+        {{
+          dar.dateCreated &&
+          dar.dateCreated.seconds &&
+          dar.dateCreated.nanoseconds
+            ? dar.dateCreated.toDate().toDateString()
+            : ""
+        }}
       </td>
     </tr>
 
@@ -86,7 +91,7 @@
         Target Date
       </td>
       <td class="rowcontent">
-        {{ dar.dateTargeted  && dar.dateTargeted.seconds && dar.dateTargeted.nanoseconds ? dar.dateTargeted.toDate().toDateString() : "" }}
+        {{ dar.dateTargeted ? dar.dateTargeted.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -95,7 +100,7 @@
         Closed
       </td>
       <td class="rowcontent">
-        {{ dar.dateClosed  && dar.dateClosed.seconds && dar.dateClosed.nanoseconds ? dar.dateClosed.toDate().toDateString() : "" }}
+        {{ dar.dateClosed ? dar.dateClosed.toDate().toDateString() : "" }}
       </td>
     </tr>
 
@@ -152,7 +157,14 @@
             </tr>
             <ng-container *ngFor="let darUser of darUsers$ | async">
               <tr>
-                <td><a href="mailto:{{darUser.email}}?Subject=DAR: {{dar.title}}">{{ darUser.email }}</a></td>
+                <td>
+                  <a
+                    href="mailto:{{ darUser.email }}?Subject=DAR: {{
+                      dar.title
+                    }}"
+                    >{{ darUser.email }}</a
+                  >
+                </td>
                 <td>{{ darUser.displayName }}</td>
                 <td>
                   <span *ngIf="darUser.isOwner">Owner </span>
@@ -164,21 +176,29 @@
                 <ng-container *ngIf="dar.darMethod != DarMethod.Process">
                   <td>
                     <ng-container *ngIf="darUser.isVoter">
-                      {{ darUser?.solutionVote ? darUser?.solutionVote?.name : '-'}}
+                      {{
+                        darUser?.solutionVote
+                          ? darUser?.solutionVote?.name
+                          : "-"
+                      }}
                     </ng-container>
                   </td>
                 </ng-container>
                 <td style="text-align: center">
-                  <i class="material-icons" *ngIf="darUser.isStakeholder && darUser?.confirmed">
+                  <i
+                    class="material-icons"
+                    *ngIf="darUser.isStakeholder && darUser?.confirmed"
+                  >
                     done
                   </i>
-                  <div *ngIf="darUser.isStakeholder && !darUser.confirmed">-</div>
+                  <div *ngIf="darUser.isStakeholder && !darUser.confirmed">
+                    -
+                  </div>
                 </td>
               </tr>
             </ng-container>
           </table>
         </mat-card>
-
       </td>
     </tr>
 
@@ -186,19 +206,19 @@
     <tr>
       <td colspan="2">
         <div class="rowprompt">Comments</div>
-        <mat-card >
-        <ng-container *ngFor="let darUser of darUsers$ | async">
-        <div *ngIf="darUser.voteComment && darUser.voteComment != ''">
-          {{darUser.displayName}} (Vote): {{darUser?.voteComment}}
-        </div>
-        <div *ngIf="darUser.confirmComment && darUser.confirmComment != ''">
-            {{darUser.displayName}} (Confirmation) : {{darUser?.confirmComment}}
-        </div>
-      </ng-container>
-    </mat-card>
+        <mat-card>
+          <ng-container *ngFor="let darUser of darUsers$ | async">
+            <div *ngIf="darUser.voteComment && darUser.voteComment != ''">
+              {{ darUser.displayName }} (Vote): {{ darUser?.voteComment }}
+            </div>
+            <div *ngIf="darUser.confirmComment && darUser.confirmComment != ''">
+              {{ darUser.displayName }} (Confirmation) :
+              {{ darUser?.confirmComment }}
+            </div>
+          </ng-container>
+        </mat-card>
       </td>
     </tr>
-        
 
     <!-- darSolutions$ -->
     <tr>
@@ -215,19 +235,25 @@
               <tr>
                 <ng-container *ngIf="sm">
                   <td>{{ darSolution.name }}</td>
-                  <td>{{          
+                  <td>
+                    {{
                       darSolution.description.length < 50
-                      ? darSolution.description
-                      : darSolution.description.substring(0, 50) + "..." }}</td>
-                  <td>{{          
+                        ? darSolution.description
+                        : darSolution.description.substring(0, 50) + "..."
+                    }}
+                  </td>
+                  <td>
+                    {{
                       darSolution.evaluationNotes.length < 50
-                      ? darSolution.evaluationNotes
-                      : darSolution.evaluationNotes.substring(0, 50) + "..." }}</td>
+                        ? darSolution.evaluationNotes
+                        : darSolution.evaluationNotes.substring(0, 50) + "..."
+                    }}
+                  </td>
                 </ng-container>
                 <ng-container *ngIf="!sm">
                   <td>{{ darSolution.name }}</td>
                   <td>{{ darSolution.description }}</td>
-                  <td>{{ darSolution.evaluationNotes}}</td>
+                  <td>{{ darSolution.evaluationNotes }}</td>
                 </ng-container>
               </tr>
             </ng-container>
@@ -253,10 +279,13 @@
                 <td>{{ darCriteria.name }}</td>
 
                 <td *ngIf="!sm">{{ darCriteria.description }}</td>
-                <td *ngIf="sm">{{          
+                <td *ngIf="sm">
+                  {{
                     darCriteria.description.length < 50
-                    ? darCriteria.description
-                    : darCriteria.description.substring(0, 50) + "..." }}</td>
+                      ? darCriteria.description
+                      : darCriteria.description.substring(0, 50) + "..."
+                  }}
+                </td>
 
                 <td>{{ CriteriaWeighting[darCriteria.weighting] }}</td>
               </tr>

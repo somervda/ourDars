@@ -51,7 +51,6 @@ export class DarviewComponent implements OnInit, OnDestroy {
     // Get the darNextStatus information
     this.darNextStatus = this.darService.getDarNextStatus(this.dar);
 
-
     // Get the indow width to use when displaying long text on small screen devices (<740 px)
     // It should result in full text being able to be shown in devices that are iPad mini or larger screens
     this.sm = window.innerWidth < 740;
@@ -97,6 +96,9 @@ export class DarviewComponent implements OnInit, OnDestroy {
   }
 
   toType(obj) {
-    return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+    return {}.toString
+      .call(obj)
+      .match(/\s([a-zA-Z]+)/)[1]
+      .toLowerCase();
   }
 }
