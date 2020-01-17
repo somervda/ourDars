@@ -39,6 +39,10 @@ export class YoutubeComponent implements OnInit {
             youtubevideoMap.safeURL = this.youtubeURL(
               youtubevideoMap.youtubeId
             );
+            youtubevideoMap.safeImageURL = this.youtubeImageURL(
+              youtubevideoMap.youtubeId
+            );
+            youtubevideoMap.clicked = false;
           });
           return youtubevideosMap;
         })
@@ -49,7 +53,15 @@ export class YoutubeComponent implements OnInit {
     // allow the generated URL to be used in angular template
     // need to sanitize the URL to allow angular to present it
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      "https://www.youtube.com/embed/" + youtubeId
+      "https://www.youtube.com/embed/" + youtubeId + "?autoplay=1"
+    );
+  }
+
+  youtubeImageURL(youtubeId: string): SafeResourceUrl {
+    // allow the generated URL to be used in angular template
+    // need to sanitize the URL to allow angular to present it
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      "https://img.youtube.com/vi/" + youtubeId + "/mqdefault.jpg"
     );
   }
 }
