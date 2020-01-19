@@ -61,7 +61,7 @@ export class YoutubeComponent implements OnInit {
     // allow the generated URL to be used in angular template
     // need to sanitize the URL to allow angular to present it
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      "https://img.youtube.com/vi/" + youtubeId + "/mqdefault.jpg"
+      "https://img.youtube.com/vi/" + youtubeId + "/maxresdefault.jpg"
     );
   }
 }
