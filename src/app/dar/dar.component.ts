@@ -11,7 +11,7 @@ import {
   FormGroup,
   AbstractControl
 } from "@angular/forms";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Crud, Kvp } from "../models/global.model";
 import { enumToMap } from "../shared/utilities";
 import { firestore } from "firebase/app";

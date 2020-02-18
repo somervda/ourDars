@@ -6,7 +6,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { firestore } from "firebase/app";
 import { Crud } from "../models/global.model";
 import { Observable, Subscription } from "rxjs";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-darsolution",

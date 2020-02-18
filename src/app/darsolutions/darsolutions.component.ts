@@ -3,7 +3,7 @@ import { DarsolutionService } from "./../services/darsolution.service";
 import { Component, OnInit, NgZone, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Dar } from "../models/dar.model";
 import { Darsolution } from "../models/darsolution.model";
 import { Crud } from "../models/global.model";

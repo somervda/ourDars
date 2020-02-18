@@ -5,7 +5,7 @@ import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { Crud } from "../models/global.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { DarcriteriaService } from "../services/darcriteria.service";
 
 @Component({

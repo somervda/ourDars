@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { Subscription } from "rxjs";
 import { DarcriteriaService } from "../services/darcriteria.service";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { enumToMap } from "../shared/utilities";
 
 @Component({

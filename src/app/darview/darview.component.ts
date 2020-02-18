@@ -12,7 +12,7 @@ import { Darsolution } from "../models/darsolution.model";
 import { Darcriteria, CriteriaWeighting } from "../models/darcriteria.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { share } from "rxjs/operators";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-darview",

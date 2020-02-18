@@ -10,7 +10,7 @@ import { DarsolutionService } from "../services/darsolution.service";
 import { Daruser } from "../models/daruser.model";
 import { DarcriteriaService } from "../services/darcriteria.service";
 import { Darevaluation } from "../models/darevaluation.model";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-darexport",

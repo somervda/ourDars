@@ -3,7 +3,7 @@ import { Team } from "../models/team.model";
 import { ActivatedRoute, Router, Route } from "@angular/router";
 import { TeamService } from "../services/team.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Crud } from "../models/global.model";
 import { firestore } from "firebase/app";
 import { Observable, Subscription } from "rxjs";

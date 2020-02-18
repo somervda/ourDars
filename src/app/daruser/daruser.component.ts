@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Daruser } from "../models/daruser.model";
 import { Subscription, Observable } from "rxjs";
 import { DaruserService } from "../services/daruser.service";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
 import { map } from "rxjs/operators";
