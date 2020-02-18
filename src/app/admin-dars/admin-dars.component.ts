@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./admin-dars.component.scss"]
 })
 export class AdminDarsComponent implements OnInit {
-  @ViewChild("titleFilter", { static: false }) titleFilter;
+  @ViewChild("titleFilter") titleFilter;
   @ViewChild("selectedDarStatus", { static: true }) selectedDarStatus;
   displayedColumns = ["title", "darStatus", "description", "export", "delete"];
   DarStatus = DarStatus;

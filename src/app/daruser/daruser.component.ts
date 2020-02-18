@@ -53,8 +53,8 @@ export class DaruserComponent implements OnInit, OnDestroy, OnChanges {
   // is the list of users minus users already assigned to the dar
   createUserOptions: UserOption[];
   // tidFinder = "";
-  @ViewChild("emailFilter", { static: false }) emailFilter;
-  @ViewChild("tidFilter", { static: false }) tidFilter;
+  @ViewChild("emailFilter") emailFilter;
+  @ViewChild("tidFilter") tidFilter;
 
   constructor(
     private fb: FormBuilder,
