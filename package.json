@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress open",
+    "sme": "source-map-explorer dist/ourDars/**/*.js ",
     "fastserve": "ng serve --source-map=false",
     "fastdeploy": "ng build --prod --source-map=false && firebase deploy --only hosting",
     "functiondeploy": "firebase deploy --only functions ",
