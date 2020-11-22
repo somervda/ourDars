@@ -2,6 +2,7 @@
 
 @import "~firebaseui/dist/firebaseui.css";
 
+/* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 
 /* You can add global styles to this file, and also import other style files */
@@ -25,6 +26,7 @@ $theme: mat-light-theme($primary, $accent);
 
 body {
   background-color: rgb(166, 185, 181);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .page-container {
