@@ -34,7 +34,7 @@ Cypress.Commands.add("verifyAboutComponent", () => {
   cy.get("#mainMenuAbout").click();
   // Verify component was rendered
   cy.url().should("include", "about");
-  cy.get('h2').contains("About");
+  cy.get(".mat-card-title").contains("About");
 });
 
 Cypress.Commands.add("verifyHomeComponent", () => {
@@ -48,8 +48,9 @@ Cypress.Commands.add("verifyMyProfileComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuMyProfile").click();
   // Verify component was rendered
-  cy.get('app-subheading > .mat-toolbar').contains("User:");
+  cy.get("body").contains("User:");
 });
+
 
 Cypress.Commands.add("verifyAdminUserComponent", () => {
   cy.get("#mainMenu").click();
