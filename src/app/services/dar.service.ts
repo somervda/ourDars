@@ -35,7 +35,7 @@ export class DarService {
           retVal = retVal.where("title", ">=", title);
           retVal = retVal.where("title", "<=", title + "z");
         }
-        if (status != 0) {
+        if (status) {
           retVal = retVal.where("darStatus", "==", status);
         }
 
