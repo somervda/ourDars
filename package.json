@@ -41,7 +41,7 @@
     "firebase": "^7.16.1",
     "firebaseui": "^4.1.0",
     "https-proxy-agent": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "rxjs": "~6.5.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.11.4"
